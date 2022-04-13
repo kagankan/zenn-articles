@@ -1,0 +1,19 @@
+{
+  "name": "zenn-articles",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "new:article": "zenn new:article",
+    "preview": "zenn preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kagankan/zenn-articles.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://zenn.dev/kagan",
+  "dependencies": {
+    "zenn-cli": "^0.1.108"
+  }
+}
