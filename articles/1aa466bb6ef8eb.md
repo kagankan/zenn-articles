@@ -1,9 +1,9 @@
 ---
-title: "よりよいCSSを作るための、CSS / Sass (SCSS) の30のルールとその理由"
+title: "よりよいCSSを書くための、CSS / Sass (SCSS) 30のルールとその理由"
 emoji: "📏"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["css", "sass", "scss"]
-published: false
+published: true
 ---
 
 Webエンジニアを始めて丸2年が経ちました。
