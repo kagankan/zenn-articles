@@ -1,22 +1,24 @@
 ---
-title: "フロント開発2年やって行き着いた、CSS/Sass(SCSS)のルール・TIPSとその理由"
+title: "管理しやすくするための、CSS/Sass(SCSS)の30の自分ルールとその理由"
 emoji: "📏"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["css", "sass", "scss"]
 published: false
 ---
 
-フロントエンド開発を始めて早くも2年が経ってしまいました。
+Webエンジニアを始めて丸2年が経ちました。
 複数プロジェクトを進める中で、CSSコーディングを行うときの「こうしておくと便利」「このほうが管理しやすい」といった知見が溜まってきたのでまとめます。
 
-##　はじめに
+思ったより長くなってしまったので、必要なとこだけ読んでいただけたらと思います。
 
-「自分がよく取り入れている手法」であって、必ずしもどのプロジェクトにも当てはまるものではないと思います。
-各項目について、自分がその判断に至った「理由」を説明していますので、
+## はじめに
+
+これらは「自分がよく取り入れている手法」であって、必ずしもどのプロジェクトにも当てはまるものではないと思います。
+各項目について、自分がその判断に至った **「理由」** を説明していますので、
 理由を読んだ上で自分のプロジェクトに取り入れるか判断いただくと良いと思います。
 
 また、この記事は、すでにCSSコーディングをしていてアイデアがほしい人に向けた記事で、
-CSSをこれから学び始めるような初学者向けではないことご了承ください。
+CSSをこれから学び始めるような **初学者向けではない** ことご了承ください。
 一般的と思われるキーワードについては説明を省略しています。
 
 ## 環境構築編
@@ -27,8 +29,8 @@ CSS開発時には[Sass](https://sass-lang.com/)、中でも[SCSS記法](https:/
 
 #### 理由
 
-1.  素のCSSの記法もそのまま使える（SCSSがCSSのスーパーセットである）から。
-2.  デファクトスタンダードだから。
+1.  **素のCSSの記法もそのまま使える** （SCSSがCSSのスーパーセットである）から。
+2.  **デファクトスタンダード** だから。
 
 #### 詳しく
 
@@ -55,7 +57,7 @@ CSSを書くときの言語としては、
 
 #### 理由
 
-1. LibSassはすでに非推奨となっているから。
+1. LibSassはすでに **非推奨** となっているから。
 
 #### 詳しく
 
@@ -65,11 +67,12 @@ CSSを書くときの言語としては、
 
 ### 3. SassのビルドにはViteを使う
 
-gulpなどのタスクランナーを使用せず、JSのビルド環境である [Vite](https://ja.vitejs.dev/) を使用してSassをビルドする。
+gulpなどのタスクランナーを使用せず、JSのビルド環境である Vite を使用してSassをビルドする。
+https://ja.vitejs.dev/
 
 #### 理由
 
-1. 環境構築が楽だから。
+1. 環境構築が **楽** だから。
 
 #### 詳しく
 
@@ -127,12 +130,12 @@ export default defineConfig({
 
 プロジェクトにはStylelintを導入します。autofixが可能なものについては、VSCodeで保存時に自動修正されるようにします。
 
-[Home | Stylelint](https://stylelint.io/)
+https://stylelint.io/
 
 #### 理由
 
-1.  コーディングルールの統一を図るため
-2.  機械的に処理できる部分に頭を使いたくないため
+1.  **コーディングルールの統一** を図るため
+2.  機械的に処理できる部分に **頭を使いたくない** ため
 
 
 #### .stylelintrc.js
@@ -223,15 +226,15 @@ CSSの仕様としてCSS2まではコロン1つだったのですが、CSS3で�
 ### 5. VSCode拡張 SCSS IntelliSense を使う
 
 SCSS書く上で絶対使ったほうがいい拡張です。
- [SCSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=mrmlnc.vscode-scss)
+https://marketplace.visualstudio.com/items?itemName=mrmlnc.vscode-scss
 
 #### 理由
 
 - 以下の機能が便利だから。
-  - `$` を打つとSass変数を補完してくれる
-  - 補完表示中、値がカラーコードである変数は色が表示される
+  - `$` を打つと **Sass変数を補完** してくれる
+  - 補完表示中、値がカラーコードである変数は **色が表示される**
   - mixinも補完してくれる
-  - 変数右クリックで「定義へ移動」のジャンプも使える
+  - Sass変数右クリックで **「定義へ移動」** のジャンプも使える
 
 ## CSS設計編
 
@@ -244,9 +247,9 @@ SCSS書く上で絶対使ったほうがいい拡張です。
 
 #### 理由
 
-1. ブロック名とエレメント名までが1単語として扱われるから
+1. **ブロック名からエレメント名までが1単語として扱われる** から
    1. これにより、ダブルクリックで選択しやすいし、option + ←→での単語選択がしやすい
-2. モディファイア名と、JSやテンプレートエンジンの変数名を合わせやすいから
+2. モディファイア名を、JSやテンプレートエンジンの変数名と合わせやすいから
 3. 他のライブラリと衝突しにくいから
 
 #### 詳しく
@@ -260,7 +263,7 @@ SCSS書く上で絶対使ったほうがいい拡張です。
 
 「BlockとElementの間は `__` 」、「Modifierの前は`--`」というルールは守りつつ、上記の不都合を解消するため、BlockとElementをパスカルケース（アッパーキャメルケース）にすることにしました。
 
-「パスカルケースの命名って、Reactのコンポーネントっぽくて変じゃないか？」と、これを考えたときは思ったのですが、
+「パスカルケースの命名って、 **Reactのコンポーネントっぽい** けど変ではないのか？」と、これを考えたときは思ったのですが、
 よく考えてみると、BEMにおけるBlockという概念はReact同様にコンポーネントと捉えて差し支えないと思いました。
 Blockはコンポーネント、Elementはコンポーネントの中の要素、Modifierはコンポーネントのpropsです。
 その意味も込めてパスカルケースを採用しました。
@@ -304,14 +307,15 @@ EJSやNunjucks等のテンプレートエンジンでクラス名を変数で切
 
 #### 理由
 
-1.  スタイルに明確な親子関係が存在する場合には、クラス名で明示したほうがいいから。
+1.  **スタイルに明確な親子関係が存在する場合** には、クラス名で明示したほうがいいから。
 
 #### 詳しく
+
+以下のようなケースは、それらが親子である必要のあるスタイルの当て方になっています。
 
 - グリッドコンテナーとグリッドアイテムの関係がある場合
 - position: relative（相対配置の基準）と position: absoluteの関係がある場合
 
-などは、それらが親子である必要のあるスタイルの当て方になっています。
 このようなスタイル（クラス）は親に依存していることを明示しておくと、それを意識した上で編集できます。
 
 一方で、マークアップのネスト構造が変更されても成立する場合には、ネストさせません。
@@ -319,7 +323,7 @@ EJSやNunjucks等のテンプレートエンジンでクラス名を変数で切
 ### 8. モディファイア単体にスタイルを当てない
 
 ```scss
-// NG
+// ❌NG
 .Block {
     color: black; // デフォルトのスタイル
 }
@@ -329,7 +333,7 @@ EJSやNunjucks等のテンプレートエンジンでクラス名を変数で切
 ```
 
 ```scss
-// OK
+// ✅OK
 .Block {
     color: black; // デフォルトのスタイル
     &.Block--modifier {
@@ -340,7 +344,7 @@ EJSやNunjucks等のテンプレートエンジンでクラス名を変数で切
 
 #### 理由
 
-1. 詳細度を上げて、モディファイアで指定したスタイルを確実に当てるため。
+1. **詳細度を上げて、** モディファイアで指定したスタイルを確実に当てるため。
 
 #### 詳しく
 
@@ -352,11 +356,11 @@ OK例では、モディファイアのセレクタが`.Block.Block--modifier`に
 見出しがわかりにくくてすみません。具体例を見てください。
 
 ```scss
-// NG
+// ❌NG
 .Block {
     &.Block--modifier {
         .Block__Element {
-            // .Block.Block--modifier .Block__Element {}
+            //  → .Block.Block--modifier .Block__Element {}
             // 親のブロックにモディファイアがついているときのエレメントのスタイル
         }
     }
@@ -366,10 +370,10 @@ OK例では、モディファイアのセレクタが`.Block.Block--modifier`に
 ```
 
 ```scss
-// OK
+// ✅OK
 .Block__Element {
     .Block.Block--modifier & {
-        // .Block.Block--modifier .Block__Element {}
+        //  → .Block.Block--modifier .Block__Element {}
         // 親のブロックにモディファイアがついているときのエレメントのスタイル
     }
 }
@@ -377,7 +381,9 @@ OK例では、モディファイアのセレクタが`.Block.Block--modifier`に
 
 #### 理由
 
-1.  「この要素に当たるスタイルは何か」がわかりやすくなるから。
+1.  **「この要素に当たるスタイルは何か」** がわかりやすくなるから。
+
+#### 詳しく
 
 NG例では、`.Block__Element` に対して当たるスタイル記述が分散してしまいます。さらに、詳細度の高いセレクタが先に来てしまっており、Stylelintの `no-descending-specificity` ルールにも反します。
 [no-descending-specificity | Stylelint](https://stylelint.io/user-guide/rules/list/no-descending-specificity/)
@@ -524,13 +530,13 @@ module.exports = {
 
 リセットCSSにもいろいろありますが、自分が好きなのは `destyle.css` です。
 
-[destyle.css - npm](https://www.npmjs.com/package/destyle.css)
+https://www.npmjs.com/package/destyle.css
 
 #### 理由
 
- 1. ちゃんとスタイルを消してくれるから。
+ 1. **ちゃんとスタイルを消してくれる**から。
 
-特に、buttonタグのスタイルが他のリセットCSSではリセットしきれていないことが多いのですが、destyle.cssではちゃんと消してくれます。
+特に、**buttonタグ**のスタイルが他のリセットCSSではリセットしきれていないことが多いのですが、destyle.cssではちゃんと消してくれます。
 ちなみに、不要なスタイルはちゃんと消しつつ、buttonタグのフォーカス時のoutlineは消さないような仕様になっています。
 
 ## Sass(SCSS)ルール編
@@ -539,11 +545,11 @@ module.exports = {
 
 #### 理由
 
-1.  `@import` は非推奨となっているため。
+1.  `@import` は**非推奨**となっているため。
 2.  `@use` はスコープが制限されて、変数名の衝突を気にする必要がなくなるため。
 
 `@import` から `@use` への移行の説明は他の記事に譲ります。
-[Dart Sass（@use）の基本的な書き方と@importから乗り換える方法 | HPcode（えいちぴーこーど）](https://haniwaman.com/dart-sass/)
+https://haniwaman.com/dart-sass/
 
 従来の `@import` ではファイル個別に読み込む必要がなかった共通ファイルを都度読み込むのは面倒ではありますが、慣れるとそこまで気になりません。
 
@@ -560,7 +566,7 @@ $variable: 20px;
 ```
 
 ```scss
-// NG
+// ❌NG
 @use "./global.scss";
 
 .Block {
@@ -569,7 +575,7 @@ $variable: 20px;
 ```
 
 ```scss
-// OK
+// ✅OK
 @use "./global.scss" as *;
 
 .Block {
@@ -579,15 +585,15 @@ $variable: 20px;
 
 #### 理由
 
-1. 先述のVSCode拡張 [SCSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=mrmlnc.vscode-scss) が `module.$variable` の記述には対応していないから。
+1. 先述のVSCode拡張 [SCSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=mrmlnc.vscode-scss) が `module.$variable` の書き方に対応しておらず、 `as *` `$variable` なら対応しているから。
+2. `@import` での使い心地と近くなるため、移行しやすいから。
 
-この拡張が `module.$variable` には対応しておらず、 `as *` `$variable` なら対応しているため、こちらの記法を採用することにしました。
-また、`@import` での使い心地と近くなるため、移行しやすいという利点もあります。
+拡張を使いたかったという理由のほうが強いです。
 
 ### 15. クラス名を `&` アンパサンドでネストしない
 
 ```scss
-// NG
+// ❌NG
 .Block {
     &__Element {
         &--modifier {
@@ -598,7 +604,7 @@ $variable: 20px;
 ```
 
 ```scss
-// OK
+// ✅OK
 .Block {
 }
 .Block__Element {
@@ -609,15 +615,16 @@ $variable: 20px;
 
 #### 理由
 
-1. クラス名で検索できなくなるから。
+1. **クラス名で検索できなくなるから。**
 
 #### 詳しく
 
-「`.Block__Element` のスタイルを編集したい」とか、「`.Block__Element--modifier` の名前を変えたい」とか、クラス名の出現箇所を特定したい場面はよく発生します。
+「`.Block__Element` のスタイルを編集したいからファイルを探したい」とか、「`.Block__Element--modifier` の名前をまとめて変更したい」とか、クラス名の出現箇所を特定したい場面はよく発生します。
 一人で制作をしているならまだしも、複数人で制作をする場合は特に、どこになんのクラスが書いてあるか把握しづらくなります。
-クラス名がフルで書いてあれば、検索することで一発で使用箇所が見つけられます。
+クラス名がフルネームで書いてあれば、検索することで使用箇所が一発で見つけられます。
 
-[Sassの機能でネストが最初に紹介されるけどあまり使わない方が良いと思う - Qiita](https://qiita.com/xrxoxcxox/items/16002a866aa7ba8fb346)
+こちらの記事もわかりやすいです。
+https://qiita.com/xrxoxcxox/items/16002a866aa7ba8fb346
 
 #### Stylelintルールも存在
 
@@ -629,12 +636,12 @@ Stylelintの項目で触れましたが、 [scss/selector-no-union-class-name](h
 
 #### 理由
 
-1. 要素の関係性でマージンを指定できるから。
+1. **要素の関係性** でマージンを指定できるから。
 
 #### 詳しく
 
 マージンは「要素の関係性」で生まれるものだと思っています。
-どういうことかというと、「見出しとテキストの間は20px空けたいんだけど、テキストとテキストの間は10pxにしたいんだよなー」とか。
+どういうことかというと、「見出しとテキストの間は20px空けたくて、テキストとテキストの間は10pxにしたいんだよなー」とか。
 `margin-top` （および `margin-left` ）で指定するルールを基本にしておけばこれを実現しやすいです。
 
 ```scss
@@ -664,7 +671,7 @@ li {
 ※内容はだいぶ適当ですが、プロパティの書き方に注目してください。
 
 ```scss
-// NG
+// ❌NG
 .Block {
     margin: 0 auto;
     background: linear-gradient(#fff, #000);
@@ -673,7 +680,7 @@ li {
 ```
 
 ```scss
-// OK
+// ✅OK
 .Block {
     margin-right: auto;
     margin-left: auto;
@@ -690,7 +697,7 @@ li {
 #### 詳しく
 
 上記のNG例では、すべてショートハンドの記法を使用していますが、これは実際には、以下のように解釈されます。
-（Chromeのdevtoolで確認することができます）
+（Chromeのdevtoolで確認して貼り付けました）
 
 ```scss
 .Block {
@@ -723,7 +730,7 @@ li {
 }
 ```
 
-このように変更する気のないプロパティにまで値をセットしていると、別の場所で指定していた値を不要に上書きしてしまう可能性があります。
+このように、変更する気のないプロパティにまで値をセットしていると、別の場所で指定していた値を不要に上書きしてしまう可能性があります。
 また、別の人が編集する際に、「このプロパティは意味があって指定しているのか、個別に書くのをめんどくさがっただけなのか」がわかりにくいです。
 必要のあるプロパティだけ指定するようにしましょう。
 
@@ -738,7 +745,7 @@ li {
 ### 19. スタイルの上書き（カスケーディング）はできるだけ避ける（禁止はしない）
 
 ```scss
-// NG
+// ❌NG
 .class {
     font-size: 16px;
     @media screen and (min-width: 768px), print {
@@ -748,7 +755,7 @@ li {
 ```
 
 ```scss
-// OK
+// ✅OK
 .class {
     @media screen and (max-width: 767.98px) {
         font-size: 16px;
@@ -761,7 +768,7 @@ li {
 
 #### 理由
 
-1. カスケーディングが多くなるほど、どこの記述が影響しているか把握するのが難しくなるため。
+1. カスケーディングが多くなるほど、記述がいつどこに影響するのか把握することが難しくなるため。
 
 
 #### 例外
@@ -769,7 +776,7 @@ li {
 必ずしも上書きを禁止する必要はない。
 
 ```scss
-// OK
+// ✅OK
 .Block {
     color: black;
     &.Block--green {
@@ -798,13 +805,13 @@ li {
 ### 20. グローバルなz-indexは変数管理する
 
 ここでは、
-特定のブロック内で前後関係を指定する場合のz-index（`position: absolute;`で配置した子要素など） を **「ローカルのz-index」** 、
-ページ全体の前後関係を指定する場合のz-index（追従ヘッダー、モーダルなど）を **「グローバルのz-index」** と呼ぶことにします。
+「特定のブロック内で前後関係を指定する場合のz-index（`position: absolute;`で配置した子要素など）」 を **「ローカルのz-index」** 、
+「ページ全体の前後関係を指定する場合のz-index（追従ヘッダー、モーダルなど）」を **「グローバルのz-index」** と呼ぶことにします。
 
 これはグローバルのz-indexについてのルールです。
 
 ```scss
-// NG
+// ❌NG
 
 // Header.scss
 .Header {
@@ -818,7 +825,7 @@ li {
 ```
 
 ```scss
-// OK
+// ✅OK
 
 // global.scss
 $z-index: (
@@ -847,9 +854,18 @@ $z-index: (
 2.  1箇所で管理することで、サイト全体で使用されている値を把握できるから。
 
 
+上記は比較的シンプルな形ですが、より高機能な管理方法を提案している方もいました。
+https://zenn.dev/attt/articles/manage-z-index-with-css-vars
+
 ### 21. ローカルのz-indexを指定するときは、親要素に `z-index: 0;`を指定する
 
-これについてはサンプルを見るのが早いと思いますので、こちらを見てください。
+#### 理由
+
+- スタッキングコンテキストを生成することで、子要素が親要素の外側に出ないようにするため。
+
+#### 詳しく
+
+これについてはサンプルを見るのが早いと思いますので、こちらをスクロールしてみてください。
 
 @[codepen](https://codepen.io/kagankan/pen/MWrXovG)
 
@@ -860,26 +876,26 @@ $z-index: (
 ここで、「z-indexの数字を制御すればいいのでは？」と思うかもしれませんが、それだと管理すべきz-indexが大量になってしまいます。
 `Safe` ブロックには親である `.Safe` クラスに `z-index:0;` を指定していることで、スタッキングコンテキストを生成し、スコープを制限することができます。
 
-z-indexとスタッキングコンテキストについて詳しくは以下の記事を参照してください（自分も正確に理解できているわけではなく、雰囲気でやっている・・！）
-[君は真に理解しているか？z-indexとスタッキングコンテキストの関係 - ICS MEDIA](https://ics.media/entry/200609/)
+z-indexとスタッキングコンテキストについて詳しくは以下の記事を参照してください（自分も正確に理解できてないですが・・！）
+https://ics.media/entry/200609/
 
-### 22. 色を管理する変数名は、無理に役割をつけずに色そのものの名前にする
+### 22. 色を管理する変数名は、無理に役割名をつけずに色そのものの名前にする
 
 ```scss
-// NG
+// ❌NG
 $color-text: #000;
 $color-text-sub: #333;
 ```
 
 ```scss
-// OK
+// ✅OK
 $color-black: #000;
 $color-mine-shaft: #333;
 ```
 
 #### 理由
 
-1.  役割の判断が難しいことが多いため。
+1.  役割の区別に迷うが多いため。
 2.  色名の命名は機械的に行うことができるため。
 
 #### 詳しく
@@ -890,13 +906,13 @@ $color-mine-shaft: #333;
 
 #### 色名の取得方法
 
-色の命名にはName That Color（VSCode拡張）を使用しています。
-[Name That Color](https://marketplace.visualstudio.com/items?itemName=guillaumedoutriaux.name-that-color)
+色の命名には **Name That Color（VSCode拡張）** を使用しています。
+https://marketplace.visualstudio.com/items?itemName=guillaumedoutriaux.name-that-color
 カラーコードを範囲選択してコマンドを実行すると、それに対応した色名を出力してくれます。
 また、そのままSass変数を作成するコマンドもあります。
 
-このVSCode拡張以外でカラーコードに対して一意の名前をつける方法としては、htmlcsscolor.com の色名を参照するのも一つの手段です。
-[HTML CSS Color Online color library: development, web-design, photoshop, art - HTML CSS Color](https://www.htmlcsscolor.com/)
+このVSCode拡張以外でカラーコードに対して一意の名前をつける方法としては、 **htmlcsscolor.com** の色名を参照するのも一つの手段です。
+https://www.htmlcsscolor.com/
 例えばZennのプライマリーカラー `#3EA8FF` は `Summer Sky` という名前でした。
 [HEX color #3EA8FF, Color name: Summer Sky, RGB(62,168,255), Windows: 16754750. - HTML CSS Color](https://www.htmlcsscolor.com/hex/3EA8FF)
 
@@ -904,14 +920,14 @@ $color-mine-shaft: #333;
 ### 23. 横方向のlinear-gradientは（to leftではなく）to rightにする
 
 ```scss
-// NG
+// ❌NG
 .class {
     background-image: linear-gradient(to left, #fff, #000);
 }
 ```
 
 ```scss
-// NG
+// ❌NG
 .class {
     background-image: linear-gradient(to right, #000, #fff);
 }
@@ -930,22 +946,22 @@ $color-mine-shaft: #333;
 具体的にどうする以前に、意識の話です。
 Webブラウザの操作方法は以下の3種類があるということを認識しましょう。
 
-- `マウス`（クリック、ホバー、ホイールなど）
-- `タッチ`（タップ、スワイプなど）
-- `キーボード`（Enterによるボタン押下, Tabによるフォーカス移動、矢印キーによるスクロールなど）
+- **マウス**（クリック、ホバー、ホイールなど）
+- **タッチ**（タップ、スワイプなど）
+- **キーボード**（Enterによるボタン押下, Tabによるフォーカス移動、矢印キーによるスクロールなど）
 
 #### 理由
 
 （なぜこんなことを書いたのか、という理由です。）
-世のWebサイトでは、マウス操作・タッチ操作は考慮されていても、「キーボード操作」が考慮されていないことが多いから。
-具体的な実装についてはこのあとの項目でいくつか触れます。
+世のWebサイトでは、マウス操作・タッチ操作は考慮されていても、 **「キーボード操作」** が考慮されていないことが多いから。
+（具体的な実装については次の2つで触れてます。）
 
 ### 25. フォーカス時のoutlineを消さない
 
 デザイン上見栄えが悪いという理由で、フォーカス時のアウトラインが消されることがありますが、これは絶対にやってはいけません。
 
 ```scss
-// NG
+// ❌NG
 a:focus {
     outline: none !important;
 }
@@ -963,32 +979,33 @@ a:focus {
 自分は後者の`what-input`による区別を使用しています。
 `what-input`は、現在の入力方法を検出するJSライブラリです。
 現在の入力方法に応じてhtmlタグに `data-whatinput` や `data-whatintent` というdata属性を付与されるので、これをもとにスタイルを決定できます。
-[what-input - npm](https://www.npmjs.com/package/what-input)
+
+https://www.npmjs.com/package/what-input
 
 使用方法については以下の記事などが詳しいので、そちらを参照ください。
-[見た目重視でoutlineを消したいにしても、せめてこうしませんか？ - Qiita](https://qiita.com/xrxoxcxox/items/82e083b3f47309873262)
-[もうoutlineを消さない。クリック・タップ・キーボードのイベントを判定してくれるJSライブラリ「what-input」 ｜ Tips Note by TAM](https://www.tam-tam.co.jp/tipsnote/html_css/post16551.html)
+https://qiita.com/xrxoxcxox/items/82e083b3f47309873262
+https://www.tam-tam.co.jp/tipsnote/html_css/post16551.html
 
 ### 26. inputタグをdisplay:noneしない
 
-チェックボックスやラジオボタンのスタイリングをする際、inputタグを非表示にしてlabelタグにスタイルを当てることがありますが、このときinputタグを `display:none` で消してはいけません。
+チェックボックスやラジオボタンのスタイリングをする際、 `input`タグを非表示にして`label`タグにスタイルを当てることがありますが、このとき`input`タグを `display:none` で **消してはいけません** 。
 
 #### 理由
 
-`display: none` してしまうと、Tabキーによるフォーカスが不可能になり、キーボード操作が不可能になるため。
+`display: none` してしまうと、Tabキーによるフォーカスが不可能になり、 **キーボード操作が不可能** になるため。
 
 #### どうすべきか
 
 `opacity: 0` などを使用します。
-詳しい説明は以下の記事が詳しいので、こちらを参照ください。
+詳しい説明は以下の記事が詳しいので、そちらを参照ください。
 
-[アクセシビリティで気をつけるcheckbox,radioのCSS - Qiita](https://qiita.com/Garyuten/items/b87b7d91279c0bded576)
+https://qiita.com/Garyuten/items/b87b7d91279c0bded576
 
 
 ### 27. ホバースタイルの有無は画面幅ではなく `@media (hover: hover)` で切り替える
 
 ```scss
-// NG
+// ❌NG
 .Button {
     @media screen and (min-width: 768px) {
         &:hover {
@@ -999,7 +1016,7 @@ a:focus {
 ```
 
 ```scss
-// OK
+// ✅OK
 .Button {
     @media (hover: hover) {
         &:hover {
@@ -1023,20 +1040,20 @@ SPの画面幅だからといってタッチ操作とは限らないから。
 [hover - CSS: カスケーディングスタイルシート | MDN](https://developer.mozilla.org/ja/docs/Web/CSS/@media/hover)
 
 ただし、これだとSurfaceなどのマウス操作も可能なタブレットPCでタッチ操作をしている場合にもhoverスタイルが当たってしまいます。
-このようなケースにも正確に対応するためには、 what-inputを使用する必要があります。
+このようなケースにも正確に対応するためには、 `what-input`を使用する必要があります。
 （とはいえ、タッチ操作にホバースタイルが当たっても操作不能になるわけではないので、多くの場合では `@media (hover: hover)` での対応で問題ないと思っています。）
 
 ### 28. pxではなくremで指定する
 
 ```scss
-// NG
+// ❌NG
 p {
     font-size: 16px;
 }
 ```
 
 ```scss
-// OK
+// ✅OK
 html {
     font-size: 62.5%;
 }
@@ -1048,17 +1065,16 @@ p {
 
 #### 理由
 
-ブラウザのフォントサイズ変更機能が適用されるから。
-
-root (html) が10pxになるように指定しておけば、指定したいpx数を1/10するだけなので、計算も面倒ではありません。
+1. **ブラウザのフォントサイズ変更機能** が適用されるから。
+2. （rootが10pxになるように指定しておけば、pxを1/10するだけなので、実装も面倒ではないから）
 
 文字サイズの変更機能などについては、以下の記事が詳しいので、そちらを参照ください。
-[Webサイトのfont-size・・・それでも僕は相対値。 - Shibajuku](https://shibajuku.net/font-size-still-relative/)
+https://shibajuku.net/font-size-still-relative/
 
 ### 29. メディアクエリは 1px ではなく0.02px で切り替える
 
 ```scss
-// NG
+// ❌NG
 @media screen and (max-width: 767px) {
     // SP
 }
@@ -1068,7 +1084,7 @@ root (html) が10pxになるように指定しておけば、指定したいpx�
 ```
 
 ```scss
-// OK
+// ✅OK
 @media screen and (max-width: 767.98px) {
     // SP
 }
@@ -1079,20 +1095,21 @@ root (html) が10pxになるように指定しておけば、指定したいpx�
 
 #### 理由
 
-拡大率が100%でない場合などに、画面サイズが小数点になることがあり、どちらのスタイルも当たらなくなることがあるため。
+- 拡大率が100%以外の場合などに、画面サイズが小数点になることがあり、 **どちらのスタイルも当たらなくなることがある** ため。
 
 #### 詳しく
 
 この値についてはBootstrapの実装を参考にしました。
-ちなみに、0.01pxだと、丸められてしまうため、0.02pxが最適な値みたいです。
 
 >Why subtract .02px? ブラウザは現在、range context queriesをサポートしていません。そのため、min- and max- prefixesの制限や、小数の幅を持つビューポート（高 dpi のデバイスなど、特定の条件下で発生する可能性があります）を回避するために、より精度の高い値を使用しています。
 >[Breakpoints (ブレイクポイント) · Bootstrap v5.0](https://getbootstrap.jp/docs/5.0/layout/breakpoints/)
 
+ちなみに、0.01pxだと、丸められてしまったため、0.02pxが最適な値みたいです。
+
 ### 30. PCのメディアクエリにはprintをつける
 
 ```scss
-// NG
+// ❌NG
 @media screen and (max-width: 767.98px) {
     // SP
 }
@@ -1102,7 +1119,7 @@ root (html) が10pxになるように指定しておけば、指定したいpx�
 ```
 
 ```scss
-// OK
+// ✅OK
 @media screen and (max-width: 767.98px) {
     // SP
 }
@@ -1113,7 +1130,9 @@ root (html) が10pxになるように指定しておけば、指定したいpx�
 
 #### 理由
 
-これをつけないと、ページの印刷時にメディアクエリで指定したスタイルが全く当たらなくなってしまい、表示が崩れるから。
+- これをつけないと、ページの印刷時にメディアクエリで指定したスタイルが全く当たらなくなってしまい、表示が崩れるから。
+
+#### 詳しく
 
 `screen and` をつけずに画面幅だけを指定すれば印刷時にも適切なスタイルが当たると思ったこともあったが、一般に印刷時の幅は500px～600pxくらいで判定されるため、大体の場合SP表示になってしまいます。
 しかし印刷するとき出したいのは基本的にPC表示のレイアウトです。
