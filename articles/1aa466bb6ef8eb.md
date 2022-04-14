@@ -9,15 +9,13 @@ published: false
 Webエンジニアを始めて丸2年が経ちました。
 複数プロジェクトを進める中で、CSSコーディングを行うときの「こうしておくと便利」「このほうが管理しやすい」といった知見が溜まってきたのでまとめます。
 
-思ったより長くなってしまったので、必要なとこだけ読んでいただけたらと思います。
-
 # はじめに
 
-これらは「自分がよく取り入れている手法」であって、必ずしもどのプロジェクトにも当てはまるものではないと思います。
+- 長くなってしまった細かい説明はところどころ折りたたんでいます。概要だけで理解できたら飛ばしていただき、詳しい話が気になったら開いて読んでください。
+- これらは「自分がよく取り入れている手法」であって、必ずしもどのプロジェクトにも当てはまるものではないと思います。
 各項目について、自分がその判断に至った **「理由」** を説明していますので、
 理由を読んだ上で自分のプロジェクトに取り入れるか判断いただくと良いと思います。
-
-また、この記事は、すでにCSSコーディングをしていてアイデアがほしい人に向けた記事で、
+- この記事は、すでにCSSコーディングをしていてアイデアがほしい人に向けた記事で、
 CSSをこれから学び始めるような **初学者向けではない** ことご了承ください。
 一般的と思われるキーワードについては説明を省略しています。
 
@@ -25,14 +23,12 @@ CSSをこれから学び始めるような **初学者向けではない** こ�
 
 ## 1. メタ言語にはSassのSCSS記法を使う
 
-CSS開発時には[Sass](https://sass-lang.com/)、中でも[SCSS記法](https://sass-lang.com/documentation/syntax#scss)を使用する。
-
 ### 理由
 
 1.  **素のCSSの記法もそのまま使える** （SCSSがCSSのスーパーセットである）から。
-2.  **デファクトスタンダード** だから。
+2.  **シェアが高い** から。
 
-### 詳しく
+:::details 詳しい選定理由
 
 CSSを書くときの言語としては、
 
@@ -53,16 +49,15 @@ CSSを書くときの言語としては、
 （自分は採用しませんでしたが、）PostCSSで置き換える方法については以下の記事などが参考になります。
 [Sassを使わずにPostCSSだけでCSSを書く理由](https://zenn.dev/yuki0410/articles/2e7f38a1ee5e5637b597-2)
 
+:::
+
 ## 2. LibSass (node-sass) ではなく Dart Sass (sass) を使う
 
 ### 理由
 
 1. LibSassはすでに **非推奨** となっているから。
 
-### 詳しく
-
-「LibSass, Dart Sassとはなにか」や、「Dart Sassへの移行」については多くの記事が出ているので詳しくはそちらを参照してください。
-
+「LibSass, Dart Sassとはなにか」や、「Dart Sassへの移行」については以下の記事などを参照してください。
 [node-sassからDartSassへsassコンパイラの移行 / 開発者向けブログ・イベント | GMO Developers](https://developers.gmo.jp/12920/)
 
 ## 3. SassのビルドにはViteを使う
@@ -74,14 +69,13 @@ https://ja.vitejs.dev/
 
 1. 環境構築が **楽** だから。
 
-### 詳しく
-
 もともとgulpでタスクを組んでいたのですが、ViteでSassもビルドできることを知ってからViteを使っています。
 厳密に言うと、ViteはJSのビルド環境であり、CSSはJSで使うasset扱いされるのでSassオンリーでビルドするのは正規の使い方ではないっぽいですが、問題なく使えちゃうので使ってます。
 それに、CSSのコーディングをする際はどうせJSのコーディング環境も作ることになるので、まとめて設定することで楽にできます。
 
-以下、JSとSassをまとめてバンドルするときの設定ファイル例です。
+:::details JSとSassをバンドルするときのvite.config.jsの例
 （一部を抜き出してきたので、もしかしたら必要な記述抜けてたりするかもしれません）
+`vite`, `sass`, `postcss`, （導入するなら） `tailwindcss`, `autoprefixer` を `npm install` する必要があります。
 
 ```js
 // vite.config.js
@@ -124,7 +118,7 @@ export default defineConfig({
 });
 ```
 
-`vite`, `sass`, `postcss`, （導入するなら） `tailwindcss`, `autoprefixer` を `npm install` する必要があります。
+:::
 
 ## 4. Stylelintを使う
 
@@ -138,9 +132,7 @@ https://stylelint.io/
 2.  機械的に処理できる部分に **頭を使いたくない** ため
 
 
-### .stylelintrc.js
-
-自分は大体こんな感じのstylelintrcを使ってます。
+:::details 自分がよく使う .stylelintrc とその説明
 
 ```js
 module.exports = {
@@ -223,6 +215,8 @@ CSSの仕様としてCSS2まではコロン1つだったのですが、CSS3で�
 「pxではなくremで指定する」ためのルールです。
 これについても後述します。
 
+:::
+
 ## 5. VSCode拡張 SCSS IntelliSense を使う
 
 SCSS書く上で絶対使ったほうがいい拡張です。
@@ -238,12 +232,11 @@ https://marketplace.visualstudio.com/items?itemName=mrmlnc.vscode-scss
 
 # CSS設計編
 
-## 6. BEMの考え方に従う。ただしMindBEMdingの命名規則には従わない
-
-（この記事の読者はBEMについては知っているものとして説明は割愛します。）
+## 6. BEMの考え方に従う。ただし命名規則は `.BlockName__ElementName--modifierName`
 
 クラス命名の際にはBEMの考え方に則りつつ、
 クラス命名を **`.BlockName__ElementName--modifierName`** のルールにします。
+（MindBEMdingには従わない）
 
 ### 理由
 
@@ -252,7 +245,7 @@ https://marketplace.visualstudio.com/items?itemName=mrmlnc.vscode-scss
 2. モディファイア名を、JSやテンプレートエンジンの変数名と合わせやすいから
 3. 他のライブラリと衝突しにくいから
 
-### 詳しく
+:::details この命名規則にした理由の補足
 
 一般的なMindBEMdingの命名規則では、 `.block-name__element-name--modifier-name` とされていますが、これには不便なところがあります。
 それは「ダブルクリックでの文字列選択」です。ブラウザやエディタで文字列をダブルクリックすると単語のまとまりで範囲選択ができるのですが、
@@ -270,10 +263,11 @@ Blockはコンポーネント、Elementはコンポーネントの中の要素�
 
 そして、Modifierのみローワーキャメルケースにしているのは、JS変数名と合わせることが可能なためです。
 EJSやNunjucks等のテンプレートエンジンでクラス名を変数で切り替える際などに、同様の命名が可能です。
+:::
 
-## 7. エレメントのネストを許容する
+## 7. `.Block__Element1__Element2` を許容する
 
-`.Block__Element1__Element2` を許容します。
+`.Block__Element1__Element2` (エレメントのネスト) を許容します。
 ただし、必ずしもマークアップのネスト構造と一致させることはせず、スタイルに親子関係が影響する場合にのみネストします。
 
 ```html
@@ -407,7 +401,7 @@ FLOCSSとかSMACSSとか、いろいろな設計手法がありますが、
 │   └── style.scss  # エントリーポイント
 ```
 
-以下、各ファイルにどのような記述にしているかのイメージです。
+:::details それぞれのファイルにどんな記述をしているかの具体例
 
 ```scss
 // _base/base.scss
@@ -467,6 +461,7 @@ $breakpoints: (
 
 @use "node_modules/tailwindcss/utilities"; // ユーティリティクラス (tailwind)
 ```
+:::
 
 ### 理由
 
@@ -475,16 +470,16 @@ $breakpoints: (
 ### 詳しく
 
 - `global.scss` は、他のファイルで `@use` して使うファイルです。そのため、スタイルを出力する記述は含めず、変数やmixinのみを書きます。
-- 変数やmixinは、`variables.scss`, `mixin.scss` と分けるやり方もよくありますが、参照するファイルが多くなるデメリットのほうが大きいと感じて、 `global.scss` に一元化しました。
+  - 変数やmixinは、`variables.scss`, `mixin.scss` と分けるやり方もよくありますが、参照するファイルが多くなるデメリットのほうが大きいと感じて、 `global.scss` に一元化しました。
   - 特に、 `$breakpoints` （ブレークポイントの値を持つ変数）と `@mixin pc` （メディアクエリのmixin）なんかは「変数」「mixin」という違いで分けるよりも、「ブレークポイントの管理」という役割で一緒の場所に記述したほうがまとまりがいいです。
 - `_components`配下はブロックごとにファイルを作成します。
 - `style.scss` (エントリーポイント) で必要ファイルを読み込む際、npmで管理できる外部ライブラリのCSSは `node_modules` から参照します。
-- `utilities` 的なディレクトリは（これまでは作っていたのですが）、tailwindに置き換えてみました（次の項目で詳細）。
+- `utilities` 的なディレクトリは（これまでは作っていたのですが）作らず、tailwindに置き換えてみました（次の項目で詳細）。
 
 ## 11. ユーティリティクラスにTailwind CSSを使う
 
 ユーティリティクラスを作る代わりに、Tailwind CSSを使用します。
-[Tailwind CSS - A Utility-First CSS Framework for Rapidly Building Custom Designs](https://tailwindcss.jp/)
+https://tailwindcss.jp/
 
 ### 理由
 
@@ -496,7 +491,7 @@ $breakpoints: (
 
 Tailwind CSSは「ユーティリティファースト」を掲げて、CSSファイルを編集せず、HTMLにクラスを書き込むことでスタイルを調整していくことを推奨しているフレームワークです。
 
-なんですが、自分は「原則いつもどおりにクラス名を定義して、SCSSファイルにCSSを書いていく」「ユーティリティクラスが必要になった場合、クラス名を書く代わりにTailwindを使う」という使い方をしています。
+なんですが、自分は **「原則いつもどおりにクラス名を定義して、SCSSファイルにCSSを書いていく」「ユーティリティクラスが必要になった場合、クラス名を書く代わりにTailwindを使う」** という使い方をしています。
 
 この使い方を、こちらの記事の言葉を借りて「ユーティリティセカンド」と呼ぶことにしています。
 [ユーティリティセカンドなCSS設計：CSS Nite2021-03-12感想 | ウェビンブログ | ウェビングスタジオ](https://webbingstudio.com/weblog/entry-890.html)
@@ -505,9 +500,7 @@ Tailwind CSSは「ユーティリティファースト」を掲げて、CSSフ�
 少なくとも、`mt-[10px]` のような、数値を直接指定する使い方をするぐらいならクラス名を作って当てることとしています。
 
 
-### tailwind.config.js
-
-参考までにconfigファイルです。
+:::details tailwind.config.js の例
 
 ```js
 module.exports = {
@@ -525,6 +518,7 @@ module.exports = {
   },
 };
 ```
+:::
 
 ## 12. リセットCSSには `destyle.css` を使用する
 
@@ -560,6 +554,8 @@ https://haniwaman.com/dart-sass/
 
 ## 14. @useは `as *` で読み込む
 
+:::details 具体例
+
 ```scss
 // global.scss
 $variable: 20px;
@@ -582,6 +578,7 @@ $variable: 20px;
     font-size: $variable;
 }
 ```
+:::
 
 ### 理由
 
@@ -628,7 +625,7 @@ https://qiita.com/xrxoxcxox/items/16002a866aa7ba8fb346
 
 ### Stylelintルールも存在
 
-Stylelintの項目で触れましたが、 [scss/selector-no-union-class-name](https://github.com/stylelint-scss/stylelint-scss/blob/master/src/rules/selector-no-union-class-name/README.md) というルールがあるので、活用しましょう。
+Stylelintの項目で紹介していますが、 [scss/selector-no-union-class-name](https://github.com/stylelint-scss/stylelint-scss/blob/master/src/rules/selector-no-union-class-name/README.md) というルールがあるので、活用しましょう。
 
 # 管理編
 
@@ -771,9 +768,7 @@ li {
 1. カスケーディングが多くなるほど、記述がいつどこに影響するのか把握することが難しくなるため。
 
 
-### 例外
-
-必ずしも上書きを禁止する必要はない。
+:::details 必ずしも上書きを禁止する必要はない、という例
 
 ```scss
 // ✅OK
@@ -801,6 +796,7 @@ li {
     }
 }
 ```
+:::
 
 ## 20. グローバルなz-indexは変数管理する
 
@@ -812,13 +808,9 @@ li {
 
 ```scss
 // ❌NG
-
-// Header.scss
 .Header {
     z-index: 10;
 }
-
-// Modal.scss
 .Modal {
     z-index: 20;
 }
@@ -826,23 +818,15 @@ li {
 
 ```scss
 // ✅OK
-
 // global.scss
 $z-index: (
   header: 10,
   modal: 20
 );
-
-// Header.scss
-@use "./global.scss" as *;
-@use "sass:map";
+// （簡略化のため、`@use` の記述省略）
 .Header {
     z-index: map.get($z-index, header);
 }
-
-// Modal.scss
-@use "./global.scss" as *;
-@use "sass:map";
 .Modal {
     z-index: map.get($z-index, modal);
 }
@@ -922,14 +906,14 @@ https://www.htmlcsscolor.com/
 ```scss
 // ❌NG
 .class {
-    background-image: linear-gradient(to left, #fff, #000);
+    background-image: linear-gradient(to left, red, green);
 }
 ```
 
 ```scss
-// ❌NG
+// ✅OK
 .class {
-    background-image: linear-gradient(to right, #000, #fff);
+    background-image: linear-gradient(to right, green, red);
 }
 ```
 
@@ -1134,14 +1118,14 @@ https://shibajuku.net/font-size-still-relative/
 
 ### 詳しく
 
-`screen and` をつけずに画面幅だけを指定すれば印刷時にも適切なスタイルが当たると思ったこともあったが、一般に印刷時の幅は500px～600pxくらいで判定されるため、大体の場合SP表示になってしまいます。
-しかし印刷するとき出したいのは基本的にPC表示のレイアウトです。
+`screen and` をつけずに画面幅だけを指定すれば印刷時にも適切なスタイルが当たると思ったこともありました（Bootstrapなどのフレームワークでも`screen and`はつけていません）。
+しかし、一般に印刷時の幅は500px～600pxくらいで判定されるため、大体の場合SP表示になってしまいます。印刷するとき出したいのは基本的にPC表示のレイアウトです。
 そのため、 `screen and` をつけつつ、PC表示のスタイルにのみ `, print`　をつけるという対策を取ることとしました。
 
 デジタルだけで活動している開発者の皆さんは「印刷なんかしない」なんて思ってるかもしれませんが、
 紙に印刷したい人・印刷したい場面は（意外にも？）この世に多く発生します。
 
-なお、この対応はあくまで「崩壊を避ける」のみであって、「印刷表示を完璧にする」とは思っていません。
+なお、この対応はあくまで **「崩壊を避ける」のみであって、「印刷表示を完璧にする」とは思っていません** 。
 印刷時のスタイルというのは、ブラウザによっても挙動が異なり、本気で対応しようと思うと一筋縄ではいきません・・・。
 
 # 最後に
