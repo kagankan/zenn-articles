@@ -140,8 +140,9 @@ margin、中でもmargin-top, margin-leftを使って、後に登場する要素
 
 ### 例1 コンポーネントにclassNameを渡す
 
-先程挙げたスタイルを当てるため、親側から「marginを指定するためのclassName」をコンポーネントに渡します。
-（コンポーネント自身のスタイルにはmarginを指定しません）
+先程挙げたスタイルを当てるため、親側から「marginを指定するためのclassName」をつけます。
+コンポーネント自身のスタイルにはmarginを指定しません。
+「marginを使うこと」が問題なのではなく、「コンポーネント自身がmarginを持つこと」が問題なので、親がmarginを指定すれば問題ありません。
 
 ```jsx
 <Title className="title" />
