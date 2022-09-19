@@ -1,6 +1,10 @@
 {
     "cSpell.words": [
         "Astro",
+        "codepen",
+        "minmax",
         "zenn"
-    ]
+    ],
+    "pasteImage.path": "${projectRoot}/images/grid",
+    "pasteImage.basePath": "${projectRoot}",
 }
