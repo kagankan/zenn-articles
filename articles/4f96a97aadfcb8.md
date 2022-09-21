@@ -1,5 +1,5 @@
 ---
-title: "【CSS】gridでできるこんなレイアウト10選（grid関連プロパティを総ざらい）"
+title: "【CSS】gridでできるこんなレイアウト10選（grid関連プロパティ総ざらい）"
  # 【CSS】レイアウトの9割はgridでキマる ～それ、gridでできるよ～　能力を引き出せ　
 emoji: "🍱"
 type: "tech" # tech: 技術記事 / idea: アイデア
