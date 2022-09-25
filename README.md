@@ -6,17 +6,6 @@
 
 - Astroおすすめディレクトリ構成
 - Astroで og image
-- Astroでidつける uuid Astroでコンポーネントごとに固有のID取得したいとき、Nodeのcrypto使うのが便利そう
-https://zenn.dev/takepepe/articles/useid-for-a11y
-
-```astro
----
-import {randomUUID} from 'crypto';
-const uuid =randomUUID();
----
-<select id={`${uuid}-tab1`}>
-</select>
-```
 
 - CSS三角形令和最新版
 
