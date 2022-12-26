@@ -232,18 +232,22 @@ https://marketplace.visualstudio.com/items?itemName=mrmlnc.vscode-scss
 
 # CSS設計編
 
-## 6. BEMの考え方に従う。ただし命名規則は `.BlockName__ElementName--modifierName`
+## 6. BEMの考え方に従う。ただし命名規則は `.BlockName__ElementName--modifier-name`
 
 クラス命名の際にはBEMの考え方に則りつつ、
-クラス命名を **`.BlockName__ElementName--modifierName`** のルールにします。
+クラス命名を **`.BlockName__ElementName--modifier-name`** のルールにします。
 （MindBEMdingには従わない）
+
+:::message
+（2022年12月26日アップデート）
+もともとモディファイア部分を `--modifierName` としていましたが、 `--modifier-name` に変更しました（詳しくは「この命名規則にした理由の補足」内に記載しています）。
+:::
 
 ### 理由
 
 1. **ブロック名からエレメント名までが1単語として扱われる** から
    1. これにより、ダブルクリックで選択しやすいし、option + ←→での単語選択がしやすい
-2. モディファイア名を、JSやテンプレートエンジンの変数名と合わせやすいから
-3. 他のライブラリと衝突しにくいから
+2. 他のライブラリと衝突しにくいから
 
 :::details この命名規則にした理由の補足
 
@@ -261,8 +265,11 @@ https://marketplace.visualstudio.com/items?itemName=mrmlnc.vscode-scss
 Blockはコンポーネント、Elementはコンポーネントの中の要素、Modifierはコンポーネントのpropsです。
 その意味も込めてパスカルケースを採用しました。
 
-そして、Modifierのみローワーキャメルケースにしているのは、JS変数名と合わせることが可能なためです。
-EJSやNunjucks等のテンプレートエンジンでクラス名を変数で切り替える際などに、同様の命名が可能です。
+~~そして、Modifierのみローワーキャメルケースにしているのは、JS変数名と合わせることが可能なためです。~~
+~~EJSやNunjucks等のテンプレートエンジンでクラス名を変数で切り替える際などに、同様の命名が可能です。~~
+（2022年12月26日追記）
+当初はJSの変数名などと合わせやすいことから、モディファイアを `--modifierName` としていましたが、実際このルールを運用しているとJS変数とそっくりそのまま合わせたくなるケースは少なく、 `--modifier-name` に変更しました。
+これには、クラス名の単語ルールをパスカルケース（PascalCase）とケバブケース（kebab-case）だけにするという目的もあります。というのも、BEMの考え方から外れたユーティリティクラスではTailwind CSSを使用するため、 `text-center` のようなケバブケースのクラス名が登場します。モディファイアを `--modifierName` （ローワーキャメルケース）にしてしまうと、クラス命名に3種類の命名法則が生まれてしまい判断が難しくなってきます。パスカルケースとケバブケースに絞るため、モディファイアをケバブケースとしました。
 :::
 
 ## 7. `.Block__Element1__Element2` を許容する
