@@ -7,6 +7,6 @@
         "Qiita",
         "zenn"
     ],
-    "pasteImage.path": "${projectRoot}/images/grid",
+    "pasteImage.path": "${projectRoot}/images/ts-boolean-to-string",
     "pasteImage.basePath": "${projectRoot}",
 }
