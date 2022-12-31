@@ -11,14 +11,14 @@ published: true
 # 前提
 
 JavaScriptには `Boolean.prototype.toString()` メソッドが存在しています。
-Boolean、つまり `true`, `false` の値をそれぞれ `'true'`, `'false'`の文字列に変換することができます。
+Boolean、つまり `true`, `false` の値をそれぞれ `"true"`, `"false"`の文字列に変換することができます。
 
 https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Boolean/toString
 
 
 ```js:使用例
-true.toString(); // 'true'
-('a' === 'b').toString(); // 'false'
+true.toString(); // "true"
+("a" === "b").toString(); // "false"
 ```
 
 # 困った
@@ -51,6 +51,19 @@ export {};
 declare global {
   interface Boolean {
     toString(): string;
+  }
+}
+```
+
+もしくは、[仕様上返り値が "true" または "false" になることが定義されている](https://tc39.es/ecma262/multipage/fundamental-objects.html#sec-boolean.prototype.tostring)ため、`"true" | "false"` で定義しても良さそうです。
+
+
+```ts:global.d.ts
+export {};
+
+declare global {
+  interface Boolean {
+    toString(): "true" | "false";
   }
 }
 ```
