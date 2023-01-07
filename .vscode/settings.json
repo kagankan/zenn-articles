@@ -1,12 +1,4 @@
 {
-    "cSpell.words": [
-        "Astro",
-        "codepen",
-        "inequation",
-        "minmax",
-        "Qiita",
-        "zenn"
-    ],
     "pasteImage.path": "${projectRoot}/images/ts-boolean-to-string",
     "pasteImage.basePath": "${projectRoot}",
 }
