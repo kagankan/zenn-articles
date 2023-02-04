@@ -31,7 +31,7 @@ VSCode上でTypeScriptファイルを開き `true.` まで入力してみると�
 
 ![VSCodeで true.toString() の toString をホバーした様子のスクリーンショット。Object.toString() と表示されている。](/images/ts-boolean-to-string/2023-01-01-07-29-34.png)
 
-それもそのはず、**TypeScriptには `Boolean.prototype.toString()`が定義されていないのである！！！！**
+それもそのはず、**TypeScriptには `Boolean.prototype.toString()`が定義されていないのである！！！！** （TypeScript 4.9 現在）
 
 https://github.com/microsoft/TypeScript/blob/747172e6493cb2c70e77c21ed4eb87592dd9bcdb/src/lib/es5.d.ts#L511-L516
 
