@@ -3,7 +3,7 @@ title: "BrainBEMding ～モノと性質を意識した、MindBEMdingベースの
 emoji: "🧠"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["css"]
-published: false
+published: true
 ---
 
 # 概要
