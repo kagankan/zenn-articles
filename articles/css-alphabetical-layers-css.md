@@ -1,5 +1,5 @@
 ---
-title: "スタイル適用順とフォルダの並び順が一致するCSS設計、Alphabetical Layers CSS (ALCSS) の紹介"
+title: "スタイル適用順とフォルダの並び順が一致するCSS設計、ABC-CSS の紹介"
 emoji: "📂"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["css", "CSS設計"]
@@ -10,13 +10,11 @@ published: true
 
 # 概要
 
-この **Alphabetical Layers CSS (ALCSS)** は、[FLOCSS](https://github.com/hiloki/flocss) や [ITCSS](https://itcss.io/) に影響を受けたCSS構成案です。
-（「ALCSS」は、そのままエイエルシーエスエスと読むか、もしくはアルックスとでも読むことにしようと思っています）
+この **ABC-CSS** は、[FLOCSS](https://github.com/hiloki/flocss) や [ITCSS](https://itcss.io/) に影響を受けたCSS構成案です。^[公開当初は Alphabetical Layers CSS (ALCSS) という名前で公開しましたが、「ABC」ならABC順であることに加えてレイヤー名そのものも示せておトクじゃんということに気づいたので命名変更しました。URLに残っていますが、URLを変えてしまうとリンクが切れて悲しいのでそのままにしておきます。]
 
-![](/images/css-alphabetical-layers-css/2023-02-08-03-17-10.png)
+![ABC-CSSの概念図。ABC-CSS. A CSS architecture that uses layers in ABC order, such as Abstracts, Base, Components, etc.](/images/css-alphabetical-layers-css/2023-02-13-01-14-42.png)
 
 スタイル定義を以下のレイヤー名で分類します。
-
 1. **Abstracts**
 2. **Base**
 3. **Components**
@@ -24,17 +22,34 @@ published: true
 5. **Pages**
 6. **Utilities**
 
-最大の特徴はその名の通り、**レイヤー名をアルファベット順に並べたときに、スタイルが適用されるべき順番と一致する**ことです。
+最大の特徴はその名の通り、**レイヤー名をアルファベット順（ABC順）に並べたときに、スタイルが適用されるべき順番と一致する**ことです。
 影響範囲が大きい・詳細度が低い（低くすべき）ものが先、範囲が小さく・詳細度が高くあるべきものが後に並ぶように単語を選択して設計しています。
 これにより、ディレクトリを分けて開発を行う際に、エクスプローラーでの表示から適用順をイメージしやすくなります。
 
 ![](/images/css-alphabetical-layers-css/2023-02-08-01-47-11.png)
 
+## 既存のCSS設計と比較したときの利点
+
+先に断っておきますが、決して既存のCSS設計をけなすつもりはありません。
+あくまで、自分はこうしたほうが使いやすいと思う、という話です。
+むしろこれまでに考えてくれていた方がいたからこそこの提案も成り立っていますので、先人たちに感謝します。
+
+### FLOCSSと比較して
+
+- Foundationに分類されていた、「CSSが出力される記述」と「プリプロセッサだけで使われる記述」が分離できる
+- 「Layoutに入る記述少ない問題」を解消できる
+  - 作者のhilokiさん自身も[「ここだけの話な、FLOCSSのLは別にいらんで」](https://hiloki.github.io/s/flocss-layout/)とおっしゃっていたりします。
+- ComponentとProjectの区別で迷うことがなくなる
+
+### ITCSSと比較して
+
+- ITCSSではレイヤー順とディレクトリ名が一致していないのでファイルツリーを表示したときに直感的にレイヤー順を意識しにくいが、ABC-CSSでは一致する
+- ObjectsとComponentsの区別で迷うことがなくなる
 
 # この記事で使用する命名規則
 
 これまた私が提案している **[BrainBEMding](https://zenn.dev/kagan/articles/css-brain-bemding)** を使用しますが、**MindBEMding**など他の命名規則を使用しても全く問題ありません。
-このALCSSで提案したいのは、クラス名をどんな名前にするかという命名規則ではなく、CSS記述をどう分類し、どう順序付けるかという部分です。
+この記事で提案したいのは、クラス名をどんな名前にするかという命名規則ではなく、CSS記述をどう分類し、どう順序付けるかという部分です。
 
 # 各レイヤーの詳細
 
@@ -96,6 +111,16 @@ classセレクタを使用します。idセレクタは詳細度をむやみに�
 .Header { /* ... */ }
 ```
 
+レイアウトとしてのヘッダーを分離したい（ヘッダーの中身のスタイルではなく、ページ内の配置を記述する）場合、 `Layout` というコンポーネントを作ります。
+
+```css:Componentsの記述例3 Layoutコンポーネントを作る例
+.Layout { /* ... */ }
+.Layout__Header { /* ... */ }
+.Layout__Main { /* ... */ }
+.Layout__Sidebar { /* ... */ }
+.Layout__Footer { /* ... */ }
+```
+
 ## Features
 
 基本的にはComponentsと使い方は変わりませんが、**特定の機能でのみ必要となる**要素のスタイルを定義します。
@@ -140,7 +165,7 @@ https://smagch.com/posts/aha-programming/
 ## Utilities
 
 要素に意味があるのではなく、特定の見た目や機能といった**性質のみ**を指定するスタイルを定義します。
-このレイヤーのみ `!important` の使用を許可します。
+このレイヤーのみ `!important` の使用を許可します（必須ではありません）。
 
 ```css:Utilitiesの記述例
 .color-blue {
@@ -231,7 +256,7 @@ $color-white: #fff;
 
 区別が難しいものもあるため、完全に対応しているというよりは、あくまで参考として見てください。
 
-|ALCSS | FLOCSS | ITCSS |
+| ABC-CSS | FLOCSS | ITCSS |
 |---|---|---|
 |**Abstracts**  |-|Settings, Tools|
 |**Base**       |Foundation|Generic, Base|
@@ -300,7 +325,7 @@ https://qiita.com/otsukayuhi/items/d88b5158745f700be534
 
 基本的にはこの考え方がよいですが、かといって過度に気にし過ぎるのもよくありません。ケースに応じてはOKなパターンもあります。
 
-ALCSSにおいては、以下のルールとします。
+ABC-CSSにおいては、以下のルールとします。
 
 - **Components**に分類される要素ではmarginをつけることを**避ける**
 - **Features, Pages**に分類される要素ではmarginをつけることを**許容する**
@@ -310,6 +335,6 @@ ALCSSにおいては、以下のルールとします。
 
 # まとめ
 
-ALCSSというCSS設計を紹介しました。
+ABC-CSSというCSS設計を紹介しました。
 アルファベット順に並んで幸せになれるのはもちろん、個人的にFLOCSSで悩んでいたComponentとProjectの判断の迷いがなくなりかなり扱いやすくなりました。
 よければ使ってみてください！
