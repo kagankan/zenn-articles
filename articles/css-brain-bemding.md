@@ -2,7 +2,7 @@
 title: "BrainBEMding ～モノと性質を意識した、MindBEMdingベースの新しいCSSクラス命名規則の提案～"
 emoji: "🧠"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: ["css"]
+topics: ["css", "CSS設計"]
 published: true
 ---
 
