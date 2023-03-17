@@ -7,7 +7,7 @@ title: "本を読むだけの社内もくもく会、「技術書を読む会」
 # - 「技術書もくもく読書会」
 
 emoji: "📖"
-type: "tech" # tech: 技術記事 / idea: アイデア
+type: "idea" # tech: 技術記事 / idea: アイデア
 topics: ["勉強会", "もくもく会"]
 publication_name: "beeworks_web"
 published: false
