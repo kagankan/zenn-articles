@@ -4,7 +4,7 @@ emoji: "📖"
 type: "idea" # tech: 技術記事 / idea: アイデア
 topics: ["勉強会", "もくもく会"]
 publication_name: "beeworks_web"
-published: false
+published: true
 ---
 
 
