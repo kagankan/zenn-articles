@@ -1,7 +1,7 @@
 title: "【ゆるふわWCAG】中学生でもわかるウェブアクセシビリティガイドライン"
 summary: "ウェブアクセシビリティを実践する際、基準となるのがWCAG（Web Content Accessibility Guidelines、ウェブコンテンツアクセシビリティガイドライン）です。しかし、WCAGの文章は難しい！\nなので、簡単な言葉に読み替えながら理解しましょう！"
 topics: ["アクセシビリティ", "WCAG"]
-published: false
+published: true
 price: 0 # 有料の場合200〜5000
 # 本に含めるチャプターを順番に並べましょう
 chapters:
