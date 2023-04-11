@@ -9,7 +9,7 @@ WCAGのガイドラインは大きく4つの「原則」に分かれています
 1. 知覚可能
 2. 操作可能
 3. 理解可能
-4. 堅牢
+4. 堅牢（けんろう）
 
 参考： [WCAG 2.1 日本語訳 アクセシビリティの四つの原則を理解する](https://waic.jp/translations/WCAG21/Understanding/intro#understanding-the-four-principles-of-accessibility)
 
