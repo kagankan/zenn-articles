@@ -213,12 +213,20 @@ Sass では次のように mixin を用意して使用すると便利です。
 }
 ```
 
+別記事で紹介した[後置修飾スタイル](https://zenn.dev/kagan/articles/css-is-where-tips)で書けばこう書けます。
+
+```css
+.image:is(:where(:any-link, :enabled, summary):hover *) {
+  transform: scale(1.1);
+}
+```
+
 これも mixin にしておくと便利です。
 
 ```scss:mixin
 @mixin group-hover {
   @media (hover: hover){
-    :where(:any-link, :enabled, summary):hover & {
+    &:is(:where(:any-link, :enabled, summary):hover *) {
       @content;
     }
   }
