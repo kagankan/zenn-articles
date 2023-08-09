@@ -2,7 +2,7 @@
 title: "原則 3. 理解可能 を読んでみよう"
 ---
 
-# 原則 3. 理解可能
+## 原則 3. 理解可能 とは
 
 >情報及びユーザインタフェースの操作は理解可能でなければならない。
 >https://waic.jp/translations/WCAG21/#understandable
