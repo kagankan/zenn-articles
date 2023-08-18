@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "preview": "zenn preview",
     "new:article": "zenn new:article",
-    "new:book": "zenn new:book",
-    "preview": "zenn preview"
+    "new:book": "zenn new:book"
   },
   "repository": {
     "type": "git",
