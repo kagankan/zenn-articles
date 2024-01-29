@@ -16,12 +16,15 @@
     "inequation",
     "ITCSS",
     "Markuplint",
+    "markuplintrc",
     "minmax",
     "Qiita",
     "Stylelint",
+    "tailwindcss",
     "waiaria",
     "WAIC",
     "WCAG",
+    "webcontainer",
     "WEBVTT",
     "zenn"
   ]
