@@ -14,7 +14,7 @@
   "author": "",
   "license": "ISC",
   "homepage": "https://zenn.dev/kagan",
-  "dependencies": {
-    "zenn-cli": "^0.1.131"
+  "devDependencies": {
+    "zenn-cli": "^0.1.151"
   }
 }
