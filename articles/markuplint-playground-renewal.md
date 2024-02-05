@@ -164,7 +164,7 @@ URL ハッシュにコードと設定ファイルの情報を埋め込む際に�
 ### ルール設定のフォーム編集（JSON Schemaの読み込み）
 
 前提として、Markuplint の設定ファイルが受け入れる構造は、[JSON Schema](https://json-schema.org/) で定義されています（[`invalid-attr` ルールの例](https://raw.githubusercontent.com/markuplint/markuplint/main/packages/%40markuplint/rules/src/invalid-attr/schema.json)）。
-ルールのオプションをフォームで編集できる部分は、この JSON Schema の情報をもとに構築しています。^[実装は[ゆうてんさんが作成されていた JSON Schema の読み込み機能のコード](https://github.com/markuplint/markuplint/pull/214/files#diff-5d6556db76156db151470ce74723eafebc5fca85360c1a2f7a315169a3280899) をベースに使いました。]
+ルールのオプションをフォームで編集できる部分は、この JSON Schema の情報をもとに構築しています（実装は[ゆうてんさんが作成されていたコード](https://github.com/markuplint/markuplint/pull/214/files#diff-5d6556db76156db151470ce74723eafebc5fca85360c1a2f7a315169a3280899) をベースに使わせていただきました 🙏）。
 
 スキーマの `type` でコンポーネントを分岐させていき、 `type` が `boolean` なら true か false を選ばせるセレクトボックスを表示、 `string` ならテキストボックスを表示、`object` ならさらにネスト…といった具合です。
 https://github.com/markuplint/markuplint/blob/dev/playground/src/components/RuleConfig.tsx
