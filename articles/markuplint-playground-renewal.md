@@ -7,7 +7,7 @@ published: false
 ---
 
 先日 [Markuplint](https://markuplint.dev/ja/) の [v4 がリリース](https://twitter.com/markuplint/status/1754029763885457842)されました 🎉
-それに合わせて **[Markuplint Playground](https://playground.markuplint.dev/)** （ブラウザ上でお試しできるページ）がリニューアルされました！（しました！） 🎉
+それに合わせて **[Markuplint Playground](https://playground.markuplint.dev/)** （ブラウザ上でお試しできるページ）がリニューアルされました！（しました！）🎉
 
 ![Markuplint Playground のスクリーンショット](/images/markuplint-playground-renewal/2024-02-04-17-04-11.png)
 
@@ -47,9 +47,11 @@ Markuplint は本来 Node.js で動作するツールで、コマンドライン
 設定ファイルの編集を「Visual」に切り替えると、フォームで編集できます。
 プリセットをチェックボックスで編集できたり、ルールの有効・無効、オプションをセレクトボックスやテキストボックスで変更できます。
 
-![設定フォームのスクリーンショット。](/images/markuplint-playground-renewal/2024-02-05-01-24-10.png =400x)
+![設定フォームのスクリーンショット。](/images/markuplint-playground-renewal/2024-02-05-01-24-10.png =350x)
 
-![設定フォームのスクリーンショット。](/images/markuplint-playground-renewal/2024-02-04-23-48-31.png =400x)
+![設定フォームのスクリーンショット。](/images/markuplint-playground-renewal/2024-02-04-23-48-31.png =350x)
+
+@[tweet](https://twitter.com/kagan_dev/status/1754481060640158138)
 
 ### サンプルコードを用意しています
 
@@ -57,7 +59,7 @@ Markuplint は本来 Node.js で動作するツールで、コマンドライン
 どんなことができるか知りたいときにぜひ。
 「BEM (MindBEMding)」 のサンプルなんかおすすめです。
 
-![スクリーンショット。Choose an exampleという見出しのモーダルが表示されている。](/images/markuplint-playground-renewal/2024-02-04-22-35-33.png =400x)
+![スクリーンショット。Choose an exampleという見出しのモーダルが表示されている。](/images/markuplint-playground-renewal/2024-02-04-22-35-33.png =300x)
 
 ### プラグインの読み込みに対応しています
 
@@ -86,7 +88,7 @@ https://zenn.dev/steelydylan/articles/webcontainers
 WebContainers を使うというアイデア、および実装は [Stylelint Demo](https://stylelint.io/demo/) ([GitHub](https://github.com/stylelint/stylelint-demo)) を参考にしました（感謝）。
 
 WebContainers によってブラウザ上でNode.js環境を実行し、その中で `markuplint` を実行しています。HTMLファイルや設定ファイルもNode上に書き込んでいます。
-ブラウザで動く機能のみを取り出して実装することもできた（元々はそうだった）のですが、WebContainers を使うことで実際の動作とほぼ同一の環境で動かすことができました。
+ブラウザで動く機能のみを取り出して実装する選択肢もあった（元々はそうだった）のですが、WebContainers を使うことで実際の動作とほぼ同一の環境で動かすことができました。
 
 同様にブラウザ上でNode.jsを動かすことができる [Sandpack](https://sandpack.codesandbox.io/) というのもあるらしいのですが、使っている事例があまり見つからず、前例があって安心して使えそうな WebContainers を使うことにしました。
 
@@ -95,10 +97,10 @@ WebContainers によってブラウザ上でNode.js環境を実行し、その�
 単に自分が慣れているということと、エコシステムが発展していてライブラリに困ることがないという理由で、[React](https://react.dev/) を採用しました。
 stylelint-demoがバニラTSだったので、バニラという選択肢も考えはしましたが、宣言的に書けないときついのでやめました。
 
-[TypeScript](https://www.typescriptlang.org/) ももはや当たり前ですが、型があると安心です。
+[TypeScript](https://www.typescriptlang.org/) ももはや当たり前ですが、型安全がほしいので使っています。
 
 近年のフロントエンド開発は [Vite](https://vitejs.dev/) 一択だと思います。
-設定がほとんどないので、環境構築が楽です。
+設定が最小限で済むので、環境構築が楽です。
 
 ### Xterm.js
 
@@ -156,9 +158,8 @@ URL ハッシュにコードと設定ファイルの情報を埋め込む際に�
 
 ### ルール設定のフォーム編集（JSON Schemaの読み込み）
 
-前提として、Markuplintの設定ファイルが受け入れる構造は、[JSON Schema ファイル](https://raw.githubusercontent.com/markuplint/markuplint/v4.0.0/config.schema.json) （[`invalid-attr` の例](https://raw.githubusercontent.com/markuplint/markuplint/main/packages/%40markuplint/rules/src/invalid-attr/schema.json)）で定義されています。
-ルールのオプションをフォームで編集できる部分は、この JSON Schema の情報をもとに構築しています。
-実装は[ゆうてんさんが作成されていた JSON Schema の読み込み機能](https://github.com/markuplint/markuplint/pull/214/files#diff-5d6556db76156db151470ce74723eafebc5fca85360c1a2f7a315169a3280899) をベースに使いました。
+前提として、Markuplintの設定ファイルが受け入れる構造は、[JSON Schema](https://json-schema.org/) で定義されています（[`invalid-attr` ルールの例](https://raw.githubusercontent.com/markuplint/markuplint/main/packages/%40markuplint/rules/src/invalid-attr/schema.json)）。
+ルールのオプションをフォームで編集できる部分は、この JSON Schema の情報をもとに構築しています。^[実装は[ゆうてんさんが作成されていた JSON Schema の読み込み機能](https://github.com/markuplint/markuplint/pull/214/files#diff-5d6556db76156db151470ce74723eafebc5fca85360c1a2f7a315169a3280899) をベースに使いました。]
 
 スキーマの `type` でコンポーネントを分岐させていき、 `type` が `boolean` ならtrueかfalseを選ばせるセレクトボックスを表示、 `string` ならテキストボックスを表示、`object` ならさらにネスト…といった具合です。
 https://github.com/markuplint/markuplint/blob/dev/playground/src/components/RuleConfig.tsx
@@ -178,7 +179,7 @@ https://github.com/markuplint/markuplint/blob/dev/playground/src/components/Rule
 - **「Examples」**：サンプルコードの適用
 - **「Packages」**：インストールされているパッケージとバージョンの表示、バージョンの切り替え
 - **「Console」**：コンソール出力の表示
-- **「Status」**：リントが完了しているのか、エラーが起きているのかの表示
+- **「Status」**：リントが正常に完了しているのか、エラーが起きているのかの表示
 
 ![Markuplint Playground のスクリーンショット](/images/markuplint-playground-renewal/2024-02-04-17-04-11.png)
 
