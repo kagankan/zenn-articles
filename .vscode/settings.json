@@ -1,4 +1,5 @@
 {
     "pasteImage.path": "${projectRoot}/images/markuplint-playground-renewal",
     "pasteImage.basePath": "${projectRoot}",
+    "textlint.autoFixOnSave": true
 }
