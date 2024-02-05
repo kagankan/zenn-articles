@@ -469,3 +469,6 @@ module.exports = {
 ```
 
 :::
+
+
+https://zenn.dev/paiza/articles/create-typescript-eslint-custom-rule
