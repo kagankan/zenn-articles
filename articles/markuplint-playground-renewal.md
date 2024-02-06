@@ -14,13 +14,13 @@ published: false
 https://playground.markuplint.dev/
 
 実際触ってもらうのが一番わかりやすいと思うので、ぜひ触ってみてください。
-（※ブラウザ上で npm パッケージをインストールする都合上、長いとローディングに 30 秒程度かかることがあります 🙏）
+（※ブラウザ上で `npm install` を実行する都合上、長いとローディングに 30 秒程度かかることがあります 🙏）
 
 この記事では、機能や実装内容などを紹介します。
 
 ## 主な機能の紹介
 
-そもそも **Markuplint** とは、[ゆうてんさん](https://zenn.dev/yusukehirao)が開発している HTML の静的解析ツールです。
+そもそも **Markuplint** とは、[ゆうてんさん](https://zenn.dev/yusukehirao)が開発されている HTML の静的解析ツールです。
 Markuplint 自体の詳細については、ドキュメントやその他の記事をご参照ください。
 
 https://markuplint.dev/ja/
@@ -30,7 +30,7 @@ https://zenn.dev/azukiazusa/articles/start-syntax-checking-with-markuplint
 ### ブラウザで Markuplint が使えます
 
 Markuplint（`markuplint` パッケージ）は本来 Node.js で動作するツールで、コマンドラインやエディタの拡張機能を通じて使用されますが、それをブラウザ上で動かしています。
-入力された HTML を Markuplint でチェックし、エラーや警告があればエディタ上に下線で表示する（これは以前からあった機能）ほか、画面下部に一覧表示します。
+入力された HTML を Markuplint でチェックし、エラーや警告があればエディタ上に下線で表示する（これ自体はリニューアル前からあった機能）ほか、画面下部に一覧表示します。
 
 ![Markuplint Playground のスクリーンショット。画面左上にあるHTMLコードの一部には赤い下線が引かれている。画面左下には「Error 文書型が必要です」などのエラーメッセージがいくつか表示されている。](/images/markuplint-playground-renewal/2024-02-04-17-04-11.png)
 
@@ -87,7 +87,7 @@ https://zenn.dev/steelydylan/articles/webcontainers
 
 WebContainers を使うというアイデア、および実装は [Stylelint Demo](https://stylelint.io/demo/) ([GitHub](https://github.com/stylelint/stylelint-demo)) を参考にしました（大感謝）。
 
-WebContainers によってブラウザ上で Node.js 環境を実行し、その中で `markuplint` を実行しています。HTML ファイルや設定ファイルも Node 上に書き込んでいます。
+WebContainers によってブラウザ上で Node.js 環境を実行し、その中で `markuplint` を実行しています。HTML ファイルや設定ファイルもこのコンテナ上に書き込んでいます。
 ブラウザで動く機能のみを取り出して実装する選択肢もあった（元々はそうだった）のですが、WebContainers を使うことで実際の動作とほぼ同一の環境で動かすことができました。
 
 同様にブラウザ上で Node.js を動かすことができる [Sandpack](https://sandpack.codesandbox.io/) というのもあるらしいのですが、使っている事例があまり見つからず、前例があって安心して使えそうな WebContainers を使うことにしました。
@@ -108,10 +108,12 @@ stylelint-demo がバニラ TS だったので、バニラという選択肢も�
 エスケープシーケンスの含まれた文字列を正しく表示してくれます。
 （ブラウザ上でターミナルが動いてるだけでなんかワクワクしますよね）
 
-最初これを自前実装しようとしていたのですが、途中で Xterm.js があることを知りました。
+![](/images/markuplint-playground-renewal/2024-02-06-23-51-14.png)
+
+最初これを自前実装しようとしていたのですが、途中で Xterm.js があることを知りました（気づけてよかった）。
 今見たら、[WebContainers のチュートリアル](https://webcontainers.io/tutorial/6-connect-a-terminal)にも紹介されていたので、使うのが当たり前っぽい。
 
-サイズを可変にするために `xterm-addon-fit` というプラグインがあるのですが、これを使うとどうにもうまくいかなかった（大きくなったり小さくなったりを繰り返して振動してしまうことがあった）ので、CSS をむりやり上書きして改行させています。
+サイズを可変にするために `xterm-addon-fit` というプラグインがあるのですが、これを使うとどうにもうまくいかなかった（大きくなったり小さくなったりを繰り返して振動してしまうことがあった）ので、画面幅が狭いときは CSS をむりやり上書きして改行させています。
 （自分の実装が悪いだけな気はするのでどうにかしたいところです。）
 
 ### Monaco Editor
@@ -124,7 +126,7 @@ React コンポーネントとして使用するため、`@monaco-editor/react` 
 ### Tailwind CSS
 
 ゆうてんさんからの提案もあり、スタイリングには [Tailwind CSS](https://tailwindcss.com/) を採用しました。
-個人的には CSS を書くのが好きなのであまり積極的ではなかったのですが、実際使ってみると、
+個人的には生の CSS を書くのが割と好きなのであまり積極的ではなかったのですが、実際使ってみると、
 
 - スコープが絞られることの安心感
 - カスタマイズ性の高さ
@@ -135,7 +137,7 @@ React コンポーネントとして使用するため、`@monaco-editor/react` 
 
 #### アイコン
 
-Tailwind でアイコンを使用するとき、 [`@egoist/tailwindcss-icons`](https://github.com/egoist/tailwindcss-icons) が便利でした。
+Tailwind でアイコンを使用するため、 [`@egoist/tailwindcss-icons`](https://github.com/egoist/tailwindcss-icons) を導入しました。アイコンライブラリを好きに追加できるのでめちゃ便利でした。
 
 https://zenn.dev/hayato94087/articles/1abcb002d1e254
 
@@ -237,6 +239,7 @@ Stylelint Demo を参考に、
 
 **製作途中のスクリーンショット 2**
 右側に「Code」と「Problems」/「Console」のタブ切り替え、左側にそれ以外を並べていた（めちゃめちゃ作業途中で、スタイリングもできていない状態）。
+左側の領域がごちゃっとしており、強弱が分かりづらい。
 ![製作途中のスクリーンショット2。](/images/markuplint-playground-renewal/2024-02-05-01-12-02.png)
 
 :::
@@ -260,10 +263,11 @@ Stylelint Demo を参考に、
 
 ## おわりに
 
-Markuplint Playground、ちょっと HTML の構文チェックを行いたい、というときに便利だと思いますので、ぜひ使ってもらえると嬉しいです。
+Markuplint Playground、自分がほしいものを詰め込んで作りました。
+ちょっと HTML の構文チェックを行いたい、というときに便利だと思いますので、ぜひ使ってもらえると嬉しいです。
 バグなどいくらでもあると思うので、Issue や Pull Request お待ちしています。
 
-そしてもちろん、日々のフロントエンド開発に Markuplint をぜひ導入しましょう！
+そして何より、日々のフロントエンド開発に Markuplint をぜひ導入しましょう！
 
 ## 参考にさせていただいたPlaygroundサイト
 
