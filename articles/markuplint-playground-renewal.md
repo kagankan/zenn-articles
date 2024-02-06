@@ -3,7 +3,7 @@ title: "Markuplint Playground をリニューアルしたので機能や使用�
 emoji: "✨"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["markuplint", "webcontainer"] #, "vite", "react", "tailwindcss"
-published: false
+published: true
 ---
 
 先日 [Markuplint](https://markuplint.dev/ja/) の [v4 がリリース](https://twitter.com/markuplint/status/1754029763885457842)されました 🎉
