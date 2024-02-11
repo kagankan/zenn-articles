@@ -9,5 +9,12 @@
       "no-exclamation-question-mark": false
     },
     "preset-japanese": true
+  },
+  "filters": {
+    "allowlist": {
+      "allow": [
+        "/:::details .*/"
+      ]
+    }
   }
 }
