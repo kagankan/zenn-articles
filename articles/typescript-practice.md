@@ -6,7 +6,7 @@ topics: ["typescript"]
 published: true
 ---
 
-TypeScript を学習中の方に勧められる練習問題集として手頃なものがないかと思い、作ってみました。
+TypeScript を学習中の方に勧められる練習問題集として手頃なものがないなと思い、作ってみました。
 TS の問題集としては[type-challenges](https://github.com/type-challenges/type-challenges/blob/main/README.ja.md) がよく話題に上がりますが、実用上あそこまでの型パズルを使うことはあまりないため、最初に取り組むにはハードルが高いです（もちろん知っていたら便利ではありますが、初学者向けではない）。
 
 ## 想定読者
