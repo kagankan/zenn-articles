@@ -21,6 +21,7 @@ TS の問題集としては[type-challenges](https://github.com/type-challenges/
 - そもそも TypeScript についてよくわかっていない場合、[サバイバル TypeScript](https://typescriptbook.jp/)などで学習から始めてみてください。
 - 「型がつけられると何が嬉しいのか」を理解してもらえるように、エラーにしたいコードの例を出すようにしています。
 - レベル 1 から 3 まで設定しています。ただし、あくまで独断によるものですので、実態と合っているかは保証できません。
+- 動作を確認したバージョンは TypeScript v5.3.3 です。
 
 ## 第 1 章 JS から TS へ ～型注釈～
 
