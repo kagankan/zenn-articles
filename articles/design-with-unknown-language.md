@@ -19,11 +19,11 @@ UI デザインを作っているときや技術記事を書いているとき�
 僭越ながら、Zenn のトップページを例にしてみます。
 いつもの、日本語と英語で書かれた Zenn トップページはこう↓
 
-![Zennのトップページのスクリーンショット。](/images/design-without-language/2024-02-22-00-09-51.png)
+![Zennのトップページのスクリーンショット。](/images/design-with-unknown-language/2024-02-22-00-09-51.png)
 
 知らない言語（タイ語）に翻訳してみると、こう！↓
 
-![Zennのトップページをタイ語に翻訳した状態のスクリーンショット。](/images/design-without-language/2024-02-22-00-10-48.png)
+![Zennのトップページをタイ語に翻訳した状態のスクリーンショット。](/images/design-with-unknown-language/2024-02-22-00-10-48.png)
 
 
 **うーん、全く読めない！！**
@@ -54,9 +54,9 @@ Web コンテンツにおいてはテキストがメインの情報であり、�
 
 Google Chrome の翻訳機能を呼び出し、メニューから「別の言語を選択」を選び、他の言語を選択してみましょう。
 
-![Google Chromeのコンテキストメニューのスクリーンショット。いくつかの項目が並んでおり、「日本語に翻訳」がフォーカスされている。](/images/design-without-language/2024-03-02-22-45-46.png)
+![Google Chromeのコンテキストメニューのスクリーンショット。いくつかの項目が並んでおり、「日本語に翻訳」がフォーカスされている。](/images/design-with-unknown-language/2024-03-02-22-45-46.png)
 
-![Google Chromeの自動翻訳機能のスクリーンショット。メニューが開かれ、「別の言語を選択」がフォーカスされている。](/images/design-without-language/2024-02-25-04-29-37.png)
+![Google Chromeの自動翻訳機能のスクリーンショット。メニューが開かれ、「別の言語を選択」がフォーカスされている。](/images/design-with-unknown-language/2024-02-25-04-29-37.png)
 
 ### 未知の言語に置き換えた状態で観察
 
@@ -66,7 +66,7 @@ Zenn を使ったことがない、かつ言語の情報がわからない状態
 
 以下のようなことが読み取れます。
 
-![タイ語に翻訳されたZennのトップページのヘッダー部分のスクリーンショット。](/images/design-without-language/example1.drawio.png)
+![タイ語に翻訳されたZennのトップページのヘッダー部分のスクリーンショット。](/images/design-with-unknown-language/example1.drawio.png)
 
 - **右上の青いボタン**は特に目立っているな。このページ（サイト）において重要なアクションができるのかな
 - **左上の 3 つ横並びになっている要素**はカテゴリかなにかかな。選ぶと切り替えができそうだ
@@ -76,7 +76,7 @@ Zenn を使ったことがない、かつ言語の情報がわからない状態
 
 ---
 
-![タイ語に翻訳されたZennのトップページの記事一覧部分のスクリーンショット。](/images/design-without-language/example2.drawio.png)
+![タイ語に翻訳されたZennのトップページの記事一覧部分のスクリーンショット。](/images/design-with-unknown-language/example2.drawio.png)
 
 - **左上にデカい文字**があるな。このセクションの見出しかな
 - **一覧のそれぞれには太字の文字**がある。これが各項目のタイトルかな
@@ -84,7 +84,7 @@ Zenn を使ったことがない、かつ言語の情報がわからない状態
 
 ---
 
-![タイ語に翻訳されたZennの記事アイテム部分のスクリーンショット。](/images/design-without-language/example3.drawio.png)
+![タイ語に翻訳されたZennの記事アイテム部分のスクリーンショット。](/images/design-with-unknown-language/example3.drawio.png)
 
 
 - 著者っぽいところをよく見ると、**アイコンが 2 つあるパターン**がある。四角いアイコンの右下に丸いアイコンがある
