@@ -2,6 +2,8 @@
 
 * [📘 How to use](https://zenn.dev/zenn/articles/zenn-cli-guide)
 
+<div lang="ja">
+
 ## 記事ネタメモ
 
 - Astroおすすめディレクトリ構成
@@ -23,6 +25,8 @@ background-color: #000;
 &:enabled,
 &[href]
 でよさそう
+
+</div>
 
 ### meterのスタイリング
 
