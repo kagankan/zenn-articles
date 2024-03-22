@@ -1,5 +1,5 @@
 ---
-title: "それでも私が<wbr>ではなくinline-blockで改行調整をする、たった1つの理由"
+title: "それでも私が<wbr>でなくinline-blockで改行調整をする、たった1つの理由"
 emoji: "🧱"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["html", "css"]
