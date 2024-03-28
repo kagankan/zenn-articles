@@ -6,58 +6,80 @@ topics: ["javascript", "typescript", "eslint", "react"]
 published: false
 ---
 
-`eslint-plugin-local-rules` というプラグインを使うと、リポジトリ内で完結するルールを書くことができます。
+チームで開発をする中で、特定の書き方を強制するために ESLint を使うことがあります。
+どうしてもデフォルトのルールでは表現できない場合にはカスタムルールを作ることで対応できます。
+今回は `eslint-plugin-local-rules` というプラグインを使って、リポジトリ内で完結するルールを書く方法を紹介します。
 
 https://www.npmjs.com/package/eslint-plugin-local-rules
 
-## メリット
+## この記事の概要
 
-- プロジェクトメンバーがルールを共有しやすい
-- 自動修正できるようにすることで、対応が楽
-- 機械的にチェックできる
-- message を指定することで、なぜこのルールがあるのかを説明できる
-  - 特に新しいメンバーにもわかりやすい
+- **ESLint のカスタムルール**を作る
+- 外部に公開 (npm publish) する必要はなく、**リポジトリ内だけで完結**させる
+- ルールを **TypeScript** で書く
+- **自動修正機能**をつける
+- **JSX** を検出する
 
-## 前提条件
+## ESLintルールを作ることのメリット
 
-- ESLint のカスタムルールを作りたい
-- 外部に公開する必要はなく、プロジェクト内だけで完結したルールを作りたい
-- ルールを TypeScript で書きたい
-- 自動修正機能をつけたい
-- JSX を検出したい（※応用すれば JSX 以外も全然 OK）
+具体的な方法を説明する前に、なぜ開発ルールを ESLint ルールにすることが重要なのか確認しておきます。
+コードを書く人が気をつければいいんじゃない？と思うこともあるのですが、ルールを作ることで多くのメリットがあります。
 
-## バージョン
+- 開発ルールに沿っているか、**機械的にチェックできる。**
+  - 人間（実装者）が意識する必要がなくなり、より本質的なことに集中できる
+  - 実装者の手間が減るだけでなく、レビューの手間も減る
+- **ルール（`.eslintrc`）自体が開発ドキュメントになる。**
+  - message に理由を書いておくことで、 **なぜこのルールがあるのかも説明できる**
+  - プロジェクトメンバーがお互いにルールを共有しやすく、特に新しいメンバーにもわかりやすい
+  - しかも、常に実行されるドキュメントなので、だれも見ていないという状況になりにくく、古くなりにくい
+- 自動修正できると、**修正も楽**になる
+
+## 動作確認したバージョン
 
 - typescript: 5.3.3
 - eslint: 8.54.0
 - eslint-plugin-local-rules: 2.0.1
 - @typescript-eslint/utils: 6.20.0
 
-## 今日のゴール
+## 検出したいコード
 
-※今回自分が作成したルールを例にしますが、適宜みなさんの検出したいコードに置き換えてください。
+:::message
 
-弊社では Chakra UI を使っています。
-`_hover` props （CSS の `:hover` ）に `@media (hover: hover)` を適用したいときに、個別に記述するしかありません。
+必ずしも読者のあなたが求めているルールではないと思いますが、基本的な考え方は共通なので、適宜あなたの検出したいコードに置き換えていただければと思います。
 
-※どうして `@media (hover: hover)` が必要なのかは、[以前の記事](https://zenn.dev/kagan/articles/css-hover-style) を参照してください。
+:::
 
-（全体共通の設定をすることができたらいいんですが）
-これを検出・自動修正するルールを作ります。
+
+以下のコード（JSX）を検出・自動修正するルールを作ります。
 
 ```tsx:これを
+// ❌ NG
 <Button _hover={{ bg: "blue.500" }}>ボタン</Button>
 ```
 
-↓
-
 ```tsx:こうする
+// ✅ OK
 <Button _hover={{ "@media (hover: hover)": { bg: "blue.500" } }}>ボタン</Button>
 ```
+
+### どうして検出したいのか
+
+以前 [まだホバー時のスタイルを :hover だけで指定してるの？](https://zenn.dev/kagan/articles/css-hover-style) という記事にも書いた通り、 `:hover` を使用する際には `@media (hover: hover)` のメディアクエリを使うことでタッチデバイスで意図しないスタイルが当たることを避けたいです。
+
+弊社のフロント実装では UI ライブラリに [Chakra UI](https://chakra-ui.com/) を使っています。
+Chakra においては、CSS の `:hover` にあたる `_hover` props に `@media (hover: hover)` を入れることで表現でき、この書き方を強制したいです。
+（Chakra の共通設定 (`chakra-config.ts`) でまとめて設定できないかと調べたのですが、無理でした）
+
 
 ## カスタムルールの手順
 
 ### 1. フォルダ・index ファイルを作る
+
+`eslint-plugin-local-rule` をインストールします。
+
+```sh
+npm install --save-dev eslint-plugin-local-rules
+```
 
 [ドキュメント](https://www.npmjs.com/package/eslint-plugin-local-rules) に従って、`eslint-local-rules` フォルダを作ります。
 ここにカスタムルールのファイルを入れていきます。
@@ -83,28 +105,29 @@ module.exports = require("./rules").default;
 ### 2. ルールを書く
 
 ドキュメントには `@types/eslint` を使うように書いてあるのです **が、今回これは使いません。**
+なぜかというと型が全然足りていないからです。今回のケースで言うと、 `JSXAttribute` の型が入っておらず、全然型が推論されませんでした。
 
-今回のケースで言うと、 `JSXAttribute` の型が入っておらず、全然型が推論されません。
-
-代わりに、 `@typescript-eslint/utils` を使います。
-`@typescript-eslint/eslint-plugin` を使っているプロジェクトであれば依存パッケージとしてすでにインストールされているはずですが、明示的にインストールしたい場合はインストールします。
+代わりに、 **`@typescript-eslint/utils`** を使います。
+`@typescript-eslint/eslint-plugin` を使っているプロジェクトであれば依存パッケージとしてすでにインストールされているはずなので特にインストールは不要のはずです。明示的にインストールしたい場合はインストールします。
 
 ```sh
 npm install --save-dev @typescript-eslint/utils
 ```
 
-今回は外部に公開するわけではないので、 `ESLintUtils.RuleCreator.withoutDocs` を使います。
+`@typescript-eslint` のカスタムルールの書き方は [typescript-eslintのドキュメント](https://typescript-eslint.io/developers/custom-rules/) に書かれています。
+今回は外部に公開するわけではないので、 [`ESLintUtils.RuleCreator.withoutDocs`](https://typescript-eslint.io/developers/custom-rules/#undocumented-rules) を使います。
 これを使えばいい感じに型を推論してくれます。
 
-まずは、「JSX の props 全てにエラーを出すルール」を作ってみて、ルールが有効になっているか確認してみましょう。
+まずは、 **「JSX の props 全てにエラーを出すルール」** を作ってみて、ルールが有効になっているか確認してみましょう。
+もし JSX を使っていない場合は、 `JSXAttribute` の代わりに `Identifier` にでもしてみてください（この場合、変数やプロパティなにもかもがエラーになるはずです）。
 
 ```ts:eslint-local-rules/rules.ts
-import { ESLintUtils } from '@typescript-eslint/utils';
+import { ESLintUtils } from "@typescript-eslint/utils";
 
 const rules = {
-  'hover-prop-has-media-query': ESLintUtils.RuleCreator.withoutDocs({
+  "hover-prop-has-media-query": ESLintUtils.RuleCreator.withoutDocs({
     meta: {
-      type: 'problem',
+      type: "problem",
       messages: {
         // 検出されたときに表示したいメッセージ
         hoverPropHasMediaQuery: "JSXのpropsすべてがエラーになる検証用ルールです。",
@@ -118,7 +141,7 @@ const rules = {
         context.report({
           node: node,
           // messagesのキーを指定
-          messageId: 'hoverPropHasMediaQuery',
+          messageId: "hoverPropHasMediaQuery",
         });
       },
     }),
@@ -128,14 +151,16 @@ const rules = {
 export default rules;
 ```
 
-:::details '@typescript-eslint/utils' の import でエラーが出る場合の対応
+ここで `"@typescript-eslint/utils"` の import がうまくいきませんでした。その場合は以下を参照してください。
+
+:::details "@typescript-eslint/utils" の import でエラーが出る場合の対応
 
 v6 以降では `@typescript-eslint/*` の import でエラーになるケースがあるようで、実際自分もエラーになりました。
 
 https://github.com/typescript-eslint/typescript-eslint/issues/7284
 
-上記の issue で書かれている通り、tsconfig.json の設定を変えることで解決しました。
-今回は念のためプロジェクト全体の tsconfig.json は変えずに、ルールを書くディレクトリのみに設定を追加しました。
+上記の issue で書かれている通り、`tsconfig.json` の設定を変えることで解決しました。
+今回は念のためプロジェクト全体の `tsconfig.json` は変えずに、ルールを書くディレクトリのみに設定を追加しました。
 
 ```json:eslint-local-rules/tsconfig.json
 {
@@ -152,13 +177,13 @@ https://github.com/typescript-eslint/typescript-eslint/issues/7284
 ```js:eslint-local-rules/.eslintrc.js
 module.exports = {
   root: true,
-  extends: '../.eslintrc.json',
+  extends: "../.eslintrc.json",
   overrides: [
     {
-      files: ['*.ts'],
+      files: ["*.ts"],
       parserOptions: {
         tsconfigRootDir: __dirname,
-        project: './tsconfig.json',
+        project: "./tsconfig.json",
       },
     },
   ],
@@ -181,7 +206,8 @@ module.exports = {
 ```
 
 この段階でルールが有効になっているか確認してみましょう。
-VSCode の場合は、設定ファイルを再読み込みさせるために、コマンドパレットから `ESLint: Restart ESLint server` を実行するか、VSCode を再起動すると確実です。
+コマンドで eslint を実行します。
+VSCode のエディタ上で確認する場合は、設定ファイルを再読み込みさせるために、コマンドパレットから `ESLint: Restart ESLint server` を実行します（それでも適用されない場合、VSCode を再起動すると確実）。
 
 成功していれば、JSX のプロパティ全てがエラーになっているはずです。
 
@@ -199,33 +225,350 @@ VSCode の場合は、設定ファイルを再読み込みさせるために、�
 <Button _hover={{ "@media (hover: hover)": { bg: "blue.500" } }}>ボタン</Button>
 ```
 
-#### ESTree
+これをどうやってコードで表現すればいいんでしょうか？
+
+#### ESTree を確認する
 
 ESLint では、 **ESTree** という[AST（抽象構文木）](https://ja.wikipedia.org/wiki/%E6%8A%BD%E8%B1%A1%E6%A7%8B%E6%96%87%E6%9C%A8) でコードを解釈しています。
 
-詳しくは sosukesuzuki さんの記事がわかりやすいです。
+ESTree について詳しくは sosukesuzuki さんの記事がわかりやすいです。
 
 https://sosukesuzuki.dev/advent/2022/06/
 
 #### 対象のコードの AST(ESTree)を特定する
 
-ESTree を見るには、typescript-eslint の Playground がおすすめです。
+ESTree を見るには、[typescript-eslint の Playground](https://typescript-eslint.io/play/) がおすすめです。
 
 https://typescript-eslint.io/play/
 
 `code` タブに、検出したいコードを入力し、右側の `ESTree` のタブを開いてみましょう。
-このコードがどのような ESTree で解釈されれているかを確認できます。
+このコードがどのような ESTree で解釈されているかを確認できます。
 
 ![typescript-eslint Playgroundのスクリーンショット。左側に、<Button _hover={{ bg: "blue.500" }}>ボタン</Button>というコード、右側にこのコードのESTreeが表示されている。](/images/eslint-local-rules-typescript/2024-02-04-01-52-04.png)
 
-これを見ると、
-`JSXAttribute` のうち、 `name` が `_hover` で、 `value` が `JSXExpressionContainer` で、その中が `ObjectExpression` で、その中の `properties` を見ていって、 `key` の `name` が `@media (hover: hover)` でないものを検出すればよさそうです（超ざっくり）。
+:::details コードとESTreeの全文（300行くらいあります）
+
+```tsx:コード
+<Button
+  _hover={{
+    bg: "blue.500"
+  }}>ボタン</Button>
+```
+
+```json:ESTree
+{
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "JSXElement",
+        "openingElement": {
+          "type": "JSXOpeningElement",
+          "selfClosing": false,
+          "name": {
+            "type": "JSXIdentifier",
+            "name": "Button",
+            "range": [1, 7],
+            "loc": {
+              "start": { "line": 1, "column": 1 },
+              "end": { "line": 1, "column": 7 }
+            }
+          },
+          "attributes": [
+            {
+              "type": "JSXAttribute",
+              "name": {
+                "type": "JSXIdentifier",
+                "name": "_hover",
+                "range": [11, 17],
+                "loc": {
+                  "start": { "line": 2, "column": 2 },
+                  "end": { "line": 2, "column": 8 }
+                }
+              },
+              "value": {
+                "type": "JSXExpressionContainer",
+                "expression": {
+                  "type": "ObjectExpression",
+                  "properties": [
+                    {
+                      "type": "Property",
+                      "key": {
+                        "type": "Identifier",
+                        "decorators": [],
+                        "name": "bg",
+                        "optional": false,
+                        "range": [26, 28],
+                        "loc": {
+                          "start": { "line": 3, "column": 4 },
+                          "end": { "line": 3, "column": 6 }
+                        }
+                      },
+                      "value": {
+                        "type": "Literal",
+                        "value": "blue.500",
+                        "raw": "\"blue.500\"",
+                        "range": [30, 40],
+                        "loc": {
+                          "start": { "line": 3, "column": 8 },
+                          "end": { "line": 3, "column": 18 }
+                        }
+                      },
+                      "computed": false,
+                      "method": false,
+                      "optional": false,
+                      "shorthand": false,
+                      "kind": "init",
+                      "range": [26, 40],
+                      "loc": {
+                        "start": { "line": 3, "column": 4 },
+                        "end": { "line": 3, "column": 18 }
+                      }
+                    }
+                  ],
+                  "range": [19, 45],
+                  "loc": {
+                    "start": { "line": 2, "column": 10 },
+                    "end": { "line": 4, "column": 3 }
+                  }
+                },
+                "range": [18, 46],
+                "loc": {
+                  "start": { "line": 2, "column": 9 },
+                  "end": { "line": 4, "column": 4 }
+                }
+              },
+              "range": [11, 46],
+              "loc": {
+                "start": { "line": 2, "column": 2 },
+                "end": { "line": 4, "column": 4 }
+              }
+            }
+          ],
+          "range": [0, 47],
+          "loc": {
+            "start": { "line": 1, "column": 0 },
+            "end": { "line": 4, "column": 5 }
+          }
+        },
+        "closingElement": {
+          "type": "JSXClosingElement",
+          "name": {
+            "type": "JSXIdentifier",
+            "name": "Button",
+            "range": [52, 58],
+            "loc": {
+              "start": { "line": 4, "column": 10 },
+              "end": { "line": 4, "column": 16 }
+            }
+          },
+          "range": [50, 59],
+          "loc": {
+            "start": { "line": 4, "column": 8 },
+            "end": { "line": 4, "column": 17 }
+          }
+        },
+        "children": [
+          {
+            "type": "JSXText",
+            "value": "ボタン",
+            "raw": "ボタン",
+            "range": [47, 50],
+            "loc": {
+              "start": { "line": 4, "column": 5 },
+              "end": { "line": 4, "column": 8 }
+            }
+          }
+        ],
+        "range": [0, 59],
+        "loc": {
+          "start": { "line": 1, "column": 0 },
+          "end": { "line": 4, "column": 17 }
+        }
+      },
+      "range": [0, 59],
+      "loc": {
+        "start": { "line": 1, "column": 0 },
+        "end": { "line": 4, "column": 17 }
+      }
+    }
+  ],
+  "comments": [],
+  "range": [0, 63],
+  "sourceType": "script",
+  "tokens": [
+    {
+      "type": "Punctuator",
+      "value": "<",
+      "range": [0, 1],
+      "loc": {
+        "start": { "line": 1, "column": 0 },
+        "end": { "line": 1, "column": 1 }
+      }
+    },
+    {
+      "type": "JSXIdentifier",
+      "value": "Button",
+      "range": [1, 7],
+      "loc": {
+        "start": { "line": 1, "column": 1 },
+        "end": { "line": 1, "column": 7 }
+      }
+    },
+    {
+      "type": "JSXIdentifier",
+      "value": "_hover",
+      "range": [11, 17],
+      "loc": {
+        "start": { "line": 2, "column": 2 },
+        "end": { "line": 2, "column": 8 }
+      }
+    },
+    {
+      "type": "Punctuator",
+      "value": "=",
+      "range": [17, 18],
+      "loc": {
+        "start": { "line": 2, "column": 8 },
+        "end": { "line": 2, "column": 9 }
+      }
+    },
+    {
+      "type": "Punctuator",
+      "value": "{",
+      "range": [18, 19],
+      "loc": {
+        "start": { "line": 2, "column": 9 },
+        "end": { "line": 2, "column": 10 }
+      }
+    },
+    {
+      "type": "Punctuator",
+      "value": "{",
+      "range": [19, 20],
+      "loc": {
+        "start": { "line": 2, "column": 10 },
+        "end": { "line": 2, "column": 11 }
+      }
+    },
+    {
+      "type": "Identifier",
+      "value": "bg",
+      "range": [26, 28],
+      "loc": {
+        "start": { "line": 3, "column": 4 },
+        "end": { "line": 3, "column": 6 }
+      }
+    },
+    {
+      "type": "Punctuator",
+      "value": ":",
+      "range": [28, 29],
+      "loc": {
+        "start": { "line": 3, "column": 6 },
+        "end": { "line": 3, "column": 7 }
+      }
+    },
+    {
+      "type": "String",
+      "value": "\"blue.500\"",
+      "range": [30, 40],
+      "loc": {
+        "start": { "line": 3, "column": 8 },
+        "end": { "line": 3, "column": 18 }
+      }
+    },
+    {
+      "type": "Punctuator",
+      "value": "}",
+      "range": [44, 45],
+      "loc": {
+        "start": { "line": 4, "column": 2 },
+        "end": { "line": 4, "column": 3 }
+      }
+    },
+    {
+      "type": "Punctuator",
+      "value": "}",
+      "range": [45, 46],
+      "loc": {
+        "start": { "line": 4, "column": 3 },
+        "end": { "line": 4, "column": 4 }
+      }
+    },
+    {
+      "type": "Punctuator",
+      "value": ">",
+      "range": [46, 47],
+      "loc": {
+        "start": { "line": 4, "column": 4 },
+        "end": { "line": 4, "column": 5 }
+      }
+    },
+    {
+      "type": "JSXText",
+      "value": "ボタン",
+      "range": [47, 50],
+      "loc": {
+        "start": { "line": 4, "column": 5 },
+        "end": { "line": 4, "column": 8 }
+      }
+    },
+    {
+      "type": "Punctuator",
+      "value": "<",
+      "range": [50, 51],
+      "loc": {
+        "start": { "line": 4, "column": 8 },
+        "end": { "line": 4, "column": 9 }
+      }
+    },
+    {
+      "type": "Punctuator",
+      "value": "/",
+      "range": [51, 52],
+      "loc": {
+        "start": { "line": 4, "column": 9 },
+        "end": { "line": 4, "column": 10 }
+      }
+    },
+    {
+      "type": "JSXIdentifier",
+      "value": "Button",
+      "range": [52, 58],
+      "loc": {
+        "start": { "line": 4, "column": 10 },
+        "end": { "line": 4, "column": 16 }
+      }
+    },
+    {
+      "type": "Punctuator",
+      "value": ">",
+      "range": [58, 59],
+      "loc": {
+        "start": { "line": 4, "column": 16 },
+        "end": { "line": 4, "column": 17 }
+      }
+    }
+  ],
+  "loc": {
+    "start": { "line": 1, "column": 0 },
+    "end": { "line": 6, "column": 0 }
+  },
+  "parent": null
+}
+```
+
+:::
+
+これを見ると、 `JSXAttribute` のうち、 `name` が `_hover` で、 `value` が `JSXExpressionContainer` で、その中が `ObjectExpression` で、その中の `properties` を見ていって、 `key` の `name` が `@media (hover: hover)` でないものを検出すればよさそうです（超ざっくり）。
 
 これをもとに、条件を書いていきます。
-nodeの `type` を調べるといい感じに型が絞られていきます。
+node の `type` を調べるといい感じに型が絞られていきます。
 
 ```diff ts:eslint-local-rules/rules.ts
-- import { ESLintUtils } from '@typescript-eslint/utils';
+- import { ESLintUtils } from "@typescript-eslint/utils";
 + import { ESLintUtils, AST_NODE_TYPES } from "@typescript-eslint/utils";
 
   const rules = {
@@ -272,11 +615,12 @@ nodeの `type` を調べるといい感じに型が絞られていきます。
 ```
 
 これで再度リントを実行して、確認してみましょう。
+カスタムルールを書く際は、こんなふうに ESTree とにらめっこしながら条件を書いていきます。
 
 ### 5. 自動修正機能を実装する
 
-`fix` メソッドを使います。
-`meta` にも `fixable` を追加します。
+`context.report` に `fix` メソッドを追加することで、自動修正を機能を加えることができます。
+`meta` にも `fixable` プロパティを追加し、自動修正可能なことを知らせます。
 
 ```diff ts:eslint-local-rules/rules.ts
   import { ESLintUtils, AST_NODE_TYPES } from "@typescript-eslint/utils";
@@ -288,7 +632,7 @@ nodeの `type` を調べるといい感じに型が絞られていきます。
         type: "problem",
         messages: {
           hoverPropHasMediaQuery:
-            "_hoverプロパティは '@media (hover: hover)' で内包してください。タッチデバイスでホバースタイルを適用しないためです。",
+            "_hoverプロパティは "@media (hover: hover)" で内包してください。タッチデバイスでホバースタイルを適用しないためです。",
         },
         schema: [],
       },
@@ -325,7 +669,8 @@ nodeの `type` を調べるといい感じに型が絞られていきます。
 
 ## 完成！
 
-最終的なコードでは、三項演算子など、多少複雑なパターンにも対応させたのでそれも掲載しておきます。
+最終的なコードでは、三項演算子など、多少複雑なパターンにも対応させたので、上記で書いたものよりも長くなりました。
+それも含めて全体像を掲載しておきます。
 
 
 :::details 完成したコード
@@ -362,22 +707,22 @@ module.exports = require("./rules").default;
 ```
 
 ```ts:eslint-local-rules/rules.ts
-import type { TSESTree } from '@typescript-eslint/utils';
-import { ESLintUtils, AST_NODE_TYPES } from '@typescript-eslint/utils';
+import type { TSESTree } from "@typescript-eslint/utils";
+import { ESLintUtils, AST_NODE_TYPES } from "@typescript-eslint/utils";
 
 const hasNoMediaQuery = (expression: TSESTree.ObjectExpression) =>
   expression.properties.some(
     (property) =>
       property.type === AST_NODE_TYPES.Property &&
       (property.key.type !== AST_NODE_TYPES.Literal ||
-        property.key.value !== '@media (hover: hover)'),
+        property.key.value !== "@media (hover: hover)"),
   );
 
 const rules = {
-  'hover-prop-has-media-query': ESLintUtils.RuleCreator.withoutDocs({
+  "hover-prop-has-media-query": ESLintUtils.RuleCreator.withoutDocs({
     meta: {
-      fixable: 'code',
-      type: 'problem',
+      fixable: "code",
+      type: "problem",
       messages: {
         hoverPropHasMediaQuery:
           "_hoverプロパティは '@media (hover: hover)' で内包してください。タッチデバイスでホバースタイルを適用しないためです。",
@@ -390,7 +735,7 @@ const rules = {
         const report = (targetNode: TSESTree.Node) => {
           context.report({
             node: targetNode,
-            messageId: 'hoverPropHasMediaQuery',
+            messageId: "hoverPropHasMediaQuery",
             fix: (fixer) => {
               const sourceCode = context.getSourceCode();
               const expressionText = sourceCode.getText(targetNode);
@@ -400,7 +745,7 @@ const rules = {
           });
         };
         if (
-          node.name.name === '_hover' &&
+          node.name.name === "_hover" &&
           node.value?.type === AST_NODE_TYPES.JSXExpressionContainer
         ) {
           const expression = node.value.expression;
@@ -455,13 +800,13 @@ export default rules;
 ```js:eslint-local-rules/.eslintrc.js
 module.exports = {
   root: true,
-  extends: '../.eslintrc.json',
+  extends: "../.eslintrc.json",
   overrides: [
     {
-      files: ['*.ts'],
+      files: ["*.ts"],
       parserOptions: {
         tsconfigRootDir: __dirname,
-        project: './tsconfig.json',
+        project: "./tsconfig.json",
       },
     },
   ],
@@ -471,4 +816,8 @@ module.exports = {
 :::
 
 
+## 参考記事
+
 https://zenn.dev/paiza/articles/create-typescript-eslint-custom-rule
+
+https://tech.readyfor.jp/entry/2021/05/25/122617
