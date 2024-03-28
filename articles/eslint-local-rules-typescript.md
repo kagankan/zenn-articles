@@ -4,7 +4,6 @@ emoji: "🔧"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["javascript", "typescript", "eslint", "react"]
 published: false
-publication_name: "kikagaku"
 ---
 
 `eslint-plugin-local-rules` というプラグインを使うと、リポジトリ内で完結するルールを書くことができます。
