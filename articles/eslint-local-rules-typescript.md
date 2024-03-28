@@ -1,9 +1,10 @@
 ---
-title: "自動修正も可能なカスタムESLintルールをTypeScriptで書く（eslint-plugin-local-rules）"
+title: "【自動修正も可能】カスタムESLintルールをTypeScriptで書く（eslint-plugin-local-rules）"
 emoji: "🔧"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["javascript", "typescript", "eslint", "react"]
 published: false
+publication_name: "kikagaku"
 ---
 
 `eslint-plugin-local-rules` というプラグインを使うと、リポジトリ内で完結するルールを書くことができます。
