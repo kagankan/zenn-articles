@@ -103,7 +103,7 @@ require("ts-node").register({
 module.exports = require("./rules").default;
 ```
 
-### 2. ルールを書く
+### 2. ルールを作る
 
 ドキュメントには `@types/eslint` を使うように書いてあるのです **が、今回これは使いません。**
 なぜかというと型が全然足りていないからです。今回のケースで言うと、 `JSXAttribute` の型が入っておらず、全然型が推論されませんでした。
