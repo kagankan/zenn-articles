@@ -4,10 +4,11 @@ emoji: "🔧"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["javascript", "typescript", "eslint", "react"]
 published: false
+publication_name: "kikagaku"
 ---
 
 チームで開発をする中で、特定の書き方を強制するために ESLint を使うことがあります。
-どうしてもデフォルトのルールでは表現できない場合にはカスタムルールを作ることで対応できます。
+どうしてもデフォルトのルールでは表現できない場合もありますが、そんなときはカスタムルールを作ることで対応できます。
 今回は `eslint-plugin-local-rules` というプラグインを使って、リポジトリ内で完結するルールを書く方法を紹介します。
 
 https://www.npmjs.com/package/eslint-plugin-local-rules
