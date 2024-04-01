@@ -3,7 +3,7 @@ title: "【自動修正も可能】カスタムESLintルールをTypeScriptで�
 emoji: "🔧"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["javascript", "typescript", "eslint", "react"]
-published: false
+published: true
 publication_name: "kikagaku"
 ---
 
