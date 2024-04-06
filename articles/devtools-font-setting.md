@@ -1,5 +1,5 @@
 ---
-title: "【Chrome 123】DevToolsのフォントが変わってしまった/変更したいときの対処法"
+title: "【Chrome 123】DevToolsのフォントが変わってしまった・変更したいときの対処法"
 emoji: "🗛"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["chrome", "devtools"]
