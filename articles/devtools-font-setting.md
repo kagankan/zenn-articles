@@ -8,7 +8,7 @@ published: true
 
 Chrome 123 にアップデートしたら、DevTools のフォントが MS ゴシックになってしまいました 😭（Windows の民）
 
-![Chrome DevToolsのスクリーンショット。HTMLがMSゴシックのフォントで描画されている](/images/devtools-change-font/2024-04-06-20-11-07.png)
+![Chrome DevToolsのスクリーンショット。HTMLがMSゴシックのフォントで描画されている](/images/devtools-font-setting/2024-04-06-20-11-07.png)
 
 というのも、Chrome 123 の更新で Chrome の設定を反映するように変更されたためのようです。
 https://developer.chrome.com/blog/new-in-devtools-123?hl=ja#misc
@@ -24,11 +24,11 @@ https://developer.chrome.com/blog/new-in-devtools-123?hl=ja#misc
 2. 「固定幅フォント」に使いたいフォントを変更
 元のフォントがいい人は `Consolas` を選択すれば OK。
 
-![Chromeの設定のスクリーンショット。「固定幅フォント」の項目で「Consolas」が選択されている。](/images/devtools-change-font/2024-04-06-20-17-18.png)
+![Chromeの設定のスクリーンショット。「固定幅フォント」の項目で「Consolas」が選択されている。](/images/devtools-font-setting/2024-04-06-20-17-18.png)
 
 これで DevTools に反映されます 🎉
 
-![Chrome DevToolsのスクリーンショット。HTMLがConsolasのフォントで描画されている](/images/devtools-change-font/2024-04-06-20-37-21.png)
+![Chrome DevToolsのスクリーンショット。HTMLがConsolasのフォントで描画されている](/images/devtools-font-setting/2024-04-06-20-37-21.png)
 
 DevTools 以外でも、等幅フォントが使われる場面ではこの設定が反映されるはずです。
 
