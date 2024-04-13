@@ -1,5 +1,5 @@
 ---
-title: "strong, b, em, i, u, …、違いがわからんHTML要素の仕様を調べて「新しい見た目」を考えてみたら理解が深まった（全16要素）"
+title: "strong, b, em, i, u, …、違いがわからんHTML要素の仕様を調べて「新しい見た目」を考えてみたら理解が深まった"
 emoji: "✏️"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["html", "アクセシビリティ", "waiaria"]
