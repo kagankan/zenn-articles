@@ -23,6 +23,14 @@ if ブロック `if () {}` や、for ブロック `for () {}` として目にす
 
 なんの意味もないように見える「ただの `{}`（ブロック文）」ですが、意外と便利なことがあるのでこの記事ではそれを紹介します！
 
+:::message
+
+紹介はするのですが、積極的な使用を推奨するわけではありません。
+あまり一般的な用途ではないため用法用量にはご注意ください。
+特に複数人で編集する環境では、他のメンバーと相談の上で、使い所を決めることをおすすめします。
+
+:::
+
 ## 1. スコープを制限できる
 
 たとえば、処理の前にバリデーションを行い、問題がなければそれ以降の処理に進む関数があるとします。
@@ -82,6 +90,13 @@ const serveAlcohol = (customer, drinkName) => {
 （これに関しては可読性の問題もあるので、わかりやすさのためにあえて違う名前にするという選択肢も全然あります）
 
 [即時実行関数式 (IIFE) ](https://developer.mozilla.org/ja/docs/Glossary/IIFE#%E3%82%B0%E3%83%AD%E3%83%BC%E3%83%90%E3%83%AB%E5%90%8D%E5%89%8D%E7%A9%BA%E9%96%93%E3%81%AE%E6%B1%9A%E6%9F%93%E3%82%92%E9%81%BF%E3%81%91%E3%82%8B)でも同じことができますが、ブロック文のほうがシンプルです。
+
+:::message
+
+この方法を使う前に、**処理を関数に切り出す**ことも検討するといいでしょう。
+適切に関数の分割をした上で、それでも分割するほどでもない場合に使うといいかもしれません。
+
+:::
 
 ## 2. コロケーションを意識したコードが書ける
 
@@ -183,13 +198,41 @@ sticky scroll ではブロックの開始行が追従するため、 **開始波
 }
 ```
 
+## （追記）`#region` コメント
+
+この記事を引用したコメントの中で `#region` の存在を知りました…！
+
+```js
+// #region ログインする
+await page.goto("/login");
+await page.getByRole("textbox", { name: "メールアドレス" }).fill(email);
+await page.getByRole("textbox", { name: "パスワード" }).fill(password);
+await page.getByRole("button", { name: "ログイン" }).click();
+// #endregion
+
+// #region 記事を編集する
+await page.goto("/edit");
+await page.getByRole("textbox", { name: "タイトル" }).fill(title);
+await page.getByRole("textbox", { name: "本文" }).fill(body);
+await page.getByRole("button", { name: "保存" }).click();
+// #endregion
+```
+
+VSCode では `#region` `#endregion` というコメントによって、その範囲の折りたたみもでき、開始行は sticky scroll で追従します。
+単に範囲に対してコメントをつけたいだけであればこちらが適切そうです。
+
+![VSCodeのスクリーンショット。#regionコメントによってsticky scrollと範囲の折りたたみができている。](/images/js-plain-block-statement/2024-04-17-01-38-35.png)
+
+
+https://kakkoyakakko2.hatenablog.com/entry/2018/06/01/003000
+
+
 ## おわりに
 
 「ただの `{}`（ブロック文）」のメリットを紹介しました。よければ使ってみてください。
 
-ただし、むやみやたらに使いすぎると逆に読みにくくなることもあるので、
-「長くて読みにくいなー」と感じたときに使うぐらいがちょうどいいかもしれません。
-
+ただし、冒頭にも書いた通り、あまり一般的な記法ではないため、使い所・程度にはご注意ください。
+不必要にインデントを増やしてしまうことにもなるので、使いすぎにはご注意ください。
 
 ## 参考
 
