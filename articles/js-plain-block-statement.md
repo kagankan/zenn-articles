@@ -98,6 +98,27 @@ const serveAlcohol = (customer, drinkName) => {
 
 :::
 
+### `switch` `case` で使用する
+
+`switch` 文の各 `case` でスコープを制限するために使うのも有用です。
+`eslint-plugin-unicorn` には `switch-case-braces` というルールがあり、 各 `case` の中身をブロックで囲んでいないことを検出・自動修正できます。
+
+```js eslint-plugin-unicorn/switch-case-braces で検出されるコード例
+switch (foo) {
+  case 1: // ❌️ Error
+    const bar = 1;
+    doSomething();
+    break;
+  case 2: { // ✅️ OK
+    const bar = 1;
+    doSomething();
+    break;
+  }
+}
+```
+
+https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/switch-case-braces.md
+
 ## 2. コロケーションを意識したコードが書ける
 
 機能の面では変わらないものの、意識の面で変わることです。
