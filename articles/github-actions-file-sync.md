@@ -29,14 +29,13 @@ https://github.com/BetaHuhn/repo-file-sync-action
 
 https://github.com/adrianjost/files-sync-action
 
-中でも、スタディストさんが作成された https://github.com/marketplace/actions/repo-file-sync をベースにしています。
+既存のActionではファイルを完全に上書きしてしまう前提で作成されているため、差分のみを取り込むことができそうにありませんでした。
+そのため、独自にワークフローを作成します。
 
-全く同じ内容で上書きするのではなく、差分のみ反映したいということから、独自にワークフローを作成しました。
+（スタディストさんの https://github.com/marketplace/actions/repo-file-sync をベースに改良した形です）
 
-[スタディストさんの記事でも書かれている](https://studist.tech/repo-file-sync-4fea6750294b) ように、依存はコピー先リポジトリに持たせたい
 
-- だって、JS のファイルでも import は持ってくる側に書きますし
-- 即時性が必要ない
+[スタディストさんの記事でも書かれている](https://studist.tech/repo-file-sync-4fea6750294b) ように、依存はコピー先リポジトリに持たせたいこと、即時性が必要ないことからトリガーはコピー先ディレクトリに持たせます。
 
 ## 準備
 
@@ -304,7 +303,7 @@ jobs:
 
 詳しい解説コメントつきのバージョンを書いておきます
 
-:::details
+:::details 解説
 
 ```yaml
 # .github/workflows/file-sync.yaml
