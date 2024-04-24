@@ -4,6 +4,7 @@ emoji: "🔄"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["github", "githubactions"]
 published: false
+publication_name: "kikagaku"
 ---
 
 ## 想定状況
