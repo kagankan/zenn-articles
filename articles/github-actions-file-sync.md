@@ -99,11 +99,9 @@ repos:
     repo: sync-test-b
     paths:
       - README.md
-      # コメントテスト
       - .eslintrc
       - test/*.md
       - .github/workflows/test.yaml
-      - .github/workflows/test.yml
   
   - owner: kagankan
     repo: sync-test-c
