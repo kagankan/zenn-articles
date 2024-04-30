@@ -8,7 +8,7 @@ published: true
 
 ## はじめに結論
 
-CSS の `aspect-ratio` プロパティを使っている場合、
+CSS の `aspect-ratio` プロパティを使っている場合、Chrome 124 で崩れる場合があります。
 `aspect-ratio` を設定している要素に `min-width: 0;` を設定しておくと安全かも。
 
 @[codepen](https://codepen.io/kagankan/pen/ExJzWRp)
