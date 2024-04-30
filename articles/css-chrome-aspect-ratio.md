@@ -3,7 +3,7 @@ title: "【CSS・Chrome 124】aspect-ratioを使っているページが何も�
 emoji: "🫠"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["css", "chrome"]
-published: false
+published: true
 ---
 
 ## はじめに結論
@@ -39,10 +39,10 @@ Chrome 124.0.6367.92 で確認したところ、コンテンツがページ外�
 
 以下のように `min-width: 0;` を設定することで修正できました。
 
-```css
+```diff css
 .element {
-  aspect-ratio: 16 / 9;
-  min-width: 0;
+   aspect-ratio: 16 / 9;
++  min-width: 0;
 }
 ```
 
