@@ -1,5 +1,5 @@
 ---
-title: "CSSでトランプみたいにカードをカッコよく並べた～い！"
+title: "CSSでトランプみたいにカードをカッコよく重ねて並べた～い！"
 emoji: "🃏" #🎴
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["css"]
