@@ -1,0 +1,307 @@
+<style>
+  /* リセット */
+  * {
+    margin: 0;
+    font-size: 1rem;
+  }
+  :root {
+    font-family: monospace;
+  }
+
+  ul,
+  ol {
+    list-style: none;
+    padding: 0;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+  }
+
+  /*  */
+  h1::before {
+    content: "# ";
+  }
+  h2::before {
+    content: "## ";
+  }
+  h3::before {
+    content: "### ";
+  }
+  h4::before {
+    content: "#### ";
+  }
+  h5::before {
+    content: "##### ";
+  }
+  h6::before {
+    content: "###### ";
+  }
+
+  li:where(ul > *)::before {
+    content: "- ";
+  }
+  li:where(ol > *) {
+    counter-increment: ol-counter;
+  }
+  li:where(ol > *)::before {
+    content: counter(ol-counter) ". ";
+  }
+  ul ul li::before {
+    content: "  - ";
+    white-space: pre;
+  }
+
+  /* リンク */
+  a::before {
+    content: "[";
+  }
+  a::after {
+    content: "](" attr(href) ")";
+  }
+
+  /* 画像（Chrome, Edgeのみ動作） */
+  img {
+    content: url("not-found");
+  }
+  img::before {
+    content: "![";
+  }
+  img::after {
+    content: "](" attr(src) ")";
+  }
+
+  th::before,
+  td::before {
+    content: "| ";
+  }
+  tr::after {
+    content: " |";
+  }
+  thead th::after {
+    /* 正しい順序にはできない */
+    content: "| -----";
+    display: block;
+    text-align: start;
+  }
+  thead th:last-child::after {
+    content: "| ----- |";
+  }
+
+  br {
+    content: "";
+  }
+  br::before {
+    content: "  \A";
+    white-space: pre;
+  }
+
+  blockquote {
+    margin-block-start: 1em;
+    /* content: "> "; */
+  }
+  blockquote br::after {
+    content: ">";
+  }
+  blockquote p::before {
+    content: "> ";
+  }
+  blockquote p + p::before {
+    content: "> \a> ";
+    white-space: pre;
+  }
+  /* ネストに対応 */
+  blockquote blockquote {
+    margin-block-start: 0;
+  }
+  blockquote blockquote p::before {
+    content: "> \a>> ";
+    white-space: pre;
+  }
+
+  pre code::before,
+  pre code::after {
+    content: "```";
+    display: block;
+  }
+
+  /* 水平線 */
+  hr {
+    /* リセット */
+    border: none;
+  }
+  hr::before {
+    content: "---";
+  }
+
+  em::before,
+  em::after {
+    content: "*";
+  }
+  strong::before,
+  strong::after {
+    content: "**";
+  }
+  s::before,
+  s::after {
+    content: "~~";
+  }
+  code::before,
+  code::after {
+    content: "`";
+  }
+
+  /* チェックリスト */
+  input[type="checkbox"] {
+    /* リセット */
+    appearance: none;
+  }
+  input[type="checkbox"]::before {
+    content: "[ ] ";
+    white-space: pre;
+  }
+  input[type="checkbox"]:checked::before {
+    content: "[x] ";
+  }
+</style>
+
+<h2>見出し</h2>
+
+<h1>h1</h1>
+<h2>h2</h2>
+<h3>h3</h3>
+<h4>h4</h4>
+<h5>h5</h5>
+<h6>h6</h6>
+
+<p>段落の改行<br />改行しました</p>
+
+<h2>強調</h2>
+
+<p>
+  <strong>太字</strong><br />
+  <em>イタリック</em><br />
+  <s>打ち消し線</s><br />
+  <code>インラインコード</code>
+</p>
+
+<h2>引用</h2>
+
+<blockquote>
+  <p>
+    引用文<br />
+    引用文の中で改行
+  </p>
+</blockquote>
+<blockquote>
+  <p>引用文</p>
+  <p>引用文の2つめの段落</p>
+  <blockquote>
+    <p>引用文のネスト</p>
+  </blockquote>
+</blockquote>
+
+<h2>リスト</h2>
+
+<ul>
+  <li>Hello!</li>
+  <li>
+    Hola!
+    <ul>
+      <li>Bonjour!</li>
+    </ul>
+    <ul>
+      <li>Hi!</li>
+    </ul>
+  </li>
+</ul>
+
+<h3>番号付きリスト</h3>
+
+<ol>
+  <li>First</li>
+  <li>Second</li>
+</ol>
+
+<h2>コードブロック</h2>
+
+<pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"firstName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"lastName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Smith"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"age"</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h2>区切り線</h2>
+
+<hr />
+
+<h2>テキストリンク</h2>
+
+<p><a href="https://zenn.dev" target="_blank">リンクテキスト</a></p>
+
+<h2>画像</h2>
+
+<p>
+  <img
+    src="https://storage.googleapis.com/zenn-user-upload/gxnwu3br83nsbqs873uibiy6fd43"
+    loading="lazy"
+    alt="alt text"
+  />
+</p>
+
+<h2>テーブル</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Head</th>
+      <th>Head</th>
+      <th>Head</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Text</td>
+      <td>Text</td>
+      <td>Text</td>
+    </tr>
+    <tr>
+      <td>Text</td>
+      <td>Text</td>
+      <td>Text</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>チェックボックス</h2>
+
+<ul>
+  <li><input type="checkbox" />チェックリスト</li>
+  <li><input type="checkbox" checked />チェック済み</li>
+</ul>
+
+<!-- <h2>脚注</h2>
+<p>脚注を指定するとページ下部にその内容が表示されます。</p>
+<div class="code-block-container">
+  <div class="InsertButtonToCodeBlock_codeBlockWrapper__Vzqhf">
+    <pre
+      data-has-button="true"
+    ><code>脚注の例[^1]です。インライン^[脚注の内容その2]で書くこともできます。
+
+    [^1]: 脚注の内容その1
+    </code></pre>
+  </div>
+</div>
+<p>
+  脚注の例<sup class="footnote-ref"
+    ><a href="#fn-a52b-1" id="fnref-a52b-1">[1]</a></sup
+  >です。インライン<sup class="footnote-ref"
+    ><a href="#fn-a52b-2" id="fnref-a52b-2">[2]</a></sup
+  >で書くこともできます。
+</p> -->
