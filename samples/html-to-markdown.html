@@ -3,9 +3,14 @@
   * {
     margin: 0;
     font-size: 1rem;
+    line-height: 1.5;
   }
   :root {
     font-family: monospace;
+  }
+
+  body > * {
+    margin-block-end: 1em;
   }
 
   ul,
@@ -13,17 +18,8 @@
     list-style: none;
     padding: 0;
   }
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-  }
 
-  /*  */
+  /* 見出し */
   h1::before {
     content: "# ";
   }
@@ -43,18 +39,101 @@
     content: "###### ";
   }
 
-  li:where(ul > *)::before {
+  /* 段落 */
+  p + p::before {
+    content: "\a";
+    white-space: pre;
+  }
+
+  /* 改行 */
+  br {
+    content: "";
+  }
+  br::before {
+    content: "  \a";
+    white-space: pre;
+  }
+
+  /* 強調 */
+  em::before,
+  em::after {
+    content: "*";
+  }
+  strong::before,
+  strong::after {
+    content: "**";
+  }
+  s::before,
+  s::after {
+    content: "~~";
+  }
+
+  /* 引用 */
+  blockquote {
+    margin-block-start: 1em;
+  }
+  blockquote br::after {
+    content: ">";
+  }
+  blockquote p::before {
+    content: "> ";
+  }
+  blockquote p + p::before {
+    content: "> \a> ";
+    white-space: pre;
+  }
+  /* ネストに対応 */
+  blockquote blockquote {
+    margin-block-start: 0;
+  }
+  blockquote blockquote p::before {
+    content: "> \a>> ";
+    white-space: pre;
+  }
+
+  /* リスト */
+  ul > li::before {
     content: "- ";
   }
-  li:where(ol > *) {
+  ol {
+    counter-reset: ol-counter;
+  }
+  ol > li {
     counter-increment: ol-counter;
   }
-  li:where(ol > *)::before {
+  ol > li::before {
     content: counter(ol-counter) ". ";
   }
-  ul ul li::before {
+  /* ネストに対応 */
+  :where(ul, ol) ul > li::before {
     content: "  - ";
     white-space: pre;
+  }
+  :where(ul, ol) ol > li::before {
+    content: "  " counter(ol-counter) ". ";
+    white-space: pre;
+  }
+
+  /* コード */
+
+  code::before,
+  code::after {
+    content: "`";
+  }
+
+  pre code::before,
+  pre code::after {
+    content: "```";
+    display: block;
+  }
+
+  /* 水平線 */
+  hr {
+    /* リセット */
+    border: none;
+  }
+  hr::before {
+    content: "---";
   }
 
   /* リンク */
@@ -76,6 +155,10 @@
     content: "](" attr(src) ")";
   }
 
+  /* 表 */
+  th {
+    text-align: start;
+  }
   th::before,
   td::before {
     content: "| ";
@@ -84,76 +167,29 @@
     content: " |";
   }
   thead th::after {
-    /* 正しい順序にはできない */
     content: "| -----";
     display: block;
-    text-align: start;
   }
   thead th:last-child::after {
     content: "| ----- |";
   }
-
-  br {
-    content: "";
+  thead th[style*="left"]::after {
+    content: "| :--- ";
   }
-  br::before {
-    content: "  \A";
-    white-space: pre;
+  thead th[style*="left"]:last-child:after {
+    content: "| :--- |";
   }
-
-  blockquote {
-    margin-block-start: 1em;
-    /* content: "> "; */
+  thead th[style*="center"]::after {
+    content: "| :---: ";
   }
-  blockquote br::after {
-    content: ">";
+  thead th[style*="center"]:last-child:after {
+    content: "| :---: |";
   }
-  blockquote p::before {
-    content: "> ";
+  thead th[style*="right"]::after {
+    content: "| ---: ";
   }
-  blockquote p + p::before {
-    content: "> \a> ";
-    white-space: pre;
-  }
-  /* ネストに対応 */
-  blockquote blockquote {
-    margin-block-start: 0;
-  }
-  blockquote blockquote p::before {
-    content: "> \a>> ";
-    white-space: pre;
-  }
-
-  pre code::before,
-  pre code::after {
-    content: "```";
-    display: block;
-  }
-
-  /* 水平線 */
-  hr {
-    /* リセット */
-    border: none;
-  }
-  hr::before {
-    content: "---";
-  }
-
-  em::before,
-  em::after {
-    content: "*";
-  }
-  strong::before,
-  strong::after {
-    content: "**";
-  }
-  s::before,
-  s::after {
-    content: "~~";
-  }
-  code::before,
-  code::after {
-    content: "`";
+  thead th[style*="right"]:last-child:after {
+    content: "| ---: |";
   }
 
   /* チェックリスト */
@@ -179,7 +215,9 @@
 <h5>h5</h5>
 <h6>h6</h6>
 
-<p>段落の改行<br />改行しました</p>
+<h2>段落・改行</h2>
+<p>段落</p>
+<p>スペース2個で<br />改行できます</p>
 
 <h2>強調</h2>
 
@@ -187,7 +225,6 @@
   <strong>太字</strong><br />
   <em>イタリック</em><br />
   <s>打ち消し線</s><br />
-  <code>インラインコード</code>
 </p>
 
 <h2>引用</h2>
@@ -208,34 +245,46 @@
 
 <h2>リスト</h2>
 
+<h3>箇条書きリスト</h3>
+
 <ul>
-  <li>Hello!</li>
+  <li>First item</li>
+  <li>Second item</li>
   <li>
-    Hola!
+    Third item
     <ul>
-      <li>Bonjour!</li>
-    </ul>
-    <ul>
-      <li>Hi!</li>
+      <li>Indented item</li>
+      <li>Indented item</li>
     </ul>
   </li>
+  <li>Fourth item</li>
 </ul>
 
 <h3>番号付きリスト</h3>
 
 <ol>
-  <li>First</li>
-  <li>Second</li>
+  <li>First item</li>
+  <li>Second item</li>
+  <li>
+    Third item
+    <ol>
+      <li>Indented item</li>
+      <li>Indented item</li>
+    </ol>
+  </li>
+  <li>Fourth item</li>
 </ol>
 
-<h2>コードブロック</h2>
+<h2>コード</h2>
 
-<pre class="highlight"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"firstName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"lastName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Smith"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"age"</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
+<p><code>インラインコード</code></p>
+
+<pre><code>{
+  "firstName": "John",
+  "lastName": "Smith",
+  "age": 25
+}
+</code></pre>
 
 <h2>区切り線</h2>
 
@@ -260,29 +309,51 @@
 <table>
   <thead>
     <tr>
-      <th>Head</th>
-      <th>Head</th>
-      <th>Head</th>
+      <th>Syntax</th>
+      <th>Description</th>
+      <th>Test Text</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>Text</td>
-      <td>Text</td>
-      <td>Text</td>
+      <td>Header</td>
+      <td>Title</td>
+      <td>Here’s this</td>
     </tr>
     <tr>
+      <td>Paragraph</td>
       <td>Text</td>
-      <td>Text</td>
-      <td>Text</td>
+      <td>And more</td>
     </tr>
   </tbody>
 </table>
 
-<h2>チェックボックス</h2>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Syntax</th>
+      <th style="text-align: center">Description</th>
+      <th style="text-align: right">Test Text</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">Header</td>
+      <td style="text-align: center">Title</td>
+      <td style="text-align: right">Here’s this</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Paragraph</td>
+      <td style="text-align: center">Text</td>
+      <td style="text-align: right">And more</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>チェックリスト</h2>
 
 <ul>
-  <li><input type="checkbox" />チェックリスト</li>
+  <li><input type="checkbox" />未チェック</li>
   <li><input type="checkbox" checked />チェック済み</li>
 </ul>
 
