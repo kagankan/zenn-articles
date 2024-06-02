@@ -1,0 +1,175 @@
+<!-- https://codepen.io/kagankan/pen/NWVpOLW -->
+
+<script>
+const uuid = () => crypto.randomUUID();
+
+const opponentsHand = Array.from({ length: 4 }, () => ({ id: uuid() }));
+const myHand = Array.from({ length: 4 }, () => ({ id: uuid() }));
+
+const moveCard = (from, to, cardIndex) => {
+  const card = from[cardIndex];
+  from.splice(cardIndex, 1);
+  to.push(card);
+};
+
+const renderCards = (isMyHand, container, template) => {
+  const cards = isMyHand ? myHand : opponentsHand;
+  const target = isMyHand ? opponentsHand : myHand;
+  container.innerHTML = "";
+  cards.forEach((card, index) => {
+    const templateElement = template.content.firstElementChild.cloneNode(true);
+    templateElement.querySelector("button").addEventListener("click", (e) => {
+      moveCard(cards, target, index);
+      if (document.startViewTransition) {
+        const styleElement = document.createElement("style");
+        styleElement.textContent = `
+        ::view-transition-old(card-${card.id}),
+        ::view-transition-new(card-${card.id}) {
+           animation: none;
+        }
+        `;
+        document.head.appendChild(styleElement);
+
+        const viewTransition = document.startViewTransition(() => {
+          update();
+        });
+        viewTransition.addEventListener("finish", () => {
+          document.head.removeChild(styleElement);
+        });
+      } else {
+        // 非対応ブラウザでのフォールバック
+        update();
+      }
+    });
+    templateElement.querySelector(
+      ".card"
+    ).style = `view-transition-name:card-${card.id}; contain: paint;`;
+    container.appendChild(templateElement);
+  });
+};
+
+const update = () => {
+  const cardTemplate = document.getElementById("card-template");
+  const opponentsContainer = document.getElementById("opponent-hand");
+  const myHandContainer = document.getElementById("my-hand");
+
+  renderCards(false, opponentsContainer, cardTemplate);
+  renderCards(true, myHandContainer, cardTemplate);
+};
+
+document.addEventListener("DOMContentLoaded", update);
+
+</script>
+
+<div class="Game">
+  <template id="card-template">
+    <li>
+      <div class="w-20">
+        <!-- style={`view-transition-name:card-${card.id}; contain: paint;`} -->
+        <button class="card">Click me</button>
+      </div>
+    </li>
+  </template>
+
+  <!-- 相手 -->
+  <section class="Game__Opponents">
+    <div class="card-count">
+      <p>枚数 <span id="opponent-count"></span>枚</p>
+    </div>
+
+    <ul id="opponent-hand" class="cards"></ul>
+  </section>
+
+  <div class="Game__Hands">
+    <ul id="my-hand" class="cards"></ul>
+  </div>
+</div>
+
+<style>
+  .Game {
+    position: fixed;
+    inset: 0;
+
+    display: grid;
+    grid-template:
+      "Opponents  " minmax(0, 1fr)
+      "Hands  " minmax(0, 1fr)
+      /
+      1fr;
+  }
+  .Game__Info {
+    grid-area: 1 / 1 / -1 / -1;
+  }
+  .Game__Opponents {
+    grid-area: Opponents;
+  }
+  .Game__Field {
+    grid-area: Field;
+  }
+
+  .Game__Hands {
+    grid-area: Hands;
+  }
+  .Game__Trash {
+    grid-area: Trash;
+  }
+
+  * {
+    min-width: 0;
+  }
+
+  .card-count {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    margin: auto;
+    width: fit-content;
+    padding: 0.5rem;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 0.25rem;
+    view-transition-name: player-label-1;
+  }
+
+  .cards {
+    display: flex;
+    justify-content: center;
+  }
+
+  .cards > li {
+    min-width: 0;
+  }
+  .cards > li:last-child {
+    flex-shrink: 0;
+  }
+
+  .card {
+    position: relative;
+    isolation: isolate;
+    aspect-ratio: 58/89;
+    width: 5rem;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
+    border: 6px solid white;
+    background-color: rgb(185 28 28);
+  }
+
+  :root::view-transition-group(*) {
+    animation-duration: 1s;
+  }
+  /* トランジション中のみ前後を指定したい場合はこうする */
+  /* :global(::view-transition-group(player-label-1)) {
+    z-index: -1;
+  } */
+  /* 移動のトランジションはgroupに対してかかっている */
+  /* :global(::view-transition-group(*)) {
+    animation: none;
+  } */
+  /* クロスフェードはold,newに対してかかっている */
+  :global(::view-transition-old(*)) {
+    animation: none;
+  }
+  :global(::view-transition-new(*)) {
+    animation: none;
+  }
+</style>
