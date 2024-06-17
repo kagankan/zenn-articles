@@ -49,18 +49,16 @@ export default preview;
 ```
 
 ```tsx src/Sample.tsx
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
 
 export const Sample = () => {
   const router = useRouter();
-  const path = router.pathname;
-  const currentMode = router.query.mode;
 
   return (
     <button
       onClick={() => {
         void router.push(
-          `${path}?mode=${currentMode === "dark" ? "light" : "dark"}`
+          `${router.pathname}?mode=${router.query.mode === 'dark' ? 'light' : 'dark'}`,
         );
       }}
     >
@@ -89,12 +87,14 @@ export const Default: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    // 初期状態の URL を検証
     await expect(mockRouter).toMatchObject({ pathname: "/home" });
+    // 一度クリックしたら mode=dark になることを検証
     await userEvent.click(canvas.getByRole("button", { name: "Toggle" }));
-    await expect(mockRouter).toMatchObject({
-      pathname: "/home",
-      query: { mode: "dark" },
-    });
+    await expect(mockRouter).toMatchObject({ pathname: '/home', query: { mode: 'dark' } });
+    // もう一度クリックしたら mode=light になることを検証
+    await userEvent.click(canvas.getByRole('button', { name: 'Toggle' }));
+    await expect(mockRouter).toMatchObject({ pathname: '/home', query: { mode: 'light' } });
   },
 };
 ```
