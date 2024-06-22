@@ -88,7 +88,7 @@ published: true
 
 ## `clamp(◯rem, ◯rem + ◯vw, ◯rem)` との違いは？
 
-`clamp()` 関数を紹介している記事では `clamp(◯rem, ◯rem + ◯vw, ◯rem)` という形式の式を紹介していることが多いです（[参考記事 1](https://zenn.dev/kiteruri/articles/e512278dfeb613) [参考記事 2](https://addapter.co.jp/blog/clamp)）。
+`clamp()` 関数を紹介している記事では `clamp(◯rem, ◯rem + ◯vw, ◯rem)` という形式の式を紹介していることが多いです（[参考記事 1](https://zenn.dev/kiteruri/articles/e512278dfeb613)、[参考記事 2](https://addapter.co.jp/blog/clamp)）。
 これとの違いは書き方のみです。 `(100vw - 30rem) * 0.2` を展開すれば、 `20vw - 6rem` となるので、結局のところ係数が違うだけです。
 
 `100vw` からの引き算で表現することで何が嬉しいかというと、**いつ最小値になるのか読み取りやすくなる**ことです。
