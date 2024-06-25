@@ -3,7 +3,7 @@ title: "Storybook 8.1 で next/router と next/navigation のモックが扱い�
 emoji: "🙌"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["storybook", "nextjs", "nextrouter", "approuter"]
-published: false
+published: true
 publication_name: "kikagaku"
 ---
 
