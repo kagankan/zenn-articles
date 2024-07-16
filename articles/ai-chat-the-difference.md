@@ -1,5 +1,5 @@
 ---
-title: "AIと遊ぶ「見えない間違い探しゲーム」を作った！　そして代替テキスト(alt)におけるAIの活躍を考える【OpenAI API】"
+title: "AIと遊ぶ「見えない間違い探しゲーム」を作った！　そして代替テキスト(alt)におけるAIの活躍を考える"
 emoji: "🙈"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["ai", "chatgpt", "openai", "openaiapi", "アクセシビリティ"]
