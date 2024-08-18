@@ -30,3 +30,24 @@ https://css-tricks.com/html5-meter-element/
 https://stackoverflow.com/questions/38622911/styling-meter-bar-for-mozilla-and-safari
 https://developer.mozilla.org/ja/docs/Web/HTML/Element/meter
 
+### TypeScript問題
+
+````markdown
+### 必ずセットで使うプロパティ
+
+```ts
+type Props = {
+  icon: string;
+  label: string;
+} & (
+  | {
+      clickedLabel: string;
+      clickedIcon: string;
+    }
+  | {
+      clickedLabel?: never;
+      clickedIcon?: never;
+    }
+);
+```
+````
