@@ -22,7 +22,7 @@ https://zenn.dev/pandanoir/articles/d74d317f2b3caf
 
 ## import ルールを設けたい
 
-package by feature でディレクトリを構成する場合、基本的に**同じ機能の中でimportが完結し、別の機能のファイルとは独立するはず**です。
+package by feature でディレクトリを構成する場合、基本的に**同じ機能の中で import が完結し、別の機能のファイルとは独立するはず**です。
 本来独立しているべき機能が依存関係を持ってしまうと、コードの理解が難しくなったり、変更時に意図しない影響を生んでしまったりします。
 個人的に意識しているのは、「**その機能（ディレクトリ）を消したいとなったときに、他の機能に影響がないことを担保する**」という考え方です。
 
@@ -264,18 +264,21 @@ import { Edit } from "features/user/profile/_components/Edit"; // ❌ 子から�
 対象ファイルである `src/features/user/_components/UserList/index.tsx` のパスは `settings` の項目で説明した通り、 `dir1` に `user`、`dir2` に `_components` 、`dir3` に `UserList` がキャプチャされています。
 この情報を `from.dir1` などで参照し、それぞれの import が許可されるかどうかを判定します。
 
-|                                                    | `dir1`        | `dir2`            | `dir3`             | `dir4`      | 結果                                                   |
-| -------------------------------------------------- | ------------- | ----------------- | ------------------ | ----------- | ------------------------------------------------------ |
-| **対象ファイル**                                      | **`user`**    | **`_components`** | **`UserList`**     | `index.tsx` | -                                                      |
-| `"（略）/_components/Button/index.tsx"`            | `_components` | `Button`          | `index.tsx`        |             | ✅ **`{ dir1: "_*" }`** にマッチ                       |
-| `"（略）/user/_hooks/useUser.ts"`                  | `user`        | `_hooks`          | `useUser.ts`       |             | ✅ **`{ dir1: "${from.dir1}", dir2: "_*" }`** にマッチ |
-| `"（略）/post/_hooks/usePagination.ts"`            | `post`        | `_hooks`          | `usePagination.ts` |             | ❌ `dir1` が異なるため、いずれにもマッチしない         |
-| `"（略）/user/profile/_components/Edit/index.tsx"` | `user`        | `profile`         | `_components`      | `Edit`      | ❌ いずれにもマッチしない                              |
+|                                                                           | `dir1`        | `dir2`            | `dir3`             | `dir4`      | 結果                                                   |
+| ------------------------------------------------------------------------- | ------------- | ----------------- | ------------------ | ----------- | ------------------------------------------------------ |
+| **対象ファイル**                                                          | **`user`**    | **`_components`** | **`UserList`**     | `index.tsx` | -                                                      |
+| `"（略）/_components/Button/index.tsx"`<br>（親からの import）            | `_components` | `Button`          | `index.tsx`        |             | ✅ **`{ dir1: "_*" }`** にマッチ                       |
+| `"（略）/user/_hooks/useUser.ts"`<br>（同じ機能の import）                | `user`        | `_hooks`          | `useUser.ts`       |             | ✅ **`{ dir1: "${from.dir1}", dir2: "_*" }`** にマッチ |
+| `"（略）/post/_hooks/usePagination.ts"`<br>（別の機能の import）          | `post`        | `_hooks`          | `usePagination.ts` |             | ❌ `dir1` が異なるため、いずれにもマッチしない         |
+| `"（略）/user/profile/_components/Edit/index.tsx"`<br>（子からの import） | `user`        | `profile`         | `_components`      | `Edit`      | ❌ いずれにもマッチしない                              |
 
+:::message
 
-なお、 `features`ディレクトリと他のディレクトリ間での import については特に制限を設けていません。
+ちなみに、 `features`ディレクトリと他のディレクトリ間での import については特に制限を設けていません。
 
-## エラーになるimportをしたくなったときの対応
+:::
+
+## エラーになる import をしたくなったときの対応
 
 例えば、 `post` だけで使用していた `usePagination.tsx` を `user` でも使いたくなった場合を考えみましょう。
 以下のように import を書いてみると、設定したルールによりエラーになります。
@@ -291,7 +294,7 @@ import { usePagination } from "features/post/_hooks/usePagination"; // ❌ ESLin
 - `usePagination.tsx` を `src/features/_hooks` に移動する
 - `usePagination.tsx` を `src/features/user/_hooks` にも別で作成する
 
-## おまけ TIPS
+## おまけ TIPS （`vscode-icons`を使っている場合）
 
 VSCode の [`vscode-icons`](https://marketplace.visualstudio.com/items?itemName=vscode-icons-team.vscode-icons) 拡張機能を使っている場合、 `components` や `hooks` という名前のディレクトリに対して固有のアイコンが表示されます。しかし、 `_components` や `_hooks` のようにアンダースコアを付けてしまうと判定から外れてしまい、デフォルトのアイコンになってしまいます。
 これらのディレクトリにも固有のアイコンを表示させるためには、`settings.json` に以下のように設定を追加するとよいです。
@@ -317,7 +320,7 @@ VSCode の [`vscode-icons`](https://marketplace.visualstudio.com/items?itemName=
 
 `eslint-plugin-boundaries` を使って、package by feature なディレクトリ構成での import ルールを設定しました。
 これにより、ファイル間での import のルールを機械的にチェックでき、実装やレビューの負荷が下がります。
-これを目視でチェックしようとすると脳のリソースも取られてしまい、見落としやすくもある内容であるため、ぜひ導入してみてください。
+これを目視でチェックしようとすると脳のリソースを無駄に使うことになってしまい、見落としやすくもある内容であるため、ぜひ導入してみてください。
 
 ## 参考記事
 
