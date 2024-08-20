@@ -204,7 +204,7 @@ module.exports = {
 
 <!-- prettier-ignore-end -->
 
-### 解説
+以降で設定の内容を補足します。
 
 ### `settings`
 
@@ -229,7 +229,7 @@ module.exports = {
 
 これをあとのルールで参照します。
 
-#### `rules`
+### `rules`
 
 `settings` で定義したキャプチャパターンを元に、 `rules` でルールを設定します。
 `default: "disallow"` によって一旦すべての import を禁止し、`allow` で許可するパターンを設定しています。
