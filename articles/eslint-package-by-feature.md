@@ -3,7 +3,7 @@ title: "package by feature なファイルの依存関係をルールで守る�
 emoji: "📁" #📁📦
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["eslint", "react", "nextjs", "javascript", "ディレクトリ構成"] #architecture
-published: false
+published: true
 publication_name: "kikagaku"
 ---
 
