@@ -3,7 +3,7 @@ title: "【JS】クイズで再確認するimport/exportの挙動 ～ インポ�
 emoji: "🚢"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["javascript"]
-published: false
+published: true
 ---
 
 JavaScript (ECMAScript) のモジュールシステムにおける `import` / `export` の挙動について、意外と理解していないかもしれないポイントをクイズ形式で確認してみましょう！
