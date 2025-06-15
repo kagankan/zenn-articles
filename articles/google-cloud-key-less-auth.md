@@ -16,7 +16,7 @@ published: false
 期限を定めないキーを発行するということは、一度流用すると一生使い続けられてしまいます。しかも使用ログから利用者を特定することもできません。
 かといって一定期間で無効にしてキーを作り直すのは面倒ですし、必要なときに期限が切れていてワークフローが動かないとそれはそれで困ります。
 
-キーを使わない認証方法に変えていきます。
+そこで、キーを使わないより安全な認証方法に変えていきます。
 
 ![スクリーンショット（Google Cloud コンソールのサービスアカウントキーの画面）。「サービスアカウントキーは、不正使用されるとセキュリティ上のリスクになる可能性があります。サービスアカウントキーをダウンロードするのではなく、代わりに Workload Identity 連携を使用することをおすすめします。」という警告が出ている。](/images/google-cloud-key-less-auth/key-warning.png)
 _サービスアカウントキーの画面に行くと警告が出る。_
@@ -225,6 +225,8 @@ jobs:
 
 ##### 4-b. サービスアカウントの権限借用
 
+id_token を使用する場合の例。
+
 ```yaml
 - uses: google-github-actions/auth@v2
   id: auth
@@ -247,7 +249,9 @@ jobs:
 
 https://dev.classmethod.jp/articles/terraform-google-cloud-authentication/
 
-:::details 使い分け
+### 使い分け
+
+ユーザーとして実行するのか、アプリケーションとして実行するのかによって使い分けます。
 
 > サービス アカウントは必要なものであると結論付ける前に、アプリケーションがそれ自体のために動作しているのか、それともエンドユーザーのために動作しているのかを自問してみましょう。
 >
@@ -256,28 +260,36 @@ https://dev.classmethod.jp/articles/terraform-google-cloud-authentication/
 
 https://cloud.google.com/blog/ja/products/identity-security/how-to-authenticate-service-accounts-to-help-keep-applications-secure
 
-:::
-
 ### IAM ユーザーアカウントで認証する場合
 
-1. ユーザーのアカウントに対して必要な権限を付ける
-2. 以下コマンドで認証する（project は必須ではないが、利用するプロジェクトを指定したほうが安全）
+1. 各ユーザーのアカウントに対して必要な権限を付ける
+2. ユーザーは、以下コマンドで認証する（project は必須ではないが、利用するプロジェクトを指定したほうが安全）
 
 ```bash
 gcloud auth application-default login --project=<プロジェクトID>
+```
+
+これにより、アプリケーション内で認証情報を使用できるようになります。
+
+```typescript
+import { GoogleAuth } from 'google-auth-library';
+
+// 自動的に認証情報が取得される
+const auth = new GoogleAuth();
 ```
 
 ### サービスアカウントの権限を借用する場合
 
 本来デプロイして動かすアプリケーションをローカルで開発するときなどはこちらの方法を使います。
 
-1. 借用するためのサービスアカウントを作成し、サービスアカウントに対して必要な権限を付ける
-   1. アプリケーションのローカル開発用であれば、
-2. ユーザーのアカウントに、そのサービスアカウントを借用できる権限をつける
+1. サービスアカウントを作成する
+2. そのサービスアカウントに対して必要な権限を付ける
+3. そのサービスアカウントを借用できる権限を、各ユーザーのアカウントに付与する
 
 コンソール：
 
 「サービスアカウントトークン作成者」のロールをユーザーのアカウントに付与します。
+（スクリーンショット省略）
 
 gcloud CLI：
 
@@ -302,16 +314,26 @@ resource "google_service_account_iam_member" "user_impersonate" {
 }
 ```
 
-1. コード内で `new Impersonated()` を使って、サービスアカウントの借用をするようにする。
+4. ユーザーは、以下コマンドで認証する
 
-   - メモ：gcloud CLI から実行する場合は以下のコマンド
-     ※ application-default login はマシン内に一つの情報しか持てないので、以下を実行すると以前のログインは上書きされてしまうことに注意。
+```bash
+gcloud auth application-default login --project=<プロジェクトID>
+```
 
-     ```bash
-     gcloud auth application-default login --impersonate-service-account <サービスアカウントのメールアドレス>
-     ```
 
-開発するアプリケーションごとに借用するサービスアカウントを変更したい場合、 `gcloud auth application-default login` を使用してしまうと切り替えのたびにログインが必要になってしまいます。
+このとき、権限借用して認証することもできます。
+
+:::details gcloud CLI から権限借用して認証する場合は以下のコマンド
+
+※ application-default login はマシン内に一つの情報しか持てないので、以下を実行すると以前のログインは上書きされてしまうことに注意。
+
+```bash
+gcloud auth application-default login --impersonate-service-account <サービスアカウントのメールアドレス>
+```
+
+:::
+
+しかし、開発するアプリケーションごとに借用するサービスアカウントを変更したい場合、切り替えのたびにログインが必要になってしまいます。
 そのためアプリケーション側で明示的にサービスアカウントの権限借用を行うようにします。
 Node で実行する場合、 `google-auth-library` が提供する `Impersonated` クラスを使うと、明示的にサービスアカウントの権限借用ができます。
 
@@ -365,7 +387,7 @@ https://cloud.google.com/blog/ja/products/identity-security/enabling-keyless-aut
 
 https://cloud.google.com/blog/ja/products/identity-security/how-to-authenticate-service-accounts-to-help-keep-applications-secure
 
-### ローカル環境の認証
+### ローカル環境の認証 (Application Default Credentials)
 
 https://dev.classmethod.jp/articles/terraform-google-cloud-authentication/
 
