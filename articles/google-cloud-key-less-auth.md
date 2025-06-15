@@ -3,6 +3,7 @@ title: "GitHub Actions やローカル環境から Google Cloud への認証を�
 emoji: "🔑"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["googlecloud", "githubactions"]
+publication_name: "kikagaku"
 published: false
 ---
 
