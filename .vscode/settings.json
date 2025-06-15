@@ -1,5 +1,5 @@
 {
-    "pasteImage.path": "${projectRoot}/images/design-without-language",
+    "pasteImage.path": "${projectRoot}/images/component-testing",
     "pasteImage.basePath": "${projectRoot}",
     "textlint.autoFixOnSave": true
 }
