@@ -4,7 +4,7 @@ emoji: "✅️"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["cursor"]
 publication_name: "kikagaku"
-published: false
+published: true
 ---
 
 Cursor のチャット (Agent Mode) で、コマンド実行された後に進まなくなる事象に悩まされていました。
