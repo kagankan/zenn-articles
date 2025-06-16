@@ -18,7 +18,7 @@ published: false
 
 そこで、キーを使わないより安全な認証方法に変えていきます。
 
-![スクリーンショット（Google Cloud コンソールのサービスアカウントキーの画面）。「サービスアカウントキーは、不正使用されるとセキュリティ上のリスクになる可能性があります。サービスアカウントキーをダウンロードするのではなく、代わりに Workload Identity 連携を使用することをおすすめします。」という警告が出ている。](/images/google-cloud-key-less-auth/key-warning.png)
+![スクリーンショット（Google Cloud コンソールのサービスアカウントキーの画面）。「サービスアカウントキーは、不正使用されるとセキュリティ上のリスクになる可能性があります。サービスアカウントキーをダウンロードするのではなく、代わりに Workload Identity 連携を使用することをおすすめします。」という警告が出ている。](/images/google-cloud-keyless-auth/key-warning.png)
 _サービスアカウントキーの画面に行くと警告が出る。_
 
 ## こんなときに使う
@@ -77,7 +77,7 @@ https://paper2.hatenablog.com/entry/2024/06/29/143947
 「IAM と管理」→「Workload Identity プール」から新しいプールを作成します。
 複数のリポジトリで使用する場合でも、一つのプールを作成すれば OK です。
 
-![スクリーンショット（Google Cloud コンソールの Workload Identity プールの画面）。「プールを作成」ボタンがある。](/images/google-cloud-key-less-auth/workload-identity-1.png)
+![スクリーンショット（Google Cloud コンソールの Workload Identity プールの画面）。「プールを作成」ボタンがある。](/images/google-cloud-keyless-auth/workload-identity-1.png)
 
 Terraform の場合：
 
@@ -98,7 +98,7 @@ resource "google_iam_workload_identity_pool" "github-actions" {
 
 GitHub Actions で使用するため、「発行元」には `https://token.actions.githubusercontent.com` を指定します。
 
-![スクリーンショット（Google Cloud コンソールの Workload Identity プールの画面）。「プロバイダの属性」の設定で、GitHub からやってきた属性をGoogle側で使えるようにします。](/images/google-cloud-key-less-auth/workload-identity-2.png)
+![スクリーンショット（Google Cloud コンソールの Workload Identity プールの画面）。「プロバイダの属性」の設定で、GitHub からやってきた属性をGoogle側で使えるようにします。](/images/google-cloud-keyless-auth/workload-identity-2.png)
 
 「プロバイダの属性」の設定で、GitHub からやってきた属性を Google Cloud 側で使えるようにします。
 例えば、GitHub の `assertion.repository` （リポジトリ名）を Google の `attribute.repository` にマッピングさせることで、以降の工程でリポジトリ名に応じて権限を付与することができます。
@@ -110,7 +110,7 @@ GitHub Actions で使用するため、「発行元」には `https://token.acti
 
 :::
 
-![スクリーンショット（Google Cloud コンソールの Workload Identity プールの画面）。「属性条件」の設定で、organizationを指定しておきます。](/images/google-cloud-key-less-auth/workload-identity-3.png)
+![スクリーンショット（Google Cloud コンソールの Workload Identity プールの画面）。「属性条件」の設定で、organizationを指定しておきます。](/images/google-cloud-keyless-auth/workload-identity-3.png)
 
 Terraform の場合：
 
@@ -156,7 +156,7 @@ principalSet://iam.googleapis.com/projects/123456789012/locations/global/workloa
 コンソール：
 「IAM」→ アクセスを許可で権限を追加します。（Firebase Develop 管理者 の権限を付与する例）
 
-![スクリーンショット（Google Cloud コンソールの IAM の画面）。プリンシパルに対してアクセス権を付与している。](/images/google-cloud-key-less-auth/workload-identity-5.png)
+![スクリーンショット（Google Cloud コンソールの IAM の画面）。プリンシパルに対してアクセス権を付与している。](/images/google-cloud-keyless-auth/workload-identity-5.png)
 
 Terraform：
 
@@ -185,7 +185,7 @@ resource "google_project_iam_member" "github-actions-some-repository" {
 コンソール：
 「サービスアカウント」→ 権限を借用したいサービスアカウント →「アクセス権を持つプリンシパル」→「アクセスを許可」→ ロールに「Workload Identity ユーザー」を付与します。
 
-![スクリーンショット（Google Cloud コンソールのサービスアカウントの画面）。「アクセス権を持つプリンシパル」→「アクセスを許可」→ロールに「Workload Identity ユーザー」を付与します。](/images/google-cloud-key-less-auth/workload-identity-6.png)
+![スクリーンショット（Google Cloud コンソールのサービスアカウントの画面）。「アクセス権を持つプリンシパル」→「アクセスを許可」→ロールに「Workload Identity ユーザー」を付与します。](/images/google-cloud-keyless-auth/workload-identity-6.png)
 
 Terraform：
 
