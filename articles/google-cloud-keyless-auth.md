@@ -296,7 +296,7 @@ gcloud CLI：
 ```bash
 gcloud iam service-accounts add-iam-policy-binding \
   service-account-name@project-id.iam.gserviceaccount.com \
-    --member="user:hoge.huga@kikagaku.co.jp" \
+    --member="user:hoge.huga@example.com" \
     --role="roles/iam.serviceAccountTokenCreator" \
     --project=project-id
 ```
@@ -305,7 +305,7 @@ Terraform：
 
 ```tf
 resource "google_service_account_iam_member" "user_impersonate" {
-  member             = "user:user-email@kikagaku.co.jp"
+  member             = "user:user-email@example.com"
   role               = "roles/iam.serviceAccountTokenCreator"
   for_each = toset([
     "projects/project-id/serviceAccounts/service-account-name@project-id.iam.gserviceaccount.com"
