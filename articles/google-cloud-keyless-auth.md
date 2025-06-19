@@ -4,7 +4,7 @@ emoji: "🔑"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["googlecloud", "githubactions"]
 publication_name: "kikagaku"
-published: false
+published: true
 ---
 
 ## サービスアカウントキーの危険性
