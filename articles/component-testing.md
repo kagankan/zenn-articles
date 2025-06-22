@@ -55,6 +55,10 @@ https://docs.cypress.io/app/component-testing/get-started
 
 https://github.com/kagankan/component-testing-sample/tree/main/src/components
 
+- [最もシンプルなコンポーネント実行のみの例](https://github.com/kagankan/component-testing-sample/tree/main/src/components/Minimum)
+- [様々なケースを含む例](https://github.com/kagankan/component-testing-sample/tree/main/src/components/Complex)
+- [モジュールモックの例](https://github.com/kagankan/component-testing-sample/tree/main/src/components/ModuleMock)
+
 ### 実行時間比較
 
 ほぼ同じ内容のテストをそれぞれの手法で作成し、100 コンポーネント複製して実行してみました。
@@ -70,16 +74,14 @@ https://github.com/kagankan/component-testing-sample/tree/main/src/components
 
 後ろ 3 つについては別途 Playwright のブラウザをインストールする時間がかかるため、総合の時間としては + 20-30s 程度かかります。
 それを考慮しても、jsdom によるテストと Vitest Browser Mode の実行時間はほぼ同じで驚きです。
-（あくまで今回作成したテストコードにおける結果なので実際のユースケースでは異なる可能性があります。）
+（※あくまで今回作成したテストコードにおける結果なので実際のユースケースでは異なる可能性があります。）
 
 ## jsdom (or happy-dom) + Vitest (or Jest) + Testing Library
 
 メジャーな方法で、ウェブ上の資料も多い。
 Node 環境上で擬似的に DOM を描画する手法。
 
-https://jestjs.io/ja/docs/tutorial-jquery
-
-https://testing-library.com/
+https://testing-library.com/docs/react-testing-library/setup
 
 **メリット**
 
@@ -237,7 +239,7 @@ https://storybook.js.org/docs/writing-tests/integrations/stories-in-unit-tests
 - jsdom + Jest + Testing Library: [1m 12s](https://github.com/kagankan/component-testing-sample/actions/runs/15663384243/job/44124295374?pr=1)
 
 しかし、重要なのは CI よりも、**ローカル環境においてウォッチモードで実行したときの時間**です。
-なんと**ほぼ 10 倍近い差**があります。
+なんと**8 倍ほどの差**があります。
 
 - Jest: 平均 **4039ms**（4 秒）
 - Vitest: 平均 **562ms**（0.5 秒）
@@ -272,6 +274,8 @@ Duration 641ms
 
 見た目の確認に使える Storybook ですが、インタラクションテストを書くことが可能です。
 （必ずしもアサーションを書く必要はなく、「ここをクリックしたときの見た目を表示させたい」という用途でも使用できる機能です）
+
+弊社でもこの方法を使用してコンポーネントテストを書いています（Storybook v8 環境）。
 
 https://storybook.js.org/docs/writing-stories/play-function
 
@@ -339,6 +343,12 @@ https://storybook.js.org/docs/writing-stories/mocking-data-and-modules/mocking-m
 https://storybook.js.org/addons/storybook-addon-module-mock
 
 https://storybook.js.org/addons/storybook-addon-vite-mock
+
+:::message
+
+ただし、2025年6月時点の Storybook v9 + MSW アドオン + `storybook-addon-vite-mock` の組み合わせを試したところ、エラーで動作しませんでした。どの部分に問題があるか特定できていないため私の環境に問題がある可能性もあるのですが、導入の際はぜひ事前に動作確認を行ってください。
+
+:::
 
 #### モック関数
 
@@ -408,7 +418,12 @@ https://storybook.js.org/docs/writing-tests/integrations/vitest-addon
 
 `@storybook/addon-vitest` を追加し、CI 上では vitest のコマンドで実行します。
 
-この方法では、Vitest Browser Mode を使用するので、前述の Vitest Browser Mode を採用するのと大きくは変わりません。
+:::message
+
+ただし、私の環境で Storybook v9 + `@storybook/addon-vitest` を試したところ、ローカルではうまくいくものの、CI 上で「1回目の実行では失敗するが、2回目の実行では成功する」という現象が発生しました（[実行ログ](https://github.com/kagankan/component-testing-sample/actions/runs/15714188258/job/44279685242)）。
+私の設定に問題がある可能性もあるため、導入の際はぜひ事前に動作確認を行ってください。
+
+:::
 
 #### Chromatic で実行する
 
@@ -419,7 +434,7 @@ UI テストツールである Chromatic では `play` function のインタラ�
 
 https://www.chromatic.com/docs/interactions/
 
-すでに VRT とインタラクションテストをまとめて 1 件のカウントになるため、すでに VRT を実行している場合、テストを足しただけではスナップショット数は増えない。
+VRT とインタラクションテストをまとめてスナップショット 1 件のカウントになるため、すでに VRT を実行している場合、テストを足してもスナップショット数は増えません。
 Chromatic には [TurboSnap](https://www.chromatic.com/docs/turbosnap/) という機能があり、差分ファイルに基づいて影響のあるテストだけ実行されます。
 
 ## Playwright Component Test
@@ -445,6 +460,7 @@ https://playwright.dev/docs/test-components
 - モジュールモックができない
 - モック関数が使用できない
   - vitest の場合は `vi.fn` でモックできるが、playwright の場合はそういったモック関数を用意できない。
+- 実行時間が長い
 
 ### コード例
 
@@ -464,6 +480,7 @@ test('should work', async ({ mount }) => {
 
 全体共通で設定するものは `playwright/index.html` および `playwright/index.tsx` に記述します。
 テスト単位でオプションを使うこともできるようです。
+（Playwright Component Test では独立したページを開いてコンポーネントを描画することで、テスト間での影響が生まれることを避けているそうです。）
 
 :::details コード例
 
@@ -675,7 +692,13 @@ test("loads and displays greeting", async () => {
 #### モジュールモック
 
 Vitest の `vi.mock` を使用してモックを行うことができます。
+
+:::message
+
 ただし、Browser Mode ではまだ不安定なのか、最初の 1 回はうまくいくもののウォッチモードでの再実行でモジュールモックされなくなるということがありました。
+私の設定が正しくない可能性や、今後のバージョンで改善される可能性もあるため、導入の際はぜひ事前に動作確認を行ってください。
+
+:::
 
 #### モック関数
 
@@ -721,7 +744,7 @@ https://vitest.dev/guide/ui
 
 ![スクリーンショット。Vitest UI でコンポーネントテストを実行したときのブラウザの表示。左側にテストの一覧、真ん中にコンポーネントの表示、右側にコンソールが表示されている。](/images/component-testing/2025-06-15-23-37-34.png)
 
-コンポーネントテストに限った話ではないですが、モジュールグラフが表示されるのも便利です。
+これもコンポーネントテストだけの機能ではないですが、モジュールグラフが表示されるのも便利です。
 
 ![スクリーンショット。Vitest UI でモジュールグラフを表示したときのブラウザの表示。](/images/component-testing/2025-06-15-23-39-37.png)
 
@@ -729,14 +752,15 @@ https://vitest.dev/guide/ui
 
 Vitest ではデフォルトでウォッチモードが有効になっています。
 ファイルを保存すると、変更のあったファイルを元に影響のあるテストを実行します。
+この手軽さが Vitest の大きな魅力の一つです。
 
 #### グローバル設定
 
-Storybook における `.storybook/preview.tsx` や Playwright Component Test における `playwright/index.tsx` のようなグローバル設定はなさそう？
+Storybook における `.storybook/preview.tsx` や Playwright Component Test における `playwright/index.tsx` のような、すべてのテストに適用するグローバル設定のようなものはなさそうです。
 
-やるとしたら、`render` をラップしてエクスポートするしかないかも。
+やるとしたら、`render` をラップしてた汎用関数を作るとよさそうです。
 
-```tsx
+```tsx:test-utils.tsx
 import { render as originalRender } from "vitest-browser-react";
 import { ChakraProvider } from "@chakra-ui/react";
 
@@ -755,7 +779,13 @@ https://storybook.js.org/docs/api/portable-stories/portable-stories-vitest
 
 Playwright の Issue 内に説明しているコメントがありました。
 
-https://github.com/microsoft/playwright/issues/34819
+https://github.com/microsoft/playwright/issues/34819#issuecomment-2665819440
+
+翻訳の上要約すると、以下の点が異なるようです。
+
+- Playwright Component Test はテストをサーバー上で実行し、Vitest Browser Mode はブラウザ上で実行する。これによりPlaywright は高速で、flake（不安定な挙動）が起こりにくい。
+- Vitest Browser Mode は独自のランナーを使用するためユニットテストと同様に動作する。一方で、Playwright の API を直接公開するわけではないので、新しい機能を使うには Vitest の対応を待つ必要がある。
+- Playwright Component Test はテストごとに独立したブラウザインスタンスを提供するため、副採用が起きにくい。Vitest Browser Mode は iframe 内でコンポーネントを描画するため、テスト間で副作用が起こる可能性がある。
 
 Vitest Browser Mode ではテストコードも含めてブラウザ上で実行されているため、以下のように window オブジェクトを参照することができます。
 一方で、Playwright Component Test ではテストコードは Node 上で実行されているため、window オブジェクトを参照することはできずエラーになります。
@@ -769,9 +799,12 @@ expect(window.scrollY).toBe(0);
 ## 個人的感想
 
 - jsdom（Node 上で DOM を再現する方法）は忠実性の低さが問題となりやすいためやはり避けたい。
+  - 実行時間・安定性を求めたい場合は検討の価値あり。
 - Storybook `play` function は、Stable な機能の中では最適。特にすでに Storybook を導入している場合は、導入しやすい。
-- Playwright Component Test はモジュールモックやモック関数を使用できない点が難点で、テストケースを実現するコストが高そう。
-- Vitest Browser Mode はかなりいい感じ。一部の不安定挙動だけ回避できそうであれば、今後新規作成する場合の選択肢に入る。
+  - 実行手段は Chromatic がおすすめ。VRTと合わせて実行でき、見た目のテストとインタラクションテストを同時に充実できる。
+  - 料金が見合わない場合は、Vitest Addon (or test-runner) で実行。
+- Playwright Component Test はモジュールモックやモック関数を使用できない点が難点で、テストケースを実現するコストが高そう。個人的には採用が難しそうな感覚。
+- Vitest Browser Mode はかなりいい感じ。一部の不安定挙動だけ回避できそうであれば、十分選択肢に入る。
 
 ## 参考リンク集
 
@@ -792,7 +825,7 @@ https://storybook.js.org/docs/writing-tests/accessibility-testing#automate-acces
 
 https://zenn.dev/innovation/articles/e10e5b5842cf29
 
-https://azukiazusa.dev/blog/storybook-and-vitest-**integration**
+https://azukiazusa.dev/blog/storybook-and-vitest-integration
 
 https://zenn.dev/yumemi_inc/articles/storybook-8-3-vitest
 
