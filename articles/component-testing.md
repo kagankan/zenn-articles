@@ -4,7 +4,7 @@ emoji: "🧪"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["react", "playwright", "vitest", "storybook", "testing"]
 publication_name: "kikagaku"
-published: false
+published: true
 ---
 
 コンポーネントの挙動をテストしたいときに使える手段が増えてきており、新たに導入する際にはどの方法を選べばいいか迷います。
