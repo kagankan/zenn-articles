@@ -3,6 +3,7 @@ title: "【画像生成】Nano Banana (gemini-2.5-flash-image) で一貫性の�
 emoji: "🎨"
 type: "idea" # tech: 技術記事 / idea: アイデア
 topics: ["ai", "gemini"]
+publication_name: "kikagaku"
 published: false
 ---
 
