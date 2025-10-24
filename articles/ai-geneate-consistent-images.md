@@ -4,7 +4,7 @@ emoji: "🎨"
 type: "idea" # tech: 技術記事 / idea: アイデア
 topics: ["ai", "gemini"]
 publication_name: "kikagaku"
-published: false
+published: true
 ---
 
 ## 複数枚のイラストを、同じテイストで生成させたい
