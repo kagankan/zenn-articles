@@ -2,7 +2,7 @@
 title: "コンポーネントテストの方法4種類比較してみる（2025年版）"
 emoji: "🧪"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: ["react", "playwright", "vitest", "storybook", "testing"]
+topics: ["react", "playwright", "vitest", "storybook", "test"]
 publication_name: "kikagaku"
 published: true
 ---

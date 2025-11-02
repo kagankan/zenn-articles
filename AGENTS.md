@@ -57,6 +57,10 @@ published: false # 公開状態
   - メイントピックをプレフィックスとして使用し、ソートしたときに見出し順に並ぶようにする
   - 例： CSSを扱った記事は `css-` プレフィックスを使用
 
+## トピック選定のルール
+
+- **テスト関連のtopicは `test` を使用**してください（`testing` ではなく `test` を使う）
+
 ## 参考リソース
 
 - [Zenn の Markdown 記法](https://zenn.dev/zenn/articles/markdown-guide)

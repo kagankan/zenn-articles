@@ -24,6 +24,7 @@
    - 小文字推奨（例: `javascript` not `JavaScript`）
    - 記事内容に適合し、かつ**よく使われているトピック**を優先
    - 具体的な技術名 > 抽象的な概念
+   - **テスト関連は `test` を使用**（`testing` ではなく `test` を使う）
 5. **トピック候補の選定**:
    - 記事内容から5〜8個のトピック候補を選定
    - 各候補について理由を明記
@@ -97,7 +98,7 @@
 - `githubactions`, `docker`
 
 **概念・分野:**
-- `frontend`, `test`, `testing`
+- `frontend`, `test`
 - `a11y`, `アクセシビリティ`, `accessibility`
 - `design`, `ui`, `ux`
 - `seo`, `performance`, `security`

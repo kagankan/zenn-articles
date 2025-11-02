@@ -2,7 +2,7 @@
 title: "Storybook で jsdom いらずの快適インタラクションテストを書く (with Chromatic)"
 emoji: "📚" #🧪
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: ["storybook", "chromatic", "react", "nextjs", "testing"]
+topics: ["storybook", "chromatic", "react", "nextjs", "test"]
 published: false
 publication_name: "kikagaku"
 ---
