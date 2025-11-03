@@ -49,7 +49,7 @@ Vitest で 4.39 秒になりました！ 🥳🥳🥳🥳
 一番実行時間に影響したポイントは、**実行環境の分離をオフ**にしたことです。
 
 これは、Vitest のドキュメント内の[Improving Performance](https://vitest.dev/guide/improving-performance.html)にも書いてある方法です。
-CLI で `--no-isolate` オプションを指定するか、設定ファイル内で `isolate: false` を設定することで実現できます。（ただし今回の場合は、`isolate` オプションではなく `poolOptions.forks.singleForks` で設定しています）
+CLI で `--no-isolate` オプションを指定するか、設定ファイル内で `isolate: false` を設定することで実現できます。（ただし今回の場合は、`isolate` オプションではなく `poolOptions.forks.singleForks` で設定しています。これは、DBを使用したテストで並列実行をさせたくないため、Jest の `--runInBand` 相当の直列実行も指定したいためです）
 
 ### 実行環境の分離とは
 
@@ -78,6 +78,25 @@ CLI で `--no-isolate` オプションを指定するか、設定ファイル内
 - `vite-tsconfig-paths`: tsconfig.json の `paths` を解決するためのパッケージ
 - `@vitest/eslint-plugin`: Vitest の ESLint プラグイン
 
+`unplugin-swc` と `vite-tsconfig-paths` を使って、Vite のプラグインとして設定します。
+
+```ts:vitest.config.ts
+import swc from 'unplugin-swc';
+import tsconfigPaths from 'vite-tsconfig-paths';
+import { defineConfig } from 'vitest/config';
+
+export default defineConfig({
+  plugins: [
+    tsconfigPaths(),
+    // NestJS のために設定
+    // https://docs.nestjs.com/recipes/swc#vitest
+    swc.vite({ module: { type: 'es6' } }),
+  ],
+  // ...
+});
+```
+
+
 ### テストコード修正
 
 - `jest.*` は `vi.*` に変更
@@ -87,6 +106,8 @@ CLI で `--no-isolate` オプションを指定するか、設定ファイル内
 基本的にはこれだけで動くはず……なんですが、既存テストコードの問題で様々なエラーが発生したり、これまで通っていたテストが落ちるようになったりしたので、地道に直していきました。
 
 ### Vitest 移行時の格闘の数々
+
+移行作業中に遭遇した様々な問題と、その解決方法を紹介します。
 
 #### `GraphQLFloat`, `GraphQLInt` がエラー
 
@@ -114,11 +135,11 @@ dotenvExpand.expand(dotenv.config({ path: ".env.test" }));
 
 #### エラー比較の判定が変わる
 
-Jest だとゆるかったエラーの比較が厳密になる。そのため、これまでは成功していたテストが失敗することがあるのでテストコードを修正する。
+Jest だとゆるかったエラーの比較が厳密になる。これにより、これまでは成功していたテストが失敗することがあるのでテストコードを修正する。
 
 ```tsx:JestとVitestで判定が変わる例
-// jestだと、クラスインスタンスが異なっていてもメッセージさえ一致していればテストが成功していた
-// vitest だと失敗する
+// Jest だと成功し、Vitest だと失敗する
+// Jest は message さえ一致していればテストが成功する
 await expect(
   (() => {
     throw new Error("ERROR_MESSAGE");
@@ -254,10 +275,195 @@ faker が、というよりは、`*/.` という形式がだめだったのか�
 + import { faker } from "@faker-js/faker";
 ```
 
+### 参考: 最終的な設定ファイル
+
+:::details vitest.config.mts
+
+念の為、プロジェクト固有の名称を置き換え、 `app-a`, `app-b`, `app-c` としています。
+
+```ts:vitest.config.mts
+import tsconfigPaths from 'vite-tsconfig-paths';
+import { defineConfig } from 'vitest/config';
+import swc from 'unplugin-swc';
+
+export default defineConfig({
+  plugins: [
+    tsconfigPaths(),
+    // NestJS のために設定
+    // https://docs.nestjs.com/recipes/swc#vitest
+    swc.vite({ module: { type: 'es6' } }),
+  ],
+  test: {
+    projects: [
+      {
+        extends: true,
+        test: {
+          name: 'unit',
+          globals: true,
+          setupFiles: ['./vitest.setup.mts'],
+          testTimeout: 10000, // タイムアウト時間(ms)
+          restoreMocks: true,
+          clearMocks: true,
+          poolOptions: {
+            forks: {
+              // 高速化のため環境の分離を無効化している
+              // https://vitest.dev/guide/improving-performance.html
+              singleFork: true,
+            },
+          },
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: 'e2e-app-a',
+          globals: true,
+          setupFiles: ['./vitest.setup.mts'],
+          include: ['apps/app-a/**/*.e2e-spec.ts'],
+          restoreMocks: true,
+          clearMocks: true,
+          isolate: false,
+          poolOptions: {
+            forks: {
+              // 高速化のため環境の分離を無効化している
+              // https://vitest.dev/guide/improving-performance.html
+              singleFork: true,
+            },
+          },
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: 'e2e-app-b',
+          globals: true,
+          setupFiles: [
+            './vitest.setup.mts',
+            'apps/app-b/e2e-test/vitest.e2e.setup.ts',
+          ],
+          include: ['apps/app-b/**/*.e2e-spec.ts'],
+          restoreMocks: true,
+          clearMocks: true,
+          isolate: false,
+          poolOptions: {
+            forks: {
+              // 高速化のため環境の分離を無効化している
+              // https://vitest.dev/guide/improving-performance.html
+              singleFork: true,
+            },
+          },
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: 'e2e-app-c',
+          globals: true,
+          setupFiles: ['./vitest.setup.mts'],
+          include: ['apps/app-c/**/*.e2e-spec.ts'],
+          restoreMocks: true,
+          clearMocks: true,
+          isolate: false,
+          poolOptions: {
+            forks: {
+              // 高速化のため環境の分離を無効化している
+              // https://vitest.dev/guide/improving-performance.html
+              singleFork: true,
+            },
+          },
+        },
+      },
+    ],
+    poolOptions: {
+      forks: {
+        // jest の --runInBand と同等
+        // DB を用いたテストを行うため、並列実行するとテスト間の影響が出てしまう
+        maxForks: 1,
+      },
+    },
+  },
+});
+```
+
+:::
+
+:::details vitest.setup.mts
+
+```ts:vitest.setup.mts
+import { HttpException } from '@nestjs/common';
+import { Float, Int } from '@nestjs/graphql';
+import dotenv from 'dotenv';
+import dotenvExpand from 'dotenv-expand';
+import { vi } from 'vitest';
+import type { ZodError } from 'zod';
+import { z } from 'zod';
+
+// GraphQLFloat, GraphQLInt を使っているとエラーになる
+vi.mock('graphql', async () => {
+  const actual = await vi.importActual('graphql');
+  return {
+    ...actual,
+    GraphQLFloat: Float,
+    GraphQLInt: Int,
+  };
+});
+
+dotenvExpand.expand(dotenv.config({ path: '.env.test' }));
+
+// addIssue/addIssues が比較不可能なのに比較しようとして失敗するため、比較可能なオブジェクトに変換する
+// 参考: https://github.com/vitest-dev/vitest/issues/7315#issuecomment-2606572923
+function normalizeZodError(obj: ZodError): { issues: unknown[] } {
+  return {
+    issues: obj.issues.map((issue) => {
+      if (issue.code === 'invalid_union') {
+        return {
+          ...issue,
+          unionErrors: issue.unionErrors.map((error) => {
+            return normalizeZodError(error);
+          }),
+        };
+      } else {
+        return issue;
+      }
+    }),
+  };
+}
+
+expect.addEqualityTesters([
+  function zodErrorEqualityTester(a, b) {
+    const aNormalized = a instanceof z.ZodError ? normalizeZodError(a) : null;
+    const bNormalized = b instanceof z.ZodError ? normalizeZodError(b) : null;
+
+    // どちらもZodErrorの場合は、比較可能なオブジェクトに変換して比較する
+    if (aNormalized && bNormalized) {
+      return this.equals(aNormalized, bNormalized);
+    }
+
+    // どちらか一方がZodErrorの場合は、比較できないのでfalseを返す
+    if ((aNormalized == null) !== (bNormalized == null)) {
+      return false;
+    }
+
+    // どちらもZodErrorでない場合は、他のtesterに任せる
+    return undefined;
+  },
+  // HttpException を比較する。message と status があっていればOK
+  function httpExceptionEqualityTester(a, b) {
+    if (a instanceof HttpException && b instanceof HttpException) {
+      return a.message === b.message && a.getStatus() === b.getStatus();
+    }
+    return undefined;
+  },
+]);
+```
+
+:::
+
 ## （実行時間以外の点で）Vitest にすると嬉しいこと
 
 - **テストファイルを触るときは、 `npx vitest --standalone` を使うのが便利。**
-  - standalone モードは、コマンド実行時点ではテストを実行せず、テストファイルを保存したときにそのファイルだけ実行します。そのため、起動時点でファイル名を指定する必要がなく、かつ対象を絞って実行できるので実行時間を短縮できます。
+  - standalone モードは、コマンド実行時点ではテストを実行せず、テストファイルを保存したときにそのファイルだけ実行
+  - 起動時点でファイル名を指定する必要がなく、かつ対象を絞って実行できるので実行時間を短縮できます。
   - 一度対象になった後は、そのテストファイルに関係するファイルを編集したときに自動で再実行されます。
 - Vitest では、デフォルトでウォッチモードが有効になっています
   - 開始後にファイルを保存すると、それに関連するテストが再実行されてクイックに結果が得られます
