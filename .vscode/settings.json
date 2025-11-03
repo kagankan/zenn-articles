@@ -1,5 +1,5 @@
 {
-    "pasteImage.path": "${projectRoot}/images/component-testing",
+    "pasteImage.path": "${projectRoot}/images/html-semantic-markup",
     "pasteImage.basePath": "${projectRoot}",
     "textlint.autoFixOnSave": true
 }
