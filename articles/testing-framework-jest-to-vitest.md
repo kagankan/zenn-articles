@@ -3,7 +3,7 @@ title: "JestからVitestに移行してテスト実行時間が半減した話�
 emoji: "🚀"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["jest", "vitest", "test", "nestjs"]
-published: false
+published: true
 publication_name: "kikagaku"
 ---
 
