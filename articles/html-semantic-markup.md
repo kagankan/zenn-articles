@@ -3,7 +3,7 @@ title: "正しいHTMLを書こう！"
 emoji: "🏷️"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["html", "react", "chakraui"]
-published: false
+published: true
 publication_name: "kikagaku"
 ---
 
