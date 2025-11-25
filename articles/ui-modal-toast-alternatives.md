@@ -3,7 +3,7 @@ title: "なんとなくで使ってない？　モーダル・トースト"
 emoji: "✋"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["ui", "frontend"]
-published: false
+published: true
 publication_name: "kikagaku"
 ---
 
