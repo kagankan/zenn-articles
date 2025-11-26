@@ -3,7 +3,7 @@ title: "コンポーネントテストにも使う！「AOM」「アクセシビ
 emoji: "🔍"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["accessibility", "test", "html", "css"]
-published: false
+published: true
 publication_name: "kikagaku"
 ---
 
