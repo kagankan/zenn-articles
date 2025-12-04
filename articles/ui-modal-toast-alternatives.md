@@ -227,3 +227,10 @@ https://smarthr.design/products/components/flash-message/
 Web アプリケーションの話ではなく Web サイトの話ですが、モーダルダイアログの性質に触れながら使用方法について議論されている記事：
 
 https://zenn.dev/yusukehirao/articles/98397f9d7b9023
+
+
+GitHub のデザインシステムである Primer では、トーストが非推奨化されたそうです：
+
+https://x.com/0b1tk/status/1989862416600174596
+
+https://primer.style/accessibility/toasts/
