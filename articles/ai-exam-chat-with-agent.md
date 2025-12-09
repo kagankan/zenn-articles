@@ -7,12 +7,6 @@ published: false
 publication_name: "kikagaku"
 ---
 
-## はじめに
-
-以前公開した記事「[コーディングエージェントをコーディング以外にも使っちゃおう](https://zenn.dev/kikagaku/articles/ai-coding-agent-beyond-code)」では、コーディングエージェントを勉強や記事執筆など、コーディング以外の用途に活用する方法を紹介しました。その 1 つである「勉強」に使う例を紹介します。
-
-https://zenn.dev/kikagaku/articles/ai-coding-agent-beyond-code
-
 ## 作ったもの
 
 今回紹介するのは、社内アイデアソンを行った際にそのときのチームで作成した実験的な学習の仕組みです。
