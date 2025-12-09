@@ -2,7 +2,7 @@
 title: "コーディングエージェントをコーディング以外にも使っちゃおう" # 他の案: コーディングエージェントをコーディングだけに使ってちゃもったいない
 emoji: "💡"
 type: "idea"
-topics: ["ai", "claudecode", "cursor", "productivity"]
+topics: ["ai", "claudecode", "cursor", "生産性"]
 published: false
 publication_name: "kikagaku"
 ---
