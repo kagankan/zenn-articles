@@ -4,6 +4,7 @@ emoji: "💡"
 type: "idea"
 topics: ["ai", "claudecode", "cursor", "productivity"]
 published: false
+publication_name: "kikagaku"
 ---
 
 ## はじめに
