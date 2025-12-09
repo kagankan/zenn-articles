@@ -1,5 +1,5 @@
 {
-    "pasteImage.path": "${projectRoot}/images/ai-sllide-and-video-generation",
+    "pasteImage.path": "${projectRoot}/images/ai-exam-chat-with-agent",
     "pasteImage.basePath": "${projectRoot}",
     "textlint.autoFixOnSave": true
 }
