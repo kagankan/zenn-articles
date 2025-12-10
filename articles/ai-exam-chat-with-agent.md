@@ -1,9 +1,9 @@
 ---
-title: "AIコーディングエージェントで理解度確認テストの新しいカタチを作ってみた"
+title: "AIが試験官に！ カスタムコマンド1つで実現できる対話型テストで新しい学習体験【白紙勉強法】"
 emoji: "📝"
 type: "tech"
 topics: ["ai", "claudecode", "cursor", "教育"]
-published: false
+published: true
 publication_name: "kikagaku"
 ---
 
