@@ -20,18 +20,18 @@ AI コーディングエージェントである Claude Code や Cursor のエ�
 
 :::
 
-https://youtu.be/z4efr1oidiM
+https://youtu.be/bVpk5l5lpg0
 
 
 :::details 生成したすべての動画
 
-https://youtu.be/E2rvi3AKF1k
+https://youtu.be/FZQET1Rk2VQ
 
-https://youtu.be/tybUL4eMT70
+https://youtu.be/aY0q6S1es4k
 
-https://youtu.be/1hTksqnlu48
+https://youtu.be/-2lWacaPsCI
 
-https://youtu.be/gPvy8nQ-UDY
+https://youtu.be/iCS9dlnRqCg
 
 :::
 
