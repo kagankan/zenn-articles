@@ -3,7 +3,7 @@ title: "AIコーディングエージェントで解説スライド・動画を�
 emoji: "🎞" # "🎬"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["ai", "remotion", "marp", "cursor", "claudecode"]
-published: false
+published: true
 publication_name: "kikagaku"
 ---
 
