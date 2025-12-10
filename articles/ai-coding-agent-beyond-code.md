@@ -3,7 +3,7 @@ title: "コーディングエージェントをコーディング以外にも使
 emoji: "💡"
 type: "idea"
 topics: ["ai", "claudecode", "cursor", "生産性"]
-published: false
+published: true
 publication_name: "kikagaku"
 ---
 
