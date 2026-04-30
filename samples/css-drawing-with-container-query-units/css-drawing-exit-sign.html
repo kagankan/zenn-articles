@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      .canvas {
+        aspect-ratio: 1 / 1;
+        position: relative;
+        container-type: size;
+        background-color: var(--color-green);
+
+        --color-green: rgb(35 127 82);
+        --color-white: rgb(255 255 255);
+      }
+
+      .head {
+        position: absolute;
+        top: 14cqw;
+        left: 34cqw;
+        width: 14cqw;
+        height: 14cqw;
+        border-radius: 50%;
+        background-color: var(--color-green);
+      }
+
+      .body {
+        position: absolute;
+        top: 30cqw;
+        left: 40cqw;
+        /* outline: 4px solid red; */
+
+        &::before {
+            position: absolute;
+        content: "";
+        top: 5cqw;
+        width: 16cqw;
+        height: 22cqw;
+        background-color: var(--color-green);
+        border-top-left-radius: 20% 10%;
+        border-top-right-radius: 20% 10%;
+        border-bottom-right-radius: 7% 16%;
+        rotate: -15deg;
+        transform: skewX(10deg);
+        transform-origin: top left;
+        left: -4cqw;
+        }
+      }
+
+      .right-arm {
+        position: absolute;
+        top: 0;
+        left: 1cqw;
+        width: 25cqw;
+        height: 7cqw;
+        background-color: var(--color-green);
+        border-top-right-radius: 12% 20%;
+        transform: skewX(30deg);
+        transform-origin: top left;
+
+        &::after {
+          content: "";
+          display: block;
+          position: absolute;
+          top: 75%;
+          right: 0%;
+          width: 8cqw;
+          height: 13cqw;
+          background-color: var(--color-green);
+          border-bottom-left-radius: 25% 30%;
+          border-bottom-right-radius: 73% 50%;
+        }
+      }
+
+      .left-arm {
+        position: absolute;
+        top: 0;
+        left: -1cqw;
+        width: 9cqw;
+        height: 20cqw;
+        background-color: var(--color-green);
+        border-top-left-radius: 12% 20%;
+        transform: skewX(-39deg);
+        transform-origin: top right;
+        border-bottom-right-radius: 13% 10%;
+
+        &::after {
+          content: "";
+          display: block;
+          position: absolute;
+          bottom: 0%;
+          right: 20%;
+          height: 7cqw;
+          width: 20cqw;
+          background-color: var(--color-green);
+          /* border-bottom-right-radius: 20% 20%; */
+        }
+      }
+
+      .right-leg {
+        position: relative;
+        isolation: isolate;
+        transform: skewX(3deg);
+        transform-origin: bottom right;
+        position: absolute;
+        bottom: -46cqw;
+        left: 14cqw;
+        &::before {
+          content: "";
+          display: block;
+          width: 8cqw;
+          height: 28cqw;
+          background-color: var(--color-green);
+          border-top-right-radius: 25% 20%;
+          border-bottom-left-radius: 45% 12%;
+        }
+
+        &::after {
+          z-index: -1;
+          box-sizing: content-box;
+          content: "";
+          display: block;
+          position: absolute;
+          bottom: 0;
+          left: 7cqw;
+          width: 26cqw;
+          height: 8cqw;
+          border-top-right-radius: 30% 100%;
+          background-color: var(--color-green);
+          transform-origin: top right;
+          outline: 3cqw solid var(--color-white);
+        }
+      }
+
+      .left-leg {
+        position: absolute;
+        bottom: -58cqw;
+        left: -13cqw;
+        width: 10cqw;
+        height: 40cqw;
+        background-color: var(--color-green);
+        border-bottom-right-radius: 45% 12%;
+        transform: skewX(-26deg);
+        transform-origin: bottom left;
+
+        &::after {
+          content: "";
+          display: block;
+          position: absolute;
+          top: 105%;
+          left: 22%;
+          width: 9cqw;
+          height: 9cqw;
+          background-color: var(--color-green);
+          transform-origin: top left;
+          transform: skewX(57deg);
+        }
+      }
+
+      .door {
+        position: absolute;
+        top: 6%;
+        left: 19%;
+        right: 20%;
+        bottom: 8%;
+        background-color: var(--color-white);
+        &::after {
+          content: "";
+          display: block;
+          position: absolute;
+          top: 100%;
+          left: 0%;
+          right: 0%;
+          height: 6cqw;
+          background-color: var(--color-white);
+          transform-origin: top left;
+          transform: skewX(45deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="canvas">
+      <div class="door"></div>
+      <div class="head"></div>
+      <div class="body">
+        <div class="right-arm"></div>
+        <div class="left-arm"></div>
+        <div class="right-leg"></div>
+        <div class="left-leg"></div>
+      </div>
+    </div>
+  </body>
+</html>
