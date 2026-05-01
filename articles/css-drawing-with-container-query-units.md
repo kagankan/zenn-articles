@@ -1,9 +1,9 @@
 ---
-title: "CSSお絵かき視点で見る、コンテナクエリ単位という新たな武器"
+title: "CSSお絵かき視点で見る、コンテナクエリ単位 (`cqw`) という新たな武器"
 emoji: "🖌️" # 🎨
 type: "tech"
 topics: ["css", "CSSお絵かき"]
-published: false
+published: true
 ---
 
 CSS の **コンテナクエリ単位**（`cqw`、`cqh` など）、使ったことありますか？
