@@ -68,6 +68,10 @@ published: false # 公開状態
 
 - **テスト関連のtopicは `test` を使用**してください（`testing` ではなく `test` を使う）
 
+## リンクのルール
+
+- **MDN へリンクするときは日本語版 (`/ja/`) の URL を使用**してください（例: `https://developer.mozilla.org/ja/docs/...`）。`/en-US/` ではなく `/ja/` にします。
+
 ## 参考リソース
 
 - [Zenn の Markdown 記法](https://zenn.dev/zenn/articles/markdown-guide)
