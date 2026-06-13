@@ -12,6 +12,11 @@
         "preferInBody": "ですます",
         "preferInList": "",
         "strict": false
+      },
+      "ja-no-successive-word": {
+        "allow": [
+          "…"
+        ]
       }
     },
     "preset-japanese": true
