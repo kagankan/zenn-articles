@@ -42,7 +42,8 @@ summary {
 .details__summary {
   /* position: sticky で見出しをページ上部に追従させる */
   position: sticky;
-  top: 0;
+  /* inset-block-start は、横書きのみ考慮する場合 top に置き換えても大丈夫です */
+  inset-block-start: 0;
 
   display: grid;
   column-gap: 0.5rem;
@@ -95,8 +96,10 @@ summary {
 body {
   display: grid;
   gap: 1rem;
+  max-inline-size: 40ic;
+  margin: auto;
   padding: 1rem;
 
   /* CSS 版のアニメーションは縦書きにも対応しています   */
-  /* writing-mode: vertical-rl; */
+  writing-mode: vertical-rl;
 }
