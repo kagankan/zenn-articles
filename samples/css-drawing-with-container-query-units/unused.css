@@ -1,0 +1,151 @@
+/* 途中まで作ったけど諦めて結局使わなかったお絵かき */
+
+* {
+  box-sizing: border-box;
+}
+
+.canvas {
+  aspect-ratio: 1 / 1;
+  position: relative;
+  container-type: size;
+
+  --color-skin: rgb(255 223 190);
+  --color-belly: rgb(231 204 164);
+  --color-ear: rgb(81 54 29);
+  --color-brown: rgb(81 54 29);
+  --color-hair: rgb(154 114 86);
+}
+
+.head {
+  position: absolute;
+  bottom: 25%;
+  left: 0;
+  right: 0;
+  width: fit-content;
+  height: fit-content;
+  margin: auto;
+  background-color: red;
+}
+
+.face {
+  background-color: var(--color-skin);
+  width: 52cqw;
+  height: 60cqw;
+  border-top-right-radius: 50% 50%;
+  border-top-left-radius: 50% 50%;
+  border-bottom-right-radius: 50% 35%;
+  border-bottom-left-radius: 40% 25%;
+}
+
+.eyes {
+  /* ピボット */
+  position: absolute;
+  bottom: 20cqw;
+  left: 22cqw;
+
+  & .right-eyebrow,
+  & .left-eyebrow {
+    width: 8cqw;
+    height: 1.8cqw;
+    border: 1.5cqw var(--color-brown) solid;
+    border-bottom-style: none;
+    border-top-right-radius: 50% 100%;
+    border-top-left-radius: 50% 100%;
+    border-bottom-right-radius: 10% 10%;
+    border-bottom-left-radius: 10% 10%;
+    transform: skewY(2deg);
+  }
+  & .right-eyebrow {
+    position: absolute;
+    bottom: 13cqw;
+    left: -19cqw;
+    rotate: -20deg;
+  }
+  & .left-eyebrow {
+    position: absolute;
+    bottom: 15cqw;
+    right: -19cqw;
+    rotate: 18deg;
+  }
+}
+
+.glasses {
+  position: absolute;
+  bottom: 20%;
+  left: -5%;
+
+  width: 110%;
+  height: 18cqw;
+  background-color: blue;
+
+  transform: rotate(-3deg);
+
+  & .right-frame,
+  & .left-frame {
+    width: 20cqw;
+    height: 100%;
+    border: 2cqw var(--color-brown) solid;
+    border-top-right-radius: 50% 30%;
+    border-top-left-radius: 50% 30%;
+    border-bottom-right-radius: 48% 55%;
+    border-bottom-left-radius: 48% 55%;
+  }
+  & .right-frame {
+    position: absolute;
+    left: 2cqw;
+  }
+  & .left-frame {
+    position: absolute;
+    right: 8cqw;
+  }
+}
+
+.ears {
+  position: absolute;
+}
+
+.left-ear {
+  &::before {
+    content: "";
+    display: block;
+    background-color: var(--color-ear);
+    width: 10cqw;
+    height: 40cqw;
+    border-top-right-radius: 80% 100%;
+    border-top-left-radius: 160% 160%;
+    border-bottom-right-radius: 100% 100%;
+    border-bottom-left-radius: 10% 10%;
+    transform: skewX(-4deg);
+  }
+  &::after {
+  }
+}
+
+.hair-1 {
+  position: absolute;
+  bottom: 30cqw;
+  right: 21cqw;
+  width: 20cqw;
+  height: 17cqw;
+  border-left: 14cqw var(--color-brown) solid;
+  border-top-right-radius: 0% 0%;
+  border-top-left-radius: 0% 50%;
+  border-bottom-right-radius: 2% 2%;
+  border-bottom-left-radius: 100% 80%;
+  transform: skewY(6deg) skewX(18deg);
+  rotate: 6deg;
+  transform-origin: right bottom;
+}
+
+.body {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  background-color: var(--color-skin);
+  border-top-right-radius: 50% 180%;
+  border-top-left-radius: 50% 180%;
+  width: 45cqw;
+  height: 24cqw;
+}
