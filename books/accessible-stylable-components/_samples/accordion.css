@@ -1,0 +1,102 @@
+summary {
+  /* summary に対して cursor: pointer を指定する場合、それはコンポーネント単位のスタイルではなくサイト全体の共通ルールとして扱うべきあるため、class で個別に指定するよりも、グローバルに一括で指定することが望ましいと考えます。 */
+  cursor: pointer;
+}
+
+.details {
+  /* アコーディオン全体に角丸 (border-radius) を適用するとき、中の要素に背景色が設定されてもはみ出さないよう overflow と指定します */
+  /* hidden ではなく clip を使用することで、見出しの追従 (position: sticky) を行うことができます。（追従させない場合は hidden でも特に問題ありません） */
+  overflow: clip;
+  border: 2px solid #666;
+  border-radius: 0.5rem;
+
+  /* CSS (interpolate-size) を用いてアニメーションさせる */
+  &.details--animate-with-css {
+    /* allow-keywords によって、height: auto などキーワードへのアニメーションが適用される */
+    interpolate-size: allow-keywords;
+
+    /* ユーザーがアニメーションを無効にしていない場合のみアニメーションを行う */
+    @media (prefers-reduced-motion: no-preference) {
+      /* ::details-content は details のコンテンツ部分を表す疑似要素です */
+      &::details-content {
+        /* ::details-content に対する transition を使用する場合、overflow: clip ではみ出した部分を隠さないとアニメーション中に中身のテキストが見えてしまいます。 */
+        /* このサンプルでは、.details に対して overflow: clip を適用しているため不要です。 */
+        /* overflow: clip; */
+
+        /* block-size は height に置き換えても大丈夫です */
+        /* height と違い block-size は書字方向に依存したプロパティのため、縦書きでもうまく動作します */
+        block-size: 0;
+        transition-property: block-size, content-visibility;
+        transition-duration: 0.4s;
+        /* allow-discrete キーワードによって、content-visibility のような離散プロパティもアニメーションさせることができる */
+        transition-behavior: allow-discrete;
+      }
+
+      &[open]::details-content {
+        block-size: auto;
+      }
+    }
+  }
+}
+
+.details__summary {
+  /* position: sticky で見出しをページ上部に追従させる */
+  position: sticky;
+  top: 0;
+
+  display: grid;
+  column-gap: 0.5rem;
+  justify-content: space-between;
+  padding: 1rem;
+  font-weight: 700;
+  background-color: #ddd;
+
+  &:focus-visible {
+    /* フォーカスリングが overflow: hidden/clip; で隠れてしまう問題の対策 */
+    outline-offset: -4px;
+  }
+
+  @media (any-hover: hover) {
+    &:where(summary):hover {
+      background-color: #ccc;
+    }
+  }
+
+  /* 閉じているときは「＋」、開いているときは「－」を表示するアイコン   */
+  &::before,
+  &::after {
+    display: block;
+    grid-area: 1 / 2;
+    width: 1em;
+    height: 2px;
+    margin-block: auto;
+    content: "";
+    background-color: currentcolor;
+
+    /* ユーザーがアニメーションを無効にしていない場合のみアニメーションを行う */
+    @media (prefers-reduced-motion: no-preference) {
+      transition: transform 0.2s;
+    }
+  }
+  &::after {
+    transform: rotate(90deg);
+  }
+  &:is(details[open]:not(.is-closing) *) {
+    &::after {
+      transform: rotate(0deg);
+    }
+  }
+}
+
+.details__content {
+  padding: 2rem;
+}
+
+body {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+
+  /* CSS 版のアニメーションは縦書きにも対応しています   */
+  /* writing-mode: vertical-rl; */
+}

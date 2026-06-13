@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>accordion preview</title>
+    <!-- プレビュー専用ファイル。記事にはコピペしない。
+         accordion.html / accordion.css / accordion-*.js は分割したまま保つ -->
+    <link rel="stylesheet" href="./accordion.css" />
+  </head>
+  <body>
+    <script type="module">
+      // ?js=gsap で GSAP 版、未指定なら native 版に切り替え
+      const js = new URLSearchParams(location.search).get("js") ?? "native";
+
+      // HTML 断片を読み込んで注入してから JS を実行する
+      // （JS は読み込み時に DOM を querySelectorAll するため順序が重要）
+      const html = await fetch("./accordion.html").then((r) => r.text());
+      document.body.insertAdjacentHTML("afterbegin", html);
+
+      await import(`./accordion-${js}.js`);
+    </script>
+  </body>
+</html>
