@@ -3,22 +3,40 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>accordion preview</title>
-    <!-- プレビュー専用ファイル。記事にはコピペしない。
-         accordion.html / accordion.css / accordion-*.js は分割したまま保つ -->
-    <link rel="stylesheet" href="./accordion.css" />
+    <title>UI sample preview</title>
+    <!-- 各 UI サンプル (accordion/ tooltip/ ...) を共通でプレビューするための汎用ファイル。
+         記事にはコピペしない。各サンプルは <ui>/<ui>.html / .css / .js に分割したまま保つ。
+
+         使い方（クエリパラメータで切り替え）:
+         - ?ui=accordion              … _samples/accordion/ を読み込む（既定: accordion）
+         - ?ui=accordion&js=gsap      … 既定の <ui>.js ではなく <ui>-gsap.js を読み込む
+         例: _preview.html?ui=accordion&js=writing-mode -->
   </head>
   <body>
     <script type="module">
-      // ?js=gsap で GSAP 版、未指定なら native 版に切り替え
-      const js = new URLSearchParams(location.search).get("js") ?? "native";
+      const params = new URLSearchParams(location.search);
+
+      // ?ui=<name> で対象サンプル（ディレクトリ）を選ぶ。未指定なら accordion。
+      const ui = params.get("ui") ?? "accordion";
+      // ?js=<variant> でバリエーション実装に切り替える。未指定なら標準の <ui>.js。
+      const variant = params.get("js");
+
+      const base = `./${ui}/${ui}`;
+      const jsModule = variant ? `${base}-${variant}.js` : `${base}.js`;
+
+      // CSS を読み込む
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = `${base}.css`;
+      document.head.appendChild(link);
+      document.title = `${ui} preview`;
 
       // HTML 断片を読み込んで注入してから JS を実行する
       // （JS は読み込み時に DOM を querySelectorAll するため順序が重要）
-      const html = await fetch("./accordion.html").then((r) => r.text());
+      const html = await fetch(`${base}.html`).then((r) => r.text());
       document.body.insertAdjacentHTML("afterbegin", html);
 
-      await import(`./accordion-${js}.js`);
+      await import(jsModule);
     </script>
   </body>
 </html>

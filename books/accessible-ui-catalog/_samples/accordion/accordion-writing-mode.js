@@ -1,8 +1,8 @@
-// accordion-native.js の縦書き対応バリエーション。
+// accordion.js の縦書き対応バリエーション。
 // 横書きだけで使うならオーバースペックなので、縦書き (writing-mode: vertical-*) も
 // 想定する場合のサブ実装として分離しています。記事本文には載せていません。
 //
-// accordion-native.js との違いは click ハンドラ内の以下だけです。
+// accordion.js との違いは click ハンドラ内の以下だけです。
 // - 書字方向を見て、伸縮させる軸 (height / width) を切り替える
 // - サイズ取得を scrollHeight / scrollWidth で切り替える
 //   （scrollHeight は書字方向に関係なく常に垂直方向を返すため、
