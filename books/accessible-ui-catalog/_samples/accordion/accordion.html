@@ -2,7 +2,7 @@
   <summary class="details__summary">
     開閉時アニメーション付きアコーディオン（JS 版）
   </summary>
-  <!-- 高さを変化させる要素 ([data-details-content]) と `padding` をつける要素 (.details__content) はそれぞれ別になるように注意してください。高さの計算時に  `padding` が考慮されません。 -->
+  <!-- 高さを変化させる要素 ([data-details-content]) には `padding` をつけず、`padding` は内側の要素 (.details__content) につけてください。`padding` は `height: 0` でも潰せないため（`box-sizing` を変えても同様）、同じ要素につけると `padding` 分の隙間が発生し、不自然なアニメーションになります。 -->
   <div data-details-content>
     <div class="details__content">
       <p>
