@@ -72,6 +72,25 @@ published: false # 公開状態
 
 - **MDN へリンクするときは日本語版 (`/ja/`) の URL を使用**してください（例: `https://developer.mozilla.org/ja/docs/...`）。`/en-US/` ではなく `/ja/` にします。
 
+### Zenn のカード表示（リンクカード）
+
+- Zenn では、**URL だけを 1 行で書き、前後を空行で挟む**と、タイトルや OGP 画像つきのカード表示になる。それ以外（文中の URL や、行頭に `参考: ` などのテキストが付く URL）は通常のテキストリンクになる。
+- カード表示の例（前後に空行が必要）:
+
+  ```markdown
+  参考:
+
+  https://example.com/article
+  ```
+
+- テキストリンクになる例（カードにならない）:
+
+  ```markdown
+  参考: https://example.com/article
+  ```
+
+- 使い分け: カード表示は視覚的に目立つため、**流し見でも見つけてほしい主要な情報・出典**に使う。すべてのリンクをカード化するのではなく、補足程度のリンクは 1 行のテキストリンクのままにして強弱をつける。
+
 ## 参考リソース
 
 - [Zenn の Markdown 記法](https://zenn.dev/zenn/articles/markdown-guide)
