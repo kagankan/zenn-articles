@@ -1,10 +1,12 @@
 summary {
-  /* summary に対して cursor: pointer を指定する場合、それはコンポーネント単位のスタイルではなくサイト全体の共通ルールとして扱うべきあるため、class で個別に指定するよりも、グローバルに一括で指定することが望ましいと考えます。 */
+  /* summary に対して cursor: pointer を指定する場合、
+  コンポーネントに対してではなく、サイト全体の「クリックして開閉可能な要素の共通ルール」として扱うべきあるため、
+  class で個別に指定するよりも、グローバルに一括で指定することが望ましいと考えます。 */
   cursor: pointer;
 }
 
 .details {
-  /* アコーディオン全体に角丸 (border-radius) を適用するとき、中の要素に背景色が設定されてもはみ出さないよう overflow と指定します */
+  /* アコーディオン全体に角丸 (border-radius) を適用するとき、中の要素に背景色が設定されてもはみ出さないよう overflow を指定します */
   /* hidden ではなく clip を使用することで、見出しの追従 (position: sticky) を行うことができます。（追従させない場合は hidden でも特に問題ありません） */
   overflow: clip;
   border: 2px solid #666;
@@ -19,11 +21,12 @@ summary {
     @media (prefers-reduced-motion: no-preference) {
       /* ::details-content は details のコンテンツ部分を表す疑似要素です */
       &::details-content {
-        /* ::details-content に対する transition を使用する場合、overflow: clip ではみ出した部分を隠さないとアニメーション中に中身のテキストが見えてしまいます。 */
-        /* このサンプルでは、.details に対して overflow: clip を適用しているため不要です。 */
+        /* ::details-content に対する transition を使用する場合、
+        はみ出した部分を隠さないとアニメーション中に中身のテキストが見えてしまいます。 */
+        /* このサンプルでは、親要素の .details に対して overflow: clip を適用しているため不要です。 */
         /* overflow: clip; */
 
-        /* block-size は height に置き換えても大丈夫です */
+        /* block-size は横書きコンテンツのみ考慮する場合は height に置き換えても大丈夫です */
         /* height と違い block-size は書字方向に依存したプロパティのため、縦書きでもうまく動作します */
         block-size: 0;
         transition-property: block-size, content-visibility;
@@ -40,7 +43,7 @@ summary {
 }
 
 .details__summary {
-  /* position: sticky で見出しをページ上部に追従させる */
+  /* position: sticky と inset-block-start で見出しをページ上部に追従させる */
   position: sticky;
   /* inset-block-start は、横書きのみ考慮する場合 top に置き換えても大丈夫です */
   inset-block-start: 0;
@@ -79,9 +82,12 @@ summary {
       transition: transform 0.2s;
     }
   }
+
   &::after {
     transform: rotate(90deg);
   }
+
+  /* :not(.is-closing) は JS でアニメーションを実装する場合にのみ必要です */
   &:is(details[open]:not(.is-closing) *) {
     &::after {
       transform: rotate(0deg);
@@ -100,6 +106,7 @@ body {
   margin: auto;
   padding: 1rem;
 
-  /* CSS 版のアニメーションは縦書きにも対応しています   */
-  writing-mode: vertical-rl;
+  /* CSS 版のアニメーションは縦書きにも対応しています。
+  試しに以下のコメントを外して縦書きにしてみてください。 */
+  /* writing-mode: vertical-rl; */
 }

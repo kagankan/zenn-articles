@@ -1,8 +1,8 @@
 <details class="details">
   <summary class="details__summary">
-    開閉時アニメーション付きアコーディオン (JS 版)
+    開閉時アニメーション付きアコーディオン（JS 版）
   </summary>
-  <!-- 高さを変化させる要素と `padding` をつける要素はそれぞれ別になるように注意してください。高さの計算時に  `padding` が考慮されません。 -->
+  <!-- 高さを変化させる要素 ([data-details-content]) と `padding` をつける要素 (.details__content) はそれぞれ別になるように注意してください。高さの計算時に  `padding` が考慮されません。 -->
   <div data-details-content>
     <div class="details__content">
       <p>
@@ -14,7 +14,7 @@
 
 <details class="details details--animate-with-css">
   <summary class="details__summary">
-    開閉時アニメーション付きアコーディオン (CSS 版)
+    開閉時アニメーション付きアコーディオン（CSS 版、2026年6月現在は限られたブラウザでのみ動作）
   </summary>
 
   <div class="details__content">
@@ -26,7 +26,7 @@
 
 <details class="details">
   <summary class="details__summary">
-    アコーディオン (アニメーションなし)
+    アコーディオン（アニメーションなし）
   </summary>
   <div class="details__content">
     <p>
@@ -39,45 +39,55 @@
   <summary class="details__summary">
     長いテキストが入っても見きれないことを確認（中身のコンテンツも長くてスクロール量が多い）長いテキストが入っても見きれないことを確認（中身のコンテンツも長くてスクロール量が多い）
   </summary>
-  <div class="details__content">
-    <p>
-      長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ<br>長いよ
-    </p>
+  <div data-details-content>
+    <div class="details__content">
+      <p>
+        長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ<br />長いよ
+      </p>
+    </div>
   </div>
 </details>
 
 <details class="details">
-  <summary class="details__summary">ダミーテキスト</summary>
-  <div class="details__content">
-    <p>
-      ダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキスト
-    </p>
+  <summary class="details__summary">ダミーアイテム</summary>
+  <div data-details-content>
+    <div class="details__content">
+      <p>
+        ダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキスト
+      </p>
+    </div>
   </div>
 </details>
 
 <details class="details">
-  <summary class="details__summary">ダミーテキスト</summary>
-  <div class="details__content">
-    <p>
-      ダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキスト
-    </p>
+  <summary class="details__summary">ダミーアイテム</summary>
+  <div data-details-content>
+    <div class="details__content">
+      <p>
+        ダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキスト
+      </p>
+    </div>
   </div>
 </details>
 
 <details class="details">
-  <summary class="details__summary">ダミーテキスト</summary>
-  <div class="details__content">
-    <p>
-      ダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキスト
-    </p>
+  <summary class="details__summary">ダミーアイテム</summary>
+  <div data-details-content>
+    <div class="details__content">
+      <p>
+        ダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキスト
+      </p>
+    </div>
   </div>
 </details>
 
 <details class="details">
-  <summary class="details__summary">ダミーテキスト</summary>
-  <div class="details__content">
-    <p>
-      ダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキスト
-    </p>
+  <summary class="details__summary">ダミーアイテム</summary>
+  <div data-details-content>
+    <div class="details__content">
+      <p>
+        ダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキスト
+      </p>
+    </div>
   </div>
 </details>
