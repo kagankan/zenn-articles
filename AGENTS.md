@@ -72,6 +72,11 @@ published: false # 公開状態
 
 - **MDN へリンクするときは日本語版 (`/ja/`) の URL を使用**してください（例: `https://developer.mozilla.org/ja/docs/...`）。`/en-US/` ではなく `/ja/` にします。
 
+### Can I use へのリンク
+
+- Can I use へリンクするときは、**`wf-` 形式（Web features 単位）の URL を使用**する（例: `https://caniuse.com/wf-details-name`）。`mdn-...` 形式（例: `https://caniuse.com/mdn-html_elements_details_name`）は使わない。
+- MDN のリンクは Can I use とは別に張る。`[MDN](...)` のようなラベルにせず、**機能名・プロパティ名のテキスト自体にリンクを張る**ことが多い（例: `` [`:open` 擬似クラス](https://developer.mozilla.org/ja/docs/Web/CSS/:open) ``）。
+
 ### Zenn のカード表示（リンクカード）
 
 - Zenn では、**URL だけを 1 行で書き、前後を空行で挟む**と、タイトルや OGP 画像つきのカード表示になる。それ以外（文中の URL や、行頭に `参考: ` などのテキストが付く URL）は通常のテキストリンクになる。
