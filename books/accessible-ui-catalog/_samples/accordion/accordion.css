@@ -35,6 +35,7 @@ summary {
         transition-behavior: allow-discrete;
       }
 
+      /* [open] の代わりに :open 疑似クラスも使用できますが、2026年時点では最近利用可能になったばかりで古いブラウザでは動作しません */
       &[open]::details-content {
         block-size: auto;
       }
@@ -88,7 +89,8 @@ summary {
   }
 
   /* :not(.is-closing) は JS でアニメーションを実装する場合にのみ必要です */
-  &:is(details[open]:not(.is-closing) *) {
+  /* [open] の代わりに :open 疑似クラスも使用できますが、2026年時点では最近利用可能になったばかりで古いブラウザでは動作しません */
+  &:is(details[open]:not(.is-closing) > *) {
     &::after {
       transform: rotate(0deg);
     }
