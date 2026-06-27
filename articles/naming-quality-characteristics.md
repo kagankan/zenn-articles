@@ -1,6 +1,6 @@
 ---
 title: "「命名品質特性」 ── 良い名前がもつ16の性質と、それが生む8つの効果"
-emoji: "🏷️"
+emoji: "📛"
 type: "tech"
 topics: ["naming", "設計", "リーダブルコード"]
 published: false
