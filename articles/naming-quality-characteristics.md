@@ -242,7 +242,7 @@ https://cspell.org/
 日本人（英語を母語としない人）、特に英語が苦手な人は間違えがちです。
 
 ```ts:事例: is に縛られた命名「ボタンを表示するかどうか」
-// 🪫 低: ブール値ならば is、を意識すぎて文法がおかしい
+// 🪫 低: ブール値ならば is、を意識しすぎて文法がおかしい
 // 「ボタンを表示するかどうか」を表したい
 isShowButton = true;
 // 🔋 高
@@ -255,7 +255,7 @@ showButton = true;
 ```
 
 ```ts:事例: is に縛られた命名「編集可能かどうか」
-// 🪫 低: ブール値ならば is、を意識すぎて英語がおかしい
+// 🪫 低: ブール値ならば is、を意識しすぎて英語がおかしい
 // 「編集可能かどうか」を表したい
 isCanEdit = true;
 // 🔋 高
@@ -289,7 +289,7 @@ users = [user1, user2, user3]
 
 名前だけで **意図・使い方** が分かるか。
 
-- 具体性があること。抽象的な名前だと、実際に何を意味するコードが読み取れない
+- 具体性があること。抽象的な名前だと、実際に何を意味するコードか読み取れない
 - 「どのように（実装）」ではなく「何のために（目的）」で名付ける
 
 ```ts:事例: 実装でなく目的で名付ける
@@ -482,7 +482,7 @@ content_editable
 https://developer.mozilla.org/ja/docs/Web/HTML/Reference/Global_attributes/contenteditable
 HTML の属性名の仕様上、区切り文字もなくすべて小文字で連結されています。仕様上しかたないのですが、読みにくい。
 初見で「contented/itable」と区切って読んでしまい、content の過去形ってなんやねんと思ってしまいました。
-個人的読みにくいワードランキングの上位です。
+個人的に読みにくいワードランキングの上位です。
 
 :::
 
@@ -523,8 +523,6 @@ const モックユーザー = {
   管理者: { ... },
 };
 ```
-
-aaa bbb ccc
 
 ### 選択容易性 (selectability)
 
@@ -580,7 +578,7 @@ https://youtu.be/pmqRaEcDxl4?si=_PYlI7Z1NaLUfn3E&t=804
 :::message
 
 この「識別性」という概念は、WCAG の達成基準 3.2.4「[一貫した識別性](https://waic.jp/translations/WCAG22/Understanding/consistent-identification.html)」も参考にしています。
-WCAG はウェブコンテンツアクセシビリティガイドライン。すなわち UI に登場する要素のアイコンや文言の話ですが、コードの命名においてもユーザー（＝開発者・AI）にとってのわ認知的負荷として捉えられます。
+WCAG はウェブコンテンツアクセシビリティガイドライン。すなわち UI に登場する要素のアイコンや文言の話ですが、コードの命名においてもユーザー（＝開発者・AI）にとっての認知的負荷として捉えられます。
 
 :::
 
@@ -657,7 +655,7 @@ ButtonRed;
 ButtonGreen;
 ```
 
-逆に、あえて構造の違いを作ることで、並列でない、従属関係・包含関係を示すこともでえきます。たとえば、`List` / `ListItem` のような名前であれば「List の中にある Item」という関係性を示唆できます。
+逆に、あえて構造の違いを作ることで、並列でない、従属関係・包含関係を示すこともできます。たとえば、`List` / `ListItem` のような名前であれば「List の中にある Item」という関係性を示唆できます。
 
 ```tsx
 // 🪫 低: 従属・包含関係がわからない
@@ -863,7 +861,7 @@ return <img src={`/icon_${iconType}.svg`} alt="" />;
 // 🔋 高: ファイル名全体を文字列で持つことで検索性を高める
 const iconType = "book";
 const ICON_FILE_MAPPING = {
-  "book": "icon_close.svg",
+  "book": "icon_book.svg",
   ...
 };
 return <img src={ICON_FILE_MAPPING[iconType]} alt="" />;
@@ -1005,7 +1003,7 @@ const theme = {
 };
 ```
 
-上記の例では、`theme.color` で補完すると色だけが、`theme.size` で補完するとサイズだけが候補に出るようなります。
+上記の例では、`theme.color` で補完すると色だけが、`theme.size` で補完するとサイズだけが候補に出るようになります。
 `large` だったか `big` だったか `huge` だったか忘れても、`size` の一種であることだけ思い出せればたどり着けます。
 
 ### 連続性 (continuity, temporal consistency)
