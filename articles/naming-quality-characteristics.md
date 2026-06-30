@@ -1382,10 +1382,13 @@ sizes = {
 
 :::message
 
-「**レポート\_最終版\_final\_修正\_v2.docx**」みたいな名前もこの系統の問題ですね。
-最初から「レポート\_v1.docx」「レポート\_v2.docx」みたいな名前をつけていけば数を増やすだけで済みます。
+「既存のコードを変えずに機能を足せる」という点は [開放/閉鎖原則 (open/closed principle)](https://ja.wikipedia.org/wiki/%E9%96%8B%E6%94%BE/%E9%96%89%E9%8E%96%E5%8E%9F%E5%89%87) になぞらえられます（原則そのものはオブジェクト指向プログラミングにおけるクラスやモジュールの話ですが、根本にある思想としては重なります）。
+
+[リファラジの105回、開放閉鎖原則の第3回](https://www.youtube.com/watch?v=Xq9m6672J0Q&list=PLJ4HVo9neXfeqKoOu7C8n4HgfP6LgVtc1) でされている「ソフトウェア開発のすべてはO（開放閉鎖原則）につながる」という解釈がお気に入りで、ここにも通じると思っています。（この回大好きなのでおすすめです）
 
 :::
+
+https://www.youtube.com/watch?v=Xq9m6672J0Q&list=PLJ4HVo9neXfeqKoOu7C8n4HgfP6LgVtc1
 
 ### 変更容易性 (modifiability)
 
