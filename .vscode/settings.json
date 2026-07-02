@@ -2,6 +2,6 @@
     "pasteImage.path": "${projectRoot}/images/ai-exam-chat-with-agent",
     "pasteImage.basePath": "${projectRoot}",
     "textlint.autoFixOnSave": true,
-    // このリポジトリでは master 直プッシュでいいので、ブランチ保護を上書き
+    // このリポジトリでは main 直プッシュでいいので、ブランチ保護を上書き
     "git.branchProtection": [],
 }
